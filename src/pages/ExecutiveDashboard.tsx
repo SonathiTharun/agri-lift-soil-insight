@@ -330,7 +330,7 @@ const ExecutiveDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-foliage-light via-sky-light to-wheat-light">
+    <div className="min-h-screen bg-white">
       <ExecutiveNavbar />
       <div className="pt-20 lg:pt-24 animate-fade-in">
         <div className="container mx-auto px-4 py-6">

@@ -64,7 +64,7 @@ const AnalyticsDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-wheat-light via-sky-light to-foliage-light">
+    <div className="min-h-screen bg-white">
       <div className="container mx-auto px-4 py-12">
         <div className="flex justify-between items-center mb-10 animate-fade-in">
           <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foliage-dark drop-shadow-md">Analytics Dashboard</h2>
