@@ -11,8 +11,8 @@ export default defineConfig(({ mode }) => ({
     strictPort: true, // Only use port 8080, fail if busy
     open: true, // Automatically open browser
     proxy: {
-      '/api': 'http://localhost:5000',
-      '/uploads': 'http://localhost:5000',
+      '/api': 'http://localhost:5001',
+      '/uploads': 'http://localhost:5001',
     },
   },
   plugins: [
