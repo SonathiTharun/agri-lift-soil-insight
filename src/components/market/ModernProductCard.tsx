@@ -428,7 +428,7 @@ export const ModernProductCard = ({ product, onAddToComparison, viewMode = 'grid
               variant="outline"
               className={`
                 ${stockStatus === 'high' ? 'bg-green-500/20 text-green-800 border-green-300' : ''}
-                ${stockStatus === 'low' ? 'bg-orange-500/20 text-orange-800 border-orange-300' : ''}
+                ${stockStatus === 'low' ? 'bg-amber-500/20 text-amber-800 border-amber-300' : ''}
                 ${stockStatus === 'out' ? 'bg-red-500/20 text-red-800 border-red-300' : ''}
               `}
             >

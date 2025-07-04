@@ -1346,7 +1346,7 @@ const Labour = () => {
                             </h3>
                             <Badge className={`${
                               job.priority === 'urgent' ? 'bg-red-500' :
-                              job.priority === 'high' ? 'bg-orange-500' :
+                              job.priority === 'high' ? 'bg-amber-500' :
                               job.priority === 'standard' ? 'bg-blue-500' : 'bg-gray-500'
                             } text-white`}>
                               {t(job.priority)}

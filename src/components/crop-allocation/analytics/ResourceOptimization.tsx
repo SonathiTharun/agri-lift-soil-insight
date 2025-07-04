@@ -187,7 +187,7 @@ const ResourceOptimization: React.FC<ResourceOptimizationProps> = ({ selectedCro
       {resources.resourceWarnings.length > 0 && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg flex items-center text-orange-600">
+            <CardTitle className="text-lg flex items-center text-amber-600">
               <AlertTriangle className="h-5 w-5 mr-2" />
               Resource Warnings
             </CardTitle>
@@ -195,9 +195,9 @@ const ResourceOptimization: React.FC<ResourceOptimizationProps> = ({ selectedCro
           <CardContent>
             <div className="space-y-2">
               {resources.resourceWarnings.map((warning, index) => (
-                <Alert key={index} className="border-orange-200 bg-orange-50">
+                <Alert key={index} className="border-amber-200 bg-amber-50">
                   <AlertTriangle className="h-4 w-4" />
-                  <AlertDescription className="text-orange-800">
+                  <AlertDescription className="text-amber-800">
                     {warning}
                   </AlertDescription>
                 </Alert>

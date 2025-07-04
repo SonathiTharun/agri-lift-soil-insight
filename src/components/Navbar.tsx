@@ -73,20 +73,34 @@ export function Navbar() {
   ];
 
   return (
-    <GlassNav variant="farmer" className="py-1 px-4">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-3">
+    <motion.nav
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className="fixed top-0 left-0 right-0 z-50 professional-header professional-shadow-soft"
+    >
+      {/* Animated background gradient */}
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-transparent to-purple-500/5"
+        animate={{ x: ['-100%', '100%'] }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
+      />
+
+      <div className="relative professional-container">
+        <div className="professional-nav-container">
+          <div className="professional-nav-left">
             {isMobile ? (
               <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
                 <DrawerTrigger asChild>
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
+                    className="professional-glow"
                   >
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="text-white mr-2 hover:bg-white/20 transition-all duration-300 rounded-xl backdrop-blur-sm border border-white/20"
+                      className="professional-button professional-shimmer"
                     >
                       <Menu size={22} />
                     </Button>
@@ -224,7 +238,8 @@ export function Navbar() {
             />
           </div>
 
-          <AnimatedNavContainer className="hidden md:flex space-x-1 lg:space-x-2 flex-wrap justify-center">
+          <div className="professional-nav-center">
+            <AnimatedNavContainer className="professional-nav-items">
             {navItems.map((item, index) => (
               <motion.div
                 key={item.id}
@@ -244,10 +259,11 @@ export function Navbar() {
                 </AnimatedNavItem>
               </motion.div>
             ))}
-          </AnimatedNavContainer>
+            </AnimatedNavContainer>
+          </div>
 
           <motion.div
-            className="flex items-center gap-3"
+            className="professional-nav-right"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
@@ -315,6 +331,7 @@ export function Navbar() {
             </DropdownMenu>
           </motion.div>
         </div>
-      </GlassNav>
+      </div>
+    </motion.nav>
   );
 }

@@ -80,6 +80,80 @@ const getCategoryIcon = (category: string) => {
 
 export const NotificationCenter: React.FC<NotificationCenterProps> = ({ className = "" }) => {
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedNotifications, setSelectedNotifications] = useState<string[]>([]);
+  const [filterType, setFilterType] = useState<string>("all");
+
+  // Notification handling functions
+  const handleMarkAsRead = async (notificationIds: string[]) => {
+    setIsLoading(true);
+
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      setNotifications(prev => prev.map(notification =>
+        notificationIds.includes(notification.id)
+          ? { ...notification, read: true }
+          : notification
+      ));
+
+      toast({
+        title: "Notifications Updated",
+        description: `${notificationIds.length} notification(s) marked as read.`,
+      });
+
+      setSelectedNotifications([]);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update notifications.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleMarkAllAsRead = async () => {
+    const unreadNotifications = notifications.filter(n => !n.read).map(n => n.id);
+    if (unreadNotifications.length === 0) {
+      toast({
+        title: "No Unread Notifications",
+        description: "All notifications are already marked as read.",
+      });
+      return;
+    }
+
+    await handleMarkAsRead(unreadNotifications);
+  };
+
+  const handleDeleteNotifications = async (notificationIds: string[]) => {
+    setIsLoading(true);
+
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      setNotifications(prev => prev.filter(notification =>
+        !notificationIds.includes(notification.id)
+      ));
+
+      toast({
+        title: "Notifications Deleted",
+        description: `${notificationIds.length} notification(s) deleted.`,
+      });
+
+      setSelectedNotifications([]);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete notifications.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const [notifications, setNotifications] = useState<Notification[]>([
     {
       id: '1',

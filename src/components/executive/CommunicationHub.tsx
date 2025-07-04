@@ -42,12 +42,97 @@ interface SupportTicket {
 
 const CommunicationHub = () => {
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedTickets, setSelectedTickets] = useState<string[]>([]);
+  const [broadcastMessage, setBroadcastMessage] = useState("");
+  const [broadcastSubject, setBroadcastSubject] = useState("");
+  const [selectedAudience, setSelectedAudience] = useState("all");
   const [newNotification, setNewNotification] = useState({
     title: '',
     message: '',
     type: 'announcement' as const,
     recipients: 'all' as const
   });
+
+  // Communication functions
+  const handleSendNotification = async () => {
+    if (!newNotification.title.trim() || !newNotification.message.trim()) {
+      toast({
+        title: "Missing Information",
+        description: "Please provide both title and message.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      toast({
+        title: "Notification Sent",
+        description: `Notification sent to ${newNotification.recipients === 'all' ? 'all users' : newNotification.recipients}.`,
+      });
+
+      setNewNotification({
+        title: '',
+        message: '',
+        type: 'announcement',
+        recipients: 'all'
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send notification.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleTicketAction = async (ticketId: string, action: string) => {
+    setIsLoading(true);
+
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      setSupportTickets(prev => prev.map(ticket => {
+        if (ticket.id === ticketId) {
+          let newStatus = ticket.status;
+          let title = "";
+
+          if (action === 'resolve') {
+            newStatus = 'resolved';
+            title = "Ticket Resolved";
+          } else if (action === 'close') {
+            newStatus = 'closed';
+            title = "Ticket Closed";
+          } else if (action === 'escalate') {
+            newStatus = 'in_progress';
+            title = "Ticket Escalated";
+          }
+
+          toast({
+            title,
+            description: `Ticket #${ticketId} has been ${action}d.`,
+          });
+
+          return { ...ticket, status: newStatus };
+        }
+        return ticket;
+      }));
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update ticket.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const [notifications] = useState<Notification[]>([
     {
@@ -100,36 +185,6 @@ const CommunicationHub = () => {
       lastUpdated: "2024-05-20"
     }
   ]);
-
-  const handleSendNotification = () => {
-    if (!newNotification.title || !newNotification.message) {
-      toast({
-        title: "Error",
-        description: "Please fill in all required fields",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    toast({
-      title: "Notification Sent",
-      description: `Notification "${newNotification.title}" has been sent to ${newNotification.recipients}.`,
-    });
-
-    setNewNotification({
-      title: '',
-      message: '',
-      type: 'announcement',
-      recipients: 'all'
-    });
-  };
-
-  const handleTicketAction = (ticketId: string, action: string) => {
-    toast({
-      title: `Ticket ${action}`,
-      description: `Support ticket ${ticketId} has been ${action}.`,
-    });
-  };
 
   const getStatusBadge = (status: string) => {
     const variants: Record<string, "default" | "secondary" | "destructive"> = {

@@ -158,19 +158,120 @@ const ResourceManagement = () => {
   const [machineryList, setMachineryList] = useState(machinery);
   const [workersList, setWorkersList] = useState(workers);
 
-  const handleBookingAction = (bookingId: string, action: string) => {
-    setBookings(prev => prev.map(b => {
-      if (b.id === bookingId) {
-        if (action === 'confirm') {
-          toast({ title: 'Booking Confirmed', description: `Booking #${bookingId} has been confirmed.` });
-          return { ...b, status: 'confirmed' };
-        } else if (action === 'reject') {
-          toast({ title: 'Booking Rejected', description: `Booking #${bookingId} has been rejected.` });
-          return { ...b, status: 'rejected' as Booking["status"] };
+  const handleBookingAction = async (bookingId: string, action: string) => {
+    setIsLoading(true);
+
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      setBookings(prev => prev.map(b => {
+        if (b.id === bookingId) {
+          if (action === 'confirm') {
+            toast({
+              title: 'Booking Confirmed',
+              description: `Booking #${bookingId} has been confirmed and farmer notified.`,
+              duration: 4000
+            });
+            return { ...b, status: 'confirmed' };
+          } else if (action === 'reject') {
+            toast({
+              title: 'Booking Rejected',
+              description: `Booking #${bookingId} has been rejected. Farmer will be notified.`,
+              variant: "destructive",
+              duration: 4000
+            });
+            return { ...b, status: 'rejected' as Booking["status"] };
+          } else if (action === 'complete') {
+            toast({
+              title: 'Booking Completed',
+              description: `Booking #${bookingId} marked as completed.`,
+              duration: 4000
+            });
+            return { ...b, status: 'completed' as Booking["status"] };
+          }
         }
-      }
-      return b;
-    }));
+        return b;
+      }));
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update booking status. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleMachineryAction = async (machineId: string, action: string) => {
+    setIsLoading(true);
+
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      setMachineryList(prev => prev.map(machine => {
+        if (machine.id === machineId) {
+          if (action === 'maintenance') {
+            toast({
+              title: 'Maintenance Scheduled',
+              description: `${machine.name} has been scheduled for maintenance.`,
+            });
+            return { ...machine, status: 'maintenance' as Machinery["status"] };
+          } else if (action === 'available') {
+            toast({
+              title: 'Machine Available',
+              description: `${machine.name} is now available for booking.`,
+            });
+            return { ...machine, status: 'available' as Machinery["status"] };
+          }
+        }
+        return machine;
+      }));
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update machine status.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleWorkerAction = async (workerId: string, action: string) => {
+    setIsLoading(true);
+
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      setWorkersList(prev => prev.map(worker => {
+        if (worker.id === workerId) {
+          if (action === 'assign') {
+            toast({
+              title: 'Worker Assigned',
+              description: `${worker.name} has been assigned to a new task.`,
+            });
+            return { ...worker, status: 'assigned' as Worker["status"] };
+          } else if (action === 'available') {
+            toast({
+              title: 'Worker Available',
+              description: `${worker.name} is now available for assignment.`,
+            });
+            return { ...worker, status: 'available' as Worker["status"] };
+          }
+        }
+        return worker;
+      }));
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update worker status.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const getStatusBadge = (status: string) => {

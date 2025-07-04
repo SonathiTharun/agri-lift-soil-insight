@@ -216,7 +216,7 @@ const FinancialManagement = () => {
           { title: "Total Revenue", value: `₹${(financialMetrics.totalRevenue / 100000).toFixed(1)}L`, subtitle: "+15.3% from last month", icon: DollarSign, color: "text-green-600", bg: "bg-green-50" },
           { title: "Loans Disbursed", value: `₹${(financialMetrics.totalLoansDisburse / 100000).toFixed(1)}L`, subtitle: "23 loans this month", icon: TrendingUp, color: "text-blue-600", bg: "bg-blue-50" },
           { title: "Commission Earned", value: `₹${(financialMetrics.commissionEarned / 100000).toFixed(1)}L`, subtitle: "7.3% of total revenue", icon: CreditCard, color: "text-purple-600", bg: "bg-purple-50" },
-          { title: "Default Rate", value: `${financialMetrics.defaultRate}%`, subtitle: "Below industry avg", icon: AlertTriangle, color: "text-orange-600", bg: "bg-orange-50" }
+          { title: "Default Rate", value: `${financialMetrics.defaultRate}%`, subtitle: "Below industry avg", icon: AlertTriangle, color: "text-slate-600", bg: "bg-slate-50" }
         ].map((metric, index) => (
           <Card key={metric.title} className={`hover:shadow-lg transition-all duration-300 hover:scale-105 animate-fade-in ${metric.bg}`} style={{ animationDelay: `${index * 100}ms` }}>
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

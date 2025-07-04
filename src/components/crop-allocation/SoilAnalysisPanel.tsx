@@ -184,9 +184,9 @@ const SoilAnalysisPanel = ({ soilAnalysis, onRefresh }: SoilAnalysisPanelProps) 
               {getStatusBadge(soilAnalysis.phosphorus, 25, Infinity)}
             </div>
 
-            <div className="bg-orange-50 p-3 rounded-lg">
-              <div className="text-sm text-orange-600">Potassium</div>
-              <div className="text-xl font-bold text-orange-900">{soilAnalysis.potassium.toFixed(0)}ppm</div>
+            <div className="bg-amber-50 p-3 rounded-lg">
+              <div className="text-sm text-amber-600">Potassium</div>
+              <div className="text-xl font-bold text-amber-900">{soilAnalysis.potassium.toFixed(0)}ppm</div>
               {getStatusBadge(soilAnalysis.potassium, 20, Infinity)}
             </div>
           </div>

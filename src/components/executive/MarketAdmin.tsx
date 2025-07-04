@@ -92,18 +92,132 @@ const MarketAdmin = () => {
     }
   ]);
 
-  const handleProductAction = (productId: string, action: string) => {
-    toast({
-      title: `Product ${action}`,
-      description: `Product ${productId} has been ${action}d successfully.`,
-    });
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedProducts, setSelectedProducts] = useState<string[]>([]);
+
+  const handleProductAction = async (productId: string, action: string) => {
+    setIsLoading(true);
+
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      setProducts(prev => prev.map(product => {
+        if (product.id === productId) {
+          if (action === 'edit') {
+            toast({
+              title: "Edit Product",
+              description: `Opening edit form for ${product.name}.`,
+            });
+            // Here you would open an edit modal/form
+            return product;
+          } else if (action === 'delete') {
+            toast({
+              title: "Product Deleted",
+              description: `${product.name} has been removed from the marketplace.`,
+              variant: "destructive",
+            });
+            return { ...product, status: 'inactive' as Product["status"] };
+          } else if (action === 'activate') {
+            toast({
+              title: "Product Activated",
+              description: `${product.name} is now active in the marketplace.`,
+            });
+            return { ...product, status: 'active' as Product["status"] };
+          }
+        }
+        return product;
+      }));
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update product. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleOrderAction = (orderId: string, action: string) => {
+  const handleOrderAction = async (orderId: string, action: string) => {
+    setIsLoading(true);
+
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      setOrders(prev => prev.map(order => {
+        if (order.id === orderId) {
+          let newStatus = order.status;
+          let title = "";
+          let description = "";
+
+          if (action === 'process') {
+            newStatus = 'processing';
+            title = "Order Processing";
+            description = `Order #${orderId} is now being processed.`;
+          } else if (action === 'ship') {
+            newStatus = 'shipped';
+            title = "Order Shipped";
+            description = `Order #${orderId} has been shipped to ${order.farmerName}.`;
+          } else if (action === 'deliver') {
+            newStatus = 'delivered';
+            title = "Order Delivered";
+            description = `Order #${orderId} has been delivered successfully.`;
+          }
+
+          toast({ title, description });
+          return { ...order, status: newStatus };
+        }
+        return order;
+      }));
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update order status.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleBulkProductAction = async (action: string) => {
+    if (selectedProducts.length === 0) {
+      toast({
+        title: "No Products Selected",
+        description: "Please select products to perform bulk actions.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      toast({
+        title: `Bulk ${action}`,
+        description: `${action} applied to ${selectedProducts.length} products.`,
+      });
+
+      setSelectedProducts([]);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to perform bulk action.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleAddNewProduct = () => {
     toast({
-      title: `Order ${action}`,
-      description: `Order ${orderId} status updated to ${action}.`,
+      title: "Add New Product",
+      description: "Opening product creation form...",
     });
+    // Here you would open a modal or navigate to add product form
   };
 
   const getStatusBadge = (status: string) => {
@@ -124,10 +238,30 @@ const MarketAdmin = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Market Administration</h2>
-        <Button>
-          <Plus className="h-4 w-4 mr-2" />
-          Add New Product
-        </Button>
+        <div className="flex gap-2">
+          {selectedProducts.length > 0 && (
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                onClick={() => handleBulkProductAction("Activate")}
+                disabled={isLoading}
+              >
+                Activate Selected ({selectedProducts.length})
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={() => handleBulkProductAction("Deactivate")}
+                disabled={isLoading}
+              >
+                Deactivate Selected
+              </Button>
+            </div>
+          )}
+          <Button onClick={handleAddNewProduct} disabled={isLoading}>
+            <Plus className="h-4 w-4 mr-2" />
+            Add New Product
+          </Button>
+        </div>
       </div>
 
       {/* Market Overview Cards */}

@@ -97,8 +97,8 @@ export const ExportManager: React.FC<ExportManagerProps> = ({ className = "" }) 
       name: 'Farmer Database',
       description: 'Complete farmer information export',
       icon: Users,
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-50'
+      color: 'text-emerald-600',
+      bgColor: 'bg-emerald-50'
     }
   ];
 

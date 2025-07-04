@@ -26,6 +26,7 @@ const Profile = React.lazy(() => import("./pages/Profile"));
 const ExecutiveDashboard = React.lazy(() => import("./pages/ExecutiveDashboard"));
 const ExecutiveFarmers = React.lazy(() => import("./pages/ExecutiveFarmers"));
 const ExecutiveAnalytics = React.lazy(() => import("./pages/ExecutiveAnalytics"));
+const ExecutiveGeographic = React.lazy(() => import("./pages/ExecutiveGeographic"));
 const ExecutiveFinancial = React.lazy(() => import("./pages/ExecutiveFinancial"));
 const ExecutiveOperations = React.lazy(() => import("./pages/ExecutiveOperations"));
 const ExecutiveCommunications = React.lazy(() => import("./pages/ExecutiveCommunications"));
@@ -51,6 +52,7 @@ const App = () => (
         <Route path="/executive-dashboard" element={<ExecutiveDashboard />} />
         <Route path="/executive/farmers" element={<ExecutiveFarmers />} />
         <Route path="/executive/analytics" element={<ExecutiveAnalytics />} />
+        <Route path="/executive/geographic" element={<ExecutiveGeographic />} />
         <Route path="/executive/financial" element={<ExecutiveFinancial />} />
         <Route path="/executive/operations" element={<ExecutiveOperations />} />
         <Route path="/executive/communications" element={<ExecutiveCommunications />} />

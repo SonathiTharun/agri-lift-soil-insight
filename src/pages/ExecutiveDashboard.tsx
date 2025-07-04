@@ -41,6 +41,7 @@ import {
   KPICard
 } from "@/components/executive/charts/AdvancedCharts";
 import { GeographicMap, sampleRegionData } from "@/components/executive/charts/GeographicMap";
+import GeographicDashboard from "@/components/executive/GeographicDashboard";
 import NotificationCenter from "@/components/executive/notifications/NotificationCenter";
 import QuickActions from "@/components/executive/dashboard/QuickActions";
 import QuickAddModal from "@/components/executive/dashboard/QuickAddModal";
@@ -299,12 +300,54 @@ const ExecutiveDashboard = () => {
 
   const handleExport = async () => {
     setExporting(true);
+
     try {
-      // Simulate CSV export
-      await new Promise(resolve => setTimeout(resolve, 1200));
-      toast({ title: "Export Complete", description: "Dashboard analytics exported as CSV." });
+      // Simulate data preparation
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      // Create comprehensive export data
+      const exportData = {
+        timestamp: new Date().toISOString(),
+        timeframe: selectedTimeframe,
+        metrics: enhancedMetrics,
+        summary: {
+          totalFarmers: 1247,
+          totalRevenue: enhancedMetrics.financial.totalRevenue,
+          systemUptime: enhancedMetrics.platform.systemUptime,
+          exportedBy: "Executive Dashboard"
+        }
+      };
+
+      // Create CSV format for easier analysis
+      const csvData = [
+        ['Metric', 'Value', 'Period'],
+        ['Total Revenue', `₹${enhancedMetrics.financial.totalRevenue.toLocaleString()}`, selectedTimeframe],
+        ['Monthly Revenue', `₹${enhancedMetrics.financial.monthlyRevenue.toLocaleString()}`, 'Current Month'],
+        ['Daily Active Users', enhancedMetrics.userEngagement.dailyActiveUsers.toString(), 'Today'],
+        ['System Uptime', `${enhancedMetrics.platform.systemUptime}%`, 'Current'],
+        ['Customer Satisfaction', enhancedMetrics.platform.customerSatisfaction.toString(), 'Average'],
+        ['Total Transactions', enhancedMetrics.platform.totalTransactions.toString(), selectedTimeframe]
+      ].map(row => row.join(',')).join('\n');
+
+      // Create and download CSV file
+      const csvBlob = new Blob([csvData], { type: 'text/csv' });
+      const csvUrl = URL.createObjectURL(csvBlob);
+      const csvLink = document.createElement('a');
+      csvLink.href = csvUrl;
+      csvLink.download = `executive-dashboard-${selectedTimeframe}-${new Date().toISOString().split('T')[0]}.csv`;
+      csvLink.click();
+
+      toast({
+        title: "Export Complete",
+        description: "Dashboard analytics exported as CSV file.",
+        duration: 4000
+      });
     } catch (e) {
-      toast({ title: "Export Failed", description: "An error occurred during export.", variant: "destructive" });
+      toast({
+        title: "Export Failed",
+        description: "An error occurred during export. Please try again.",
+        variant: "destructive"
+      });
     } finally {
       setExporting(false);
     }
@@ -343,7 +386,7 @@ const ExecutiveDashboard = () => {
               <select
                 value={selectedTimeframe}
                 onChange={(e) => handleTimeframeChange(e.target.value)}
-                className="px-3 py-2 border rounded-md bg-wheat-light text-soil-dark focus:ring-2 focus:ring-foliage-dark hover:bg-wheat transition-colors"
+                className="px-3 py-2 border rounded-md bg-white text-gray-900 focus:ring-2 focus:ring-gray-500 hover:bg-gray-50 transition-colors border-gray-300"
               >
                 <option value="week">{t('this-week')}</option>
                 <option value="month">{t('this-month')}</option>
@@ -674,13 +717,11 @@ const ExecutiveDashboard = () => {
               </div>
             </TabsContent>
 
-            {/* Geographic Distribution Tab */}
-            <TabsContent value="geographic" className="space-y-6 animate-fade-in">
-              <GeographicMap
-                title="Platform Geographic Distribution"
-                data={sampleRegionData}
-                height="h-[500px]"
-              />
+            {/* Enhanced Geographic Dashboard Tab */}
+            <TabsContent value="geographic" className="animate-fade-in">
+              <div className="bg-gray-50 -m-6 min-h-screen">
+                <GeographicDashboard />
+              </div>
             </TabsContent>
 
             {/* Quick Actions Tab */}

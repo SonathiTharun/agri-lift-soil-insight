@@ -54,6 +54,7 @@ export function ExecutiveNavbar() {
     { id: "dashboard", label: "Dashboard", path: "/executive-dashboard" },
     { id: "farmers", label: "Farmers", path: "/executive/farmers" },
     { id: "analytics", label: "Analytics", path: "/executive/analytics" },
+    { id: "geographic", label: "Geographic", path: "/executive/geographic" },
     { id: "financial", label: "Financial", path: "/executive/financial" },
     { id: "operations", label: "Operations", path: "/executive/operations" },
     { id: "communications", label: "Communications", path: "/executive/communications" },
@@ -74,11 +75,35 @@ export function ExecutiveNavbar() {
 
   const handleNavClick = (id: string, path: string) => {
     setLoadingNav(id);
+
+    // Handle special cases
+    if (id === "logout") {
+      toast({
+        title: "Logging out...",
+        description: "You are being logged out of the executive portal.",
+      });
+      setTimeout(() => {
+        setActiveItem(id);
+        setLoadingNav(null);
+        // Clear any stored auth data
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('userRole');
+        navigate(path);
+      }, 1000);
+      return;
+    }
+
     setTimeout(() => {
       setActiveItem(id);
       setLoadingNav(null);
       navigate(path);
-    }, 400); // Simulate loading
+
+      // Show navigation feedback
+      toast({
+        title: `Navigating to ${menuItems.find(item => item.id === id)?.label || 'Page'}`,
+        description: "Loading executive portal section...",
+      });
+    }, 400);
   };
 
   const handleLogout = () => {
@@ -89,93 +114,104 @@ export function ExecutiveNavbar() {
 
   return (
     <TooltipProvider>
-      <GlassNav variant="executiveLight" className="py-2 px-6 border-b border-green-200/80 shadow-lg">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            {isMobile ? (
-              <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
-                <DrawerTrigger asChild>
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="text-green-900 mr-2 hover:bg-green-100/80 transition-all duration-300 rounded-xl border border-green-200/80 bg-white/60"
+      <motion.nav
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+        className="fixed top-0 left-0 right-0 z-50 professional-header-executive professional-shadow-executive"
+      >
+        {/* Animated background gradient */}
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 via-transparent to-green-500/5"
+          animate={{ x: ['-100%', '100%'] }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+        />
+
+        <div className="relative professional-container">
+          <div className="professional-nav-container">
+            <div className="professional-nav-left">
+              {isMobile ? (
+                <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+                  <DrawerTrigger asChild>
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="professional-glow professional-glow-executive"
                     >
-                      <Menu size={22} />
-                    </Button>
-                  </motion.div>
-                </DrawerTrigger>
-                <DrawerContent className="p-0 border-none">
-                  <AnimatedDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)}>
-                    <div className="p-6">
-                      <motion.div
-                        className="flex flex-col space-y-3 pt-2 pb-4"
-                        variants={{
-                          open: {
-                            transition: { staggerChildren: 0.1, delayChildren: 0.2 }
-                          },
-                          closed: {
-                            transition: { staggerChildren: 0.05, staggerDirection: -1 }
-                          }
-                        }}
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="professional-button-executive professional-shimmer"
                       >
-                        {menuItems.map((item, index) => (
-                          <AnimatedMenuItem key={item.id} onClick={() => setIsDrawerOpen(false)}>
-                            <Link
-                              to={item.path}
-                              className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-green-100/80 transition-all duration-300 group"
+                        <Menu size={22} />
+                      </Button>
+                    </motion.div>
+                  </DrawerTrigger>
+                <DrawerContent className="p-0 border-none">
+                  <div className="professional-mobile-menu-executive p-6">
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="flex flex-col space-y-3 pt-2 pb-4"
+                    >
+                      {menuItems.map((item, index) => (
+                        <motion.div
+                          key={item.id}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          onClick={() => setIsDrawerOpen(false)}
+                        >
+                          <Link
+                            to={item.path}
+                            className="professional-dropdown-item-executive professional-shimmer group"
+                          >
+                            <motion.div
+                              className="text-emerald-600 group-hover:text-emerald-800"
+                              whileHover={{ rotate: 5, scale: 1.1 }}
                             >
-                              <motion.div
-                                className="text-green-700 group-hover:text-green-900"
-                                whileHover={{ rotate: 5, scale: 1.1 }}
-                              >
-                                {item.icon}
-                              </motion.div>
-                              <span className="font-medium text-green-800 group-hover:text-green-900">
-                                {item.label}
-                              </span>
-                            </Link>
-                          </AnimatedMenuItem>
+                              {item.icon}
+                            </motion.div>
+                            <span className="font-medium">
+                              {item.label}
+                            </span>
+                          </Link>
+                        </motion.div>
+                      ))}
+                    </motion.div>
+
+                    <div className="border-t border-emerald-200/50 pt-4 mt-4">
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.3 }}
+                      >
+                        {navItems.map((item, index) => (
+                          <motion.div
+                            key={item.id}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ delay: (index + 3) * 0.1 }}
+                            onClick={() => {
+                              setActiveItem(item.id);
+                              setIsDrawerOpen(false);
+                            }}
+                          >
+                            <div className={`mb-2 rounded-xl transition-all duration-300 ${
+                              activeItem === item.id
+                                ? "professional-nav-item-active-executive professional-shadow-medium"
+                                : "professional-nav-item-executive professional-shimmer"
+                            }`}>
+                              <Link to={item.path} className="block w-full px-4 py-3">
+                                <span className="font-medium text-sm break-words">{item.label}</span>
+                              </Link>
+                            </div>
+                          </motion.div>
                         ))}
                       </motion.div>
-
-                      <div className="border-t border-gray-200 pt-4">
-                        <motion.div
-                          variants={{
-                            open: {
-                              transition: { staggerChildren: 0.05, delayChildren: 0.3 }
-                            },
-                            closed: {
-                              transition: { staggerChildren: 0.02, staggerDirection: -1 }
-                            }
-                          }}
-                        >
-                          {navItems.map((item, index) => (
-                            <AnimatedMenuItem
-                              key={item.id}
-                              onClick={() => {
-                                setActiveItem(item.id);
-                                setIsDrawerOpen(false);
-                              }}
-                            >
-                              <div className={`flex items-center px-4 py-3 rounded-xl mb-2 transition-all duration-300 ${
-                                activeItem === item.id
-                                  ? "bg-gradient-to-r from-green-400 via-green-300 to-emerald-200 text-green-900 border-b-4 border-green-400 shadow-md"
-                                  : "hover:bg-green-100/80 text-green-800 hover:text-green-900"
-                              }`}>
-                                <Link to={item.path} className="w-full">
-                                  <span className="font-medium text-sm break-words">{item.label}</span>
-                                </Link>
-                              </div>
-                            </AnimatedMenuItem>
-                          ))}
-                        </motion.div>
-                      </div>
                     </div>
-                  </AnimatedDrawer>
+                  </div>
                 </DrawerContent>
               </Drawer>
             ) : (
@@ -184,11 +220,12 @@ export function ExecutiveNavbar() {
                   <motion.div
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
+                    className="professional-glow professional-glow-executive"
                   >
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="text-green-900 mr-2 hover:bg-green-100/80 transition-all duration-300 rounded-xl border border-green-200/80 bg-white/60"
+                      className="professional-button-executive professional-shimmer"
                     >
                       <Menu size={22} />
                     </Button>
@@ -196,7 +233,7 @@ export function ExecutiveNavbar() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                   align="start"
-                  className="w-64 bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border border-green-200/80 dark:border-green-700/30 shadow-xl rounded-xl p-2"
+                  className="w-64 professional-dropdown-executive"
                 >
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
@@ -213,15 +250,15 @@ export function ExecutiveNavbar() {
                         <DropdownMenuItem asChild className="rounded-lg mb-1">
                           <Link
                             to={item.path}
-                            className="flex items-center gap-3 cursor-pointer px-3 py-2.5 hover:bg-green-100/80 transition-all duration-300 group"
+                            className="professional-dropdown-item-executive professional-shimmer group"
                           >
                             <motion.div
-                              className="text-green-700 group-hover:text-green-900"
+                              className="text-emerald-600 group-hover:text-emerald-800"
                               whileHover={{ rotate: 5, scale: 1.1 }}
                             >
                               {item.icon}
                             </motion.div>
-                            <span className="font-medium text-green-800 group-hover:text-green-900">
+                            <span className="font-medium">
                               {item.label}
                             </span>
                           </Link>
@@ -233,61 +270,88 @@ export function ExecutiveNavbar() {
               </DropdownMenu>
             )}
 
-            <AnimatedLogo
-              to="/executive-dashboard"
-              variant="executive"
-              size="xl"
-              showText={true}
-            />
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="professional-logo-executive professional-glow professional-glow-executive"
+            >
+              <AnimatedLogo
+                to="/executive-dashboard"
+                variant="executive"
+                size="xl"
+                showText={true}
+              />
+            </motion.div>
           </div>
 
-          <AnimatedNavContainer className="hidden md:flex space-x-1 lg:space-x-2 flex-wrap justify-center">
+          <div className="professional-nav-center">
+            <div className="professional-nav-items">
             {navItems.map((item, index) => (
               <motion.div
                 key={item.id}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
+                className="professional-glow professional-glow-executive"
               >
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <button
+                    <motion.button
                       onClick={() => handleNavClick(item.id, item.path)}
-                      className={`relative overflow-hidden text-xs lg:text-sm px-4 py-2 rounded-lg transition-all duration-300 focus:outline-none ${activeItem === item.id ? 'bg-gradient-to-r from-green-300 via-green-200 to-emerald-100 text-green-900 border-b-4 border-green-400 shadow-md' : 'hover:bg-green-100/80 text-green-800 hover:text-green-900'} ${loadingNav === item.id ? 'opacity-60 pointer-events-none' : ''}`}
+                      className={`relative overflow-hidden ${
+                        activeItem === item.id
+                          ? 'professional-nav-item-active-executive professional-shadow-medium'
+                          : 'professional-nav-item-executive professional-shimmer'
+                      } ${loadingNav === item.id ? 'opacity-60 pointer-events-none' : ''}`}
                       aria-current={activeItem === item.id}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
                     >
-                      {item.label}
+                      <span className="relative z-10">{item.label}</span>
                       {activeItem === item.id && (
                         <motion.div
-                          className="absolute left-0 right-0 bottom-0 h-1 bg-emerald-400 rounded-full animate-glow"
+                          className="absolute left-0 right-0 bottom-0 h-1 bg-gradient-to-r from-emerald-400 to-green-400 rounded-full"
                           layoutId="underline"
                           transition={{ type: "spring", stiffness: 500, damping: 30 }}
                         />
                       )}
                       {loadingNav === item.id && (
-                        <span className="absolute right-2 top-1/2 -translate-y-1/2 animate-spin text-emerald-400">●</span>
+                        <motion.span
+                          className="absolute right-2 top-1/2 -translate-y-1/2 text-emerald-400"
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                        >
+                          ●
+                        </motion.span>
                       )}
-                    </button>
+                    </motion.button>
                   </TooltipTrigger>
-                  <TooltipContent>{item.label}</TooltipContent>
+                  <TooltipContent className="professional-dropdown-executive">
+                    <span className="professional-text-gradient-executive font-medium">{item.label}</span>
+                  </TooltipContent>
                 </Tooltip>
               </motion.div>
             ))}
-          </AnimatedNavContainer>
+            </div>
+          </div>
 
           <motion.div
-            className="flex items-center gap-3"
+            className="professional-nav-right"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
           >
             <Tooltip>
               <TooltipTrigger asChild>
-                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="professional-glow professional-glow-executive"
+                >
                   <Button
                     variant="outline"
                     size="sm"
-                    className="bg-green-100/80 border-green-200/80 text-green-900 hover:bg-green-200/80 transition-all duration-300 rounded-xl relative shadow"
+                    className="professional-button-primary-executive professional-shimmer relative"
                     onClick={() => setShowNotifications((v) => !v)}
                     aria-label="Notifications"
                   >
@@ -298,7 +362,7 @@ export function ExecutiveNavbar() {
                       <Bell size={16} className="mr-2" />
                     </motion.div>
                     <motion.span
-                      className="bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 absolute -top-1 -right-1"
+                      className="professional-notification-badge"
                       animate={{ scale: [1, 1.1, 1] }}
                       transition={{ duration: 1, repeat: Infinity }}
                     >
@@ -307,24 +371,49 @@ export function ExecutiveNavbar() {
                   </Button>
                 </motion.div>
               </TooltipTrigger>
-              <TooltipContent>Notifications</TooltipContent>
+              <TooltipContent className="professional-dropdown-executive">
+                <span className="professional-text-gradient-executive font-medium">Notifications</span>
+              </TooltipContent>
             </Tooltip>
 
             {showNotifications && (
-              <div className="absolute right-24 top-16 w-80 bg-green-50 rounded-xl shadow-xl z-50 border border-green-200 animate-fade-in">
-                <div className="p-4 border-b border-green-200 font-semibold text-green-900">Notifications</div>
+              <motion.div
+                initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+                className="absolute right-24 top-16 w-80 professional-dropdown-executive professional-shadow-large z-50"
+              >
+                <div className="p-4 border-b border-emerald-200/50">
+                  <h3 className="font-semibold professional-text-gradient-executive">Notifications</h3>
+                </div>
                 <ul className="max-h-60 overflow-y-auto">
-                  {notifications.map((n) => (
-                    <li key={n.id} className="px-4 py-3 border-b last:border-b-0 border-green-100 hover:bg-green-100/80 transition-all cursor-pointer">
-                      <div className="font-medium text-green-800">{n.title}</div>
-                      <div className="text-xs text-green-600">{n.time}</div>
-                    </li>
+                  {notifications.map((n, index) => (
+                    <motion.li
+                      key={n.id}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      className="professional-dropdown-item-executive professional-shimmer cursor-pointer border-b last:border-b-0 border-emerald-100/50"
+                    >
+                      <div>
+                        <div className="font-medium text-emerald-800">{n.title}</div>
+                        <div className="text-xs text-emerald-600">{n.time}</div>
+                      </div>
+                    </motion.li>
                   ))}
                 </ul>
-                <div className="p-2 text-center">
-                  <button className="text-emerald-700 hover:underline text-sm" onClick={() => setShowNotifications(false)}>Close</button>
+                <div className="p-3 text-center border-t border-emerald-200/50">
+                  <motion.button
+                    className="professional-button-executive text-sm"
+                    onClick={() => setShowNotifications(false)}
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    Close
+                  </motion.button>
                 </div>
-              </div>
+              </motion.div>
             )}
 
             <DropdownMenu>
@@ -332,11 +421,12 @@ export function ExecutiveNavbar() {
                 <motion.div
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  className="professional-glow professional-glow-executive"
                 >
                   <Button
                     variant="outline"
                     size="sm"
-                    className="bg-green-100/80 border-green-200/80 text-green-900 hover:bg-green-200/80 transition-all duration-300 rounded-xl"
+                    className="professional-button-secondary professional-shimmer"
                   >
                     <motion.div
                       animate={{ rotate: [0, 360] }}
@@ -344,13 +434,13 @@ export function ExecutiveNavbar() {
                     >
                       <Globe size={16} className="mr-2" />
                     </motion.div>
-                    {language.toUpperCase()}
+                    <span className="font-semibold">{language.toUpperCase()}</span>
                   </Button>
                 </motion.div>
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="end"
-                className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border border-green-200/80 dark:border-green-700/30 shadow-xl rounded-xl p-2"
+                className="professional-dropdown-executive"
               >
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
@@ -371,9 +461,9 @@ export function ExecutiveNavbar() {
                     >
                       <DropdownMenuItem
                         onClick={() => setLanguage(lang.code as 'en' | 'hi' | 'ta' | 'te')}
-                        className="rounded-lg mb-1 cursor-pointer hover:bg-green-100/80 transition-all duration-300"
+                        className="professional-dropdown-item-executive professional-shimmer rounded-lg mb-1 cursor-pointer"
                       >
-                        <span className="mr-2">{lang.flag}</span>
+                        <span className="mr-3 text-lg">{lang.flag}</span>
                         <span className="font-medium">{lang.label}</span>
                       </DropdownMenuItem>
                     </motion.div>
@@ -382,10 +472,11 @@ export function ExecutiveNavbar() {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Removed the profile icon and its dropdown menu from the header. */}
+            {/* Profile section removed as requested */}
           </motion.div>
         </div>
-      </GlassNav>
+        </div>
+      </motion.nav>
     </TooltipProvider>
   );
 }

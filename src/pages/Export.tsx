@@ -465,7 +465,7 @@ const Export = () => {
                     { icon: Globe, label: "Global Buyers", value: "500+", color: "text-blue-600" },
                     { icon: Package, label: "Active Exports", value: "1.2K+", color: "text-green-600" },
                     { icon: TrendingUp, label: "Success Rate", value: "98%", color: "text-purple-600" },
-                    { icon: DollarSign, label: "Total Value", value: "₹50Cr+", color: "text-orange-600" }
+                    { icon: DollarSign, label: "Total Value", value: "₹50Cr+", color: "text-emerald-600" }
                   ].map((stat, index) => (
                     <motion.div
                       key={stat.label}

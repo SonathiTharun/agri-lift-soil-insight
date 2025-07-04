@@ -225,7 +225,7 @@ export const EnhancedLoanCalculator = ({
             </GlassCard>
             
             <GlassCard className="p-4 text-center">
-              <div className="text-xl font-semibold text-orange-600">
+              <div className="text-xl font-semibold text-amber-600">
                 ₹{totalInterest.toLocaleString('en-IN', { maximumFractionDigits: 0 })}
               </div>
               <div className="text-sm text-gray-600">Total Interest</div>

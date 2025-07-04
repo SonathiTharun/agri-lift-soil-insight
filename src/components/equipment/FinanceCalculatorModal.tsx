@@ -173,9 +173,9 @@ export const FinanceCalculatorModal: React.FC<FinanceCalculatorModalProps> = ({
                             {formatCurrency(calculation.principal)}
                           </div>
                         </div>
-                        <div className="text-center p-3 bg-orange-50 rounded-lg">
+                        <div className="text-center p-3 bg-amber-50 rounded-lg">
                           <div className="text-sm text-gray-600">Total Interest</div>
-                          <div className="text-lg font-semibold text-orange-600">
+                          <div className="text-lg font-semibold text-amber-600">
                             {formatCurrency(calculation.totalInterest)}
                           </div>
                         </div>

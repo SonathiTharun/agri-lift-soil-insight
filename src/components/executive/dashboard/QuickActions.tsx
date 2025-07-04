@@ -110,8 +110,8 @@ export const QuickActions: React.FC<QuickActionsProps> = ({ className = "", onAs
       title: 'System Health Check',
       description: 'Run comprehensive system diagnostics',
       icon: Shield,
-      color: 'text-orange-600',
-      bgColor: 'bg-orange-50 hover:bg-orange-100',
+      color: 'text-amber-600',
+      bgColor: 'bg-amber-50 hover:bg-amber-100',
       badge: { text: 'Recommended', variant: 'secondary' },
       action: () => {
         toast({
