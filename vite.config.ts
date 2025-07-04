@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "localhost",
     port: 8080,
-    strictPort: true, // Only use port 8080, fail if busy
+    strictPort: false, // Allow Vite to try alternative ports if 8080 is busy
     open: true, // Automatically open browser
     proxy: {
       '/api': 'http://localhost:5001',

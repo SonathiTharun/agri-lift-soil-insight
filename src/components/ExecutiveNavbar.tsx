@@ -19,7 +19,6 @@ import { GlassNav, AnimatedDrawer, AnimatedMenuItem } from "@/components/ui/glas
 import { useToast } from "@/hooks/use-toast";
 import { AnimatedNavItem, AnimatedNavContainer } from "@/components/ui/animated-nav-item";
 import { AnimatedLogo } from "@/components/ui/animated-logo";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 export function ExecutiveNavbar() {
   const location = useLocation();
