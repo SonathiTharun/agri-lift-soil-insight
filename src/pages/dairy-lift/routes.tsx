@@ -5,6 +5,7 @@ import MilkProduction from "./MilkProduction";
 import CattleManagement from "./CattleManagement";
 import LivestockMarket from "./LivestockMarket";
 import EquipmentMart from "./EquipmentMart";
+import SellProduce from "./SellProduce";
 
 const DairyLiftRoutes = () => (
   <Routes>
@@ -13,7 +14,8 @@ const DairyLiftRoutes = () => (
     <Route path="cattle-management" element={<CattleManagement />} />
     <Route path="livestock-market" element={<LivestockMarket />} />
     <Route path="equipment-mart" element={<EquipmentMart />} />
+    <Route path="sell-produce" element={<SellProduce />} />
   </Routes>
 );
 
-export default DairyLiftRoutes; 
+export default DairyLiftRoutes;
