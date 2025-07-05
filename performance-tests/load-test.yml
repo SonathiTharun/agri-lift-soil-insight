@@ -1,0 +1,55 @@
+config:
+  target: 'https://staging.agri-lift-dairy.com'
+  phases:
+    - duration: 60
+      arrivalRate: 5
+      name: "Warm up"
+    - duration: 120
+      arrivalRate: 10
+      name: "Ramp up load"
+    - duration: 300
+      arrivalRate: 15
+      name: "Sustained load"
+  defaults:
+    headers:
+      User-Agent: 'Artillery Load Test'
+
+scenarios:
+  - name: "Homepage Load Test"
+    weight: 30
+    flow:
+      - get:
+          url: "/"
+      - think: 2
+      - get:
+          url: "/dairy-lift"
+      - think: 3
+
+  - name: "Sell Produce Page Load Test"
+    weight: 40
+    flow:
+      - get:
+          url: "/dairy-lift/sell-produce"
+      - think: 2
+      - post:
+          url: "/api/auth/login"
+          json:
+            email: "test@example.com"
+            password: "testpassword"
+      - think: 1
+      - get:
+          url: "/api/dairy/buyers"
+      - think: 2
+
+  - name: "API Endpoints Test"
+    weight: 30
+    flow:
+      - get:
+          url: "/api/health"
+      - think: 1
+      - get:
+          url: "/api/dairy/export-opportunities"
+      - think: 1
+      - get:
+          url: "/api/dairy/logistics-providers"
+      - think: 2
