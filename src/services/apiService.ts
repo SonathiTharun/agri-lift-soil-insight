@@ -1144,6 +1144,264 @@ class ApiService {
 
     return response.json();
   }
+
+  // Executive API Methods
+
+  // Generic executive API methods
+  async get(endpoint: string): Promise<any> {
+    const response = await this.makeRequest(`${this.baseUrl}${endpoint}`);
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Request failed');
+    }
+
+    return response.json();
+  }
+
+  async post(endpoint: string, data: any): Promise<any> {
+    const response = await this.makeRequest(`${this.baseUrl}${endpoint}`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Request failed');
+    }
+
+    return response.json();
+  }
+
+  async put(endpoint: string, data: any): Promise<any> {
+    const response = await this.makeRequest(`${this.baseUrl}${endpoint}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Request failed');
+    }
+
+    return response.json();
+  }
+
+  async delete(endpoint: string): Promise<any> {
+    const response = await this.makeRequest(`${this.baseUrl}${endpoint}`, {
+      method: 'DELETE',
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Request failed');
+    }
+
+    return response.json();
+  }
+
+  // Executive Dashboard Analytics
+  async getExecutiveDashboard(): Promise<{
+    success: boolean;
+    data: {
+      overview: any;
+      revenue: any[];
+      orders: any[];
+      products: any[];
+      users: any[];
+      recentActivity: any[];
+    };
+  }> {
+    return this.get('/executive/dashboard');
+  }
+
+  // Executive Product Management
+  async getExecutiveProducts(params?: {
+    page?: number;
+    limit?: number;
+    status?: string;
+    category?: string;
+    search?: string;
+  }): Promise<any> {
+    const queryParams = new URLSearchParams();
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined) {
+          queryParams.append(key, value.toString());
+        }
+      });
+    }
+    return this.get(`/executive/products?${queryParams}`);
+  }
+
+  async createExecutiveProduct(productData: FormData): Promise<any> {
+    try {
+      const response = await this.makeRequest(`${this.baseUrl}/executive/products`, {
+        method: 'POST',
+        body: productData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+
+        // Extract detailed error message
+        let errorMessage = 'Failed to create product';
+
+        if (errorData.message) {
+          errorMessage = errorData.message;
+        } else if (errorData.error) {
+          errorMessage = errorData.error;
+        } else if (errorData.errors && Array.isArray(errorData.errors)) {
+          // Handle validation errors
+          errorMessage = errorData.errors.map((err: any) => err.msg || err.message || err).join(', ');
+        }
+
+        console.error('API Error Response:', {
+          status: response.status,
+          statusText: response.statusText,
+          errorData
+        });
+
+        throw new Error(errorMessage);
+      }
+
+      return response.json();
+    } catch (error: any) {
+      console.error('Create product API error:', error);
+
+      // Re-throw with better error message
+      if (error.message) {
+        throw error;
+      } else {
+        throw new Error('Network error: Unable to create product. Please check your connection.');
+      }
+    }
+  }
+
+  async updateExecutiveProduct(id: string, productData: FormData): Promise<any> {
+    const response = await this.makeRequest(`${this.baseUrl}/executive/products/${id}`, {
+      method: 'PUT',
+      body: productData,
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to update product');
+    }
+
+    return response.json();
+  }
+
+  async deleteExecutiveProduct(id: string): Promise<any> {
+    return this.delete(`/executive/products/${id}`);
+  }
+
+  async bulkUpdateExecutiveProducts(updates: Array<{ id: string; updates: any }>): Promise<any> {
+    return this.post('/executive/products/bulk-update', { updates });
+  }
+
+  // Executive Loan Management
+  async getExecutiveLoans(params?: {
+    page?: number;
+    limit?: number;
+    status?: string;
+    search?: string;
+  }): Promise<any> {
+    const queryParams = new URLSearchParams();
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined) {
+          queryParams.append(key, value.toString());
+        }
+      });
+    }
+    return this.get(`/executive/loans?${queryParams}`);
+  }
+
+  async createExecutiveLoan(loanData: any): Promise<any> {
+    return this.post('/executive/loans', loanData);
+  }
+
+  async updateExecutiveLoan(id: string, loanData: any): Promise<any> {
+    return this.put(`/executive/loans/${id}`, loanData);
+  }
+
+  async deleteExecutiveLoan(id: string): Promise<any> {
+    return this.delete(`/executive/loans/${id}`);
+  }
+
+  // Executive Order Management
+  async getExecutiveOrders(params?: {
+    page?: number;
+    limit?: number;
+    status?: string;
+    startDate?: string;
+    endDate?: string;
+  }): Promise<any> {
+    const queryParams = new URLSearchParams();
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined) {
+          queryParams.append(key, value.toString());
+        }
+      });
+    }
+    return this.get(`/executive/orders?${queryParams}`);
+  }
+
+  async updateExecutiveOrderStatus(id: string, status: string, notes?: string): Promise<any> {
+    return this.put(`/executive/orders/${id}/status`, { status, notes });
+  }
+
+  async bulkUpdateExecutiveOrders(updates: Array<{ id: string; status: string }>): Promise<any> {
+    return this.post('/executive/orders/bulk-update', { updates });
+  }
+
+  // Executive Support Tickets
+  async getExecutiveTickets(params?: {
+    page?: number;
+    limit?: number;
+    status?: string;
+    priority?: string;
+  }): Promise<any> {
+    const queryParams = new URLSearchParams();
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined) {
+          queryParams.append(key, value.toString());
+        }
+      });
+    }
+    return this.get(`/executive/support/tickets?${queryParams}`);
+  }
+
+  async assignExecutiveTicket(ticketId: string, assigneeId: string): Promise<any> {
+    return this.post(`/executive/support/tickets/${ticketId}/assign`, { assigneeId });
+  }
+
+  async addExecutiveTicketMessage(ticketId: string, message: string, attachments?: File[]): Promise<any> {
+    const formData = new FormData();
+    formData.append('message', message);
+    if (attachments) {
+      attachments.forEach(file => formData.append('attachments', file));
+    }
+
+    const response = await this.makeRequest(`${this.baseUrl}/executive/support/tickets/${ticketId}/messages`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to add message');
+    }
+
+    return response.json();
+  }
+
+  async resolveExecutiveTicket(ticketId: string, resolution: string): Promise<any> {
+    return this.post(`/executive/support/tickets/${ticketId}/resolve`, { resolution });
+  }
 }
 
 export const apiService = new ApiService();

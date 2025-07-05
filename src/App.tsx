@@ -27,9 +27,11 @@ const ExecutiveDashboard = React.lazy(() => import("./pages/ExecutiveDashboard")
 const ExecutiveFarmers = React.lazy(() => import("./pages/ExecutiveFarmers"));
 const ExecutiveAnalytics = React.lazy(() => import("./pages/ExecutiveAnalytics"));
 const ExecutiveGeographic = React.lazy(() => import("./pages/ExecutiveGeographic"));
+const ExecutivePortal = React.lazy(() => import("./pages/ExecutivePortal"));
 const ExecutiveFinancial = React.lazy(() => import("./pages/ExecutiveFinancial"));
 const ExecutiveOperations = React.lazy(() => import("./pages/ExecutiveOperations"));
 const ExecutiveCommunications = React.lazy(() => import("./pages/ExecutiveCommunications"));
+const ExecutivePortalTest = React.lazy(() => import("./components/executive/ExecutivePortalTest").then(module => ({ default: module.ExecutivePortalTest })));
 const DairyLiftHome = React.lazy(() => import("./pages/dairy-lift/DairyLiftHome"));
 
 // Loading component
@@ -56,6 +58,8 @@ const App = () => (
         <Route path="/executive/financial" element={<ExecutiveFinancial />} />
         <Route path="/executive/operations" element={<ExecutiveOperations />} />
         <Route path="/executive/communications" element={<ExecutiveCommunications />} />
+        <Route path="/executive-portal/*" element={<ExecutivePortal />} />
+        <Route path="/executive-portal-test" element={<ExecutivePortalTest />} />
         <Route path="/farming-type" element={<FarmingType />} />
         <Route path="/crop-allocation" element={<CropAllocation />} />
         <Route path="/loans" element={<Loans />} />

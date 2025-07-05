@@ -19,9 +19,10 @@ const weatherRoutes = require('./src/routes/weather');
 const marketPricesRoutes = require('./src/routes/marketPrices');
 const livestockRoutes = require('./src/routes/livestock');
 const equipmentRoutes = require('./src/routes/equipment');
+const executiveRoutes = require('./src/routes/executive');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8081;
 
 // Create necessary directories
 const createDirectories = () => {
@@ -93,6 +94,7 @@ app.use('/api/weather', weatherRoutes);
 app.use('/api/market-prices', marketPricesRoutes);
 app.use('/api/livestock', livestockRoutes);
 app.use('/api/equipment', equipmentRoutes);
+app.use('/api/executive', executiveRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
