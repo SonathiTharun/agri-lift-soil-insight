@@ -11,8 +11,8 @@ export default defineConfig(({ mode }) => ({
     strictPort: false, // Allow Vite to try alternative ports if 8080 is busy
     open: true, // Automatically open browser
     proxy: {
-      '/api': 'http://localhost:5001',
-      '/uploads': 'http://localhost:5001',
+      '/api': 'http://localhost:8081',
+      '/uploads': 'http://localhost:8081',
     },
   },
   plugins: [

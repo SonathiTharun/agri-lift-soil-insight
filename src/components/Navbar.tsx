@@ -77,11 +77,11 @@ export function Navbar() {
       initial={{ y: -100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="fixed top-0 left-0 right-0 z-50 professional-header professional-shadow-soft"
+      className="fixed top-0 left-0 right-0 z-50 professional-header-farmer professional-shadow-soft"
     >
       {/* Animated background gradient */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-transparent to-purple-500/5"
+        className="absolute inset-0 bg-gradient-to-r from-green-500/5 via-transparent to-emerald-500/5"
         animate={{ x: ['-100%', '100%'] }}
         transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
       />
