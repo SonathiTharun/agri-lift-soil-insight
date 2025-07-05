@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 import { GlassCard } from "./GlassCard";
 import { useWishlist } from "@/contexts/WishlistContext";
-import { useCart } from "@/context/CartContext";
+import { useCart } from "@/context/cartcontext";
 import { toast } from 'sonner';
 import { ProductPreviewDialog } from "./ProductPreviewDialog";
 

@@ -19,6 +19,8 @@ import { SubsidyCalculator } from "@/components/loans/SubsidyCalculator";
 import { SubsidyComparison } from "@/components/loans/SubsidyComparison";
 import { SubsidyDetailModal } from "@/components/loans/SubsidyDetailModal";
 import { SubsidyTracker } from "@/components/loans/SubsidyTracker";
+import { StateSchemeCard } from "@/components/loans/StateSchemeCard";
+import { ComingSoonCard } from "@/components/loans/ComingSoonCard";
 import {
   Calculator,
   TrendingUp,
@@ -49,7 +51,11 @@ import {
   Tractor,
   Wheat,
   Home,
-  Umbrella
+  Umbrella,
+  ExternalLink,
+  Flag,
+  Building2,
+  Landmark
 } from "lucide-react";
 
 type Bank = {
@@ -120,7 +126,56 @@ type SubsidyScheme = {
     email: string;
     website: string;
   };
+  officialApplicationUrl?: string;
 };
+
+type StateScheme = {
+  id: string;
+  name: string;
+  nameKey: string;
+  description: string;
+  descriptionKey: string;
+  category: "Equipment" | "Land Development" | "Crop Insurance" | "Working Capital" | "Infrastructure" | "Technology";
+  subsidyPercentage: number;
+  maxAmount: number;
+  minAmount: number;
+  eligibility: string[];
+  eligibilityKeys: string[];
+  documents: string[];
+  documentKeys: string[];
+  applicationDeadline: string;
+  processingTime: string;
+  governmentScheme: string;
+  targetBeneficiaries: string[];
+  applicationFee: number;
+  icon: React.ReactNode;
+  status: "Active" | "Upcoming" | "Expired";
+  location: string[];
+  contactInfo: {
+    phone: string;
+    email: string;
+    website: string;
+  };
+  officialApplicationUrl?: string;
+  stateCode: string;
+  stateName: string;
+  stateDepartment: string;
+  launchDate?: string;
+  isAvailable: boolean;
+  stateSpecificEligibility: string[];
+  stateSpecificEligibilityKeys: string[];
+};
+
+type IndianState = {
+  code: string;
+  name: string;
+  type: "state" | "union_territory";
+  schemesCount: number;
+  isAvailable: boolean;
+  launchDate?: string;
+};
+
+type AnyScheme = SubsidyScheme | StateScheme;
 
 const loanCategories: LoanCategory[] = [
   {
@@ -233,7 +288,8 @@ const subsidySchemes: SubsidyScheme[] = [
       phone: "1800-115-526",
       email: "pmkisan@gov.in",
       website: "https://pmkisan.gov.in"
-    }
+    },
+    officialApplicationUrl: "https://pmkisan.gov.in/RegistrationForm.aspx"
   },
   {
     id: "crop-insurance-subsidy",
@@ -261,7 +317,8 @@ const subsidySchemes: SubsidyScheme[] = [
       phone: "1800-180-1551",
       email: "pmfby@gov.in",
       website: "https://pmfby.gov.in"
-    }
+    },
+    officialApplicationUrl: "https://pmfby.gov.in/farmerRegistration"
   },
   {
     id: "land-development-subsidy",
@@ -289,7 +346,8 @@ const subsidySchemes: SubsidyScheme[] = [
       phone: "1800-180-1551",
       email: "nmsa@gov.in",
       website: "https://nmsa.dac.gov.in"
-    }
+    },
+    officialApplicationUrl: "https://soilhealth.dac.gov.in/"
   },
   {
     id: "drip-irrigation-subsidy",
@@ -317,7 +375,8 @@ const subsidySchemes: SubsidyScheme[] = [
       phone: "1800-180-1551",
       email: "pdmc@gov.in",
       website: "https://pmksy.gov.in"
-    }
+    },
+    officialApplicationUrl: "https://pmksy.gov.in/microirrigation/Registration/FarmerRegistration.aspx"
   },
   {
     id: "organic-farming-subsidy",
@@ -345,7 +404,228 @@ const subsidySchemes: SubsidyScheme[] = [
       phone: "1800-180-1551",
       email: "pkvy@gov.in",
       website: "https://pgsindia-ncof.gov.in"
-    }
+    },
+    officialApplicationUrl: "https://pgsindia-ncof.gov.in/PKVY/Index.aspx"
+  }
+];
+
+const indianStates: IndianState[] = [
+  // States
+  { code: "AP", name: "Andhra Pradesh", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q2 2024" },
+  { code: "AR", name: "Arunachal Pradesh", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q3 2024" },
+  { code: "AS", name: "Assam", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q2 2024" },
+  { code: "BR", name: "Bihar", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q2 2024" },
+  { code: "CG", name: "Chhattisgarh", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q3 2024" },
+  { code: "GA", name: "Goa", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q4 2024" },
+  { code: "GJ", name: "Gujarat", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q2 2024" },
+  { code: "HR", name: "Haryana", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q2 2024" },
+  { code: "HP", name: "Himachal Pradesh", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q3 2024" },
+  { code: "JH", name: "Jharkhand", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q3 2024" },
+  { code: "KA", name: "Karnataka", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q2 2024" },
+  { code: "KL", name: "Kerala", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q3 2024" },
+  { code: "MP", name: "Madhya Pradesh", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q2 2024" },
+  { code: "MH", name: "Maharashtra", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q2 2024" },
+  { code: "MN", name: "Manipur", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q4 2024" },
+  { code: "ML", name: "Meghalaya", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q4 2024" },
+  { code: "MZ", name: "Mizoram", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q4 2024" },
+  { code: "NL", name: "Nagaland", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q4 2024" },
+  { code: "OR", name: "Odisha", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q3 2024" },
+  { code: "PB", name: "Punjab", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q2 2024" },
+  { code: "RJ", name: "Rajasthan", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q2 2024" },
+  { code: "SK", name: "Sikkim", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q4 2024" },
+  { code: "TN", name: "Tamil Nadu", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q2 2024" },
+  { code: "TG", name: "Telangana", type: "state", schemesCount: 5, isAvailable: true },
+  { code: "TR", name: "Tripura", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q4 2024" },
+  { code: "UP", name: "Uttar Pradesh", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q2 2024" },
+  { code: "UT", name: "Uttarakhand", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q3 2024" },
+  { code: "WB", name: "West Bengal", type: "state", schemesCount: 0, isAvailable: false, launchDate: "Q2 2024" },
+
+  // Union Territories
+  { code: "AN", name: "Andaman and Nicobar Islands", type: "union_territory", schemesCount: 0, isAvailable: false, launchDate: "Q4 2024" },
+  { code: "CH", name: "Chandigarh", type: "union_territory", schemesCount: 0, isAvailable: false, launchDate: "Q4 2024" },
+  { code: "DN", name: "Dadra and Nagar Haveli and Daman and Diu", type: "union_territory", schemesCount: 0, isAvailable: false, launchDate: "Q4 2024" },
+  { code: "DL", name: "Delhi", type: "union_territory", schemesCount: 0, isAvailable: false, launchDate: "Q3 2024" },
+  { code: "JK", name: "Jammu and Kashmir", type: "union_territory", schemesCount: 0, isAvailable: false, launchDate: "Q3 2024" },
+  { code: "LA", name: "Ladakh", type: "union_territory", schemesCount: 0, isAvailable: false, launchDate: "Q4 2024" },
+  { code: "LD", name: "Lakshadweep", type: "union_territory", schemesCount: 0, isAvailable: false, launchDate: "Q4 2024" },
+  { code: "PY", name: "Puducherry", type: "union_territory", schemesCount: 0, isAvailable: false, launchDate: "Q4 2024" }
+];
+
+const telanganaSchemes: StateScheme[] = [
+  {
+    id: "rythu-bandhu-scheme",
+    name: "Rythu Bandhu Scheme",
+    nameKey: "rythu-bandhu-scheme",
+    description: "Investment support scheme providing ₹10,000 per acre per season to farmers for agricultural inputs",
+    descriptionKey: "rythu-bandhu-desc",
+    category: "Working Capital",
+    subsidyPercentage: 100,
+    maxAmount: 1000000, // ₹10L for 100 acres
+    minAmount: 10000, // ₹10K for 1 acre
+    eligibility: ["Land ownership documents", "Aadhaar Card", "Bank account", "Patta/Title deed"],
+    eligibilityKeys: ["land-ownership-docs", "aadhaar-card", "bank-account", "patta-title-deed"],
+    documents: ["Land Records", "Aadhaar Card", "Bank Passbook", "Patta Document", "Survey Settlement"],
+    documentKeys: ["land-records", "aadhaar-card", "bank-passbook", "patta-document", "survey-settlement"],
+    applicationDeadline: "Before each crop season",
+    processingTime: "15-30 days",
+    governmentScheme: "Rythu Bandhu",
+    targetBeneficiaries: ["All Farmers", "Landowners"],
+    applicationFee: 0,
+    icon: <IndianRupee className="h-6 w-6" />,
+    status: "Active",
+    location: ["Telangana"],
+    contactInfo: {
+      phone: "1800-425-0123",
+      email: "rythu.bandhu@telangana.gov.in",
+      website: "https://rythubandhu.telangana.gov.in"
+    },
+    stateCode: "TG",
+    stateName: "Telangana",
+    officialApplicationUrl: "https://webland.telangana.gov.in/webland/",
+    stateDepartment: "Department of Agriculture, Telangana",
+    isAvailable: true,
+    stateSpecificEligibility: ["Telangana resident", "Agricultural land in Telangana", "Valid land records"],
+    stateSpecificEligibilityKeys: ["telangana-resident", "agricultural-land-telangana", "valid-land-records"]
+  },
+  {
+    id: "rythu-bima-scheme",
+    name: "Rythu Bima Scheme",
+    nameKey: "rythu-bima-scheme",
+    description: "Life insurance scheme providing ₹5 lakh coverage to farmers aged 18-59 years",
+    descriptionKey: "rythu-bima-desc",
+    category: "Crop Insurance",
+    subsidyPercentage: 100,
+    maxAmount: 500000,
+    minAmount: 500000,
+    eligibility: ["Age 18-59 years", "Farmer in Telangana", "Aadhaar Card", "Bank account"],
+    eligibilityKeys: ["age-18-59", "farmer-telangana", "aadhaar-card", "bank-account"],
+    documents: ["Aadhaar Card", "Age Proof", "Bank Details", "Farmer Certificate", "Nominee Details"],
+    documentKeys: ["aadhaar-card", "age-proof", "bank-details", "farmer-certificate", "nominee-details"],
+    applicationDeadline: "Open throughout the year",
+    processingTime: "7-15 days",
+    governmentScheme: "Rythu Bima",
+    targetBeneficiaries: ["Farmers aged 18-59"],
+    applicationFee: 0,
+    icon: <Shield className="h-6 w-6" />,
+    status: "Active",
+    location: ["Telangana"],
+    contactInfo: {
+      phone: "1800-425-0124",
+      email: "rythu.bima@telangana.gov.in",
+      website: "https://rythubima.telangana.gov.in"
+    },
+    stateCode: "TG",
+    stateName: "Telangana",
+    officialApplicationUrl: "https://rythubima.telangana.gov.in/RB_Registration.aspx",
+    stateDepartment: "Department of Agriculture, Telangana",
+    isAvailable: true,
+    stateSpecificEligibility: ["Telangana farmer", "Age between 18-59 years", "Active farming"],
+    stateSpecificEligibilityKeys: ["telangana-farmer", "age-18-59-years", "active-farming"]
+  },
+  {
+    id: "mission-kakatiya",
+    name: "Mission Kakatiya",
+    nameKey: "mission-kakatiya",
+    description: "Tank restoration and irrigation infrastructure development with subsidies up to ₹2 lakh per tank",
+    descriptionKey: "mission-kakatiya-desc",
+    category: "Infrastructure",
+    subsidyPercentage: 80,
+    maxAmount: 200000,
+    minAmount: 25000,
+    eligibility: ["Tank committee member", "Community participation", "Technical feasibility"],
+    eligibilityKeys: ["tank-committee-member", "community-participation", "technical-feasibility"],
+    documents: ["Tank Survey Report", "Community Resolution", "Technical Estimate", "Bank Details"],
+    documentKeys: ["tank-survey-report", "community-resolution", "technical-estimate", "bank-details"],
+    applicationDeadline: "31st March 2024",
+    processingTime: "45-90 days",
+    governmentScheme: "Mission Kakatiya",
+    targetBeneficiaries: ["Tank Committees", "Farmer Groups"],
+    applicationFee: 500,
+    icon: <Building className="h-6 w-6" />,
+    status: "Active",
+    location: ["Telangana"],
+    contactInfo: {
+      phone: "1800-425-0125",
+      email: "mission.kakatiya@telangana.gov.in",
+      website: "https://missionkakatiya.cgg.gov.in"
+    },
+    stateCode: "TG",
+    stateName: "Telangana",
+    officialApplicationUrl: "https://missionkakatiya.cgg.gov.in/",
+    stateDepartment: "Irrigation Department, Telangana",
+    isAvailable: true,
+    stateSpecificEligibility: ["Tank in Telangana", "Community consensus", "Environmental clearance"],
+    stateSpecificEligibilityKeys: ["tank-in-telangana", "community-consensus", "environmental-clearance"]
+  },
+  {
+    id: "ts-ipass-agriculture",
+    name: "TS-iPASS Agriculture",
+    nameKey: "ts-ipass-agriculture",
+    description: "Industrial agriculture subsidies and single-window clearance for agri-business ventures",
+    descriptionKey: "ts-ipass-agriculture-desc",
+    category: "Technology",
+    subsidyPercentage: 25,
+    maxAmount: 2500000, // ₹25L
+    minAmount: 100000, // ₹1L
+    eligibility: ["Agri-business venture", "Investment above ₹1 lakh", "Employment generation"],
+    eligibilityKeys: ["agri-business-venture", "investment-above-1lakh", "employment-generation"],
+    documents: ["Project Report", "Investment Proof", "Registration Certificate", "Employment Plan"],
+    documentKeys: ["project-report", "investment-proof", "registration-certificate", "employment-plan"],
+    applicationDeadline: "Open throughout the year",
+    processingTime: "30-60 days",
+    governmentScheme: "TS-iPASS",
+    targetBeneficiaries: ["Agri-entrepreneurs", "Food Processing Units"],
+    applicationFee: 1000,
+    icon: <Zap className="h-6 w-6" />,
+    status: "Active",
+    location: ["Telangana"],
+    contactInfo: {
+      phone: "1800-425-0126",
+      email: "tsipass@telangana.gov.in",
+      website: "https://tsipass.telangana.gov.in"
+    },
+    stateCode: "TG",
+    stateName: "Telangana",
+    officialApplicationUrl: "https://tsipass.telangana.gov.in/",
+    stateDepartment: "Industries Department, Telangana",
+    isAvailable: true,
+    stateSpecificEligibility: ["Telangana-based venture", "Minimum investment criteria", "Job creation plan"],
+    stateSpecificEligibilityKeys: ["telangana-based-venture", "minimum-investment-criteria", "job-creation-plan"]
+  },
+  {
+    id: "kaleshwaram-irrigation-subsidy",
+    name: "Kaleshwaram Irrigation Subsidy",
+    nameKey: "kaleshwaram-irrigation-subsidy",
+    description: "Water supply subsidies and irrigation infrastructure support under Kaleshwaram project",
+    descriptionKey: "kaleshwaram-irrigation-desc",
+    category: "Infrastructure",
+    subsidyPercentage: 90,
+    maxAmount: 150000,
+    minAmount: 20000,
+    eligibility: ["Command area farmer", "Water user association member", "Crop cultivation plan"],
+    eligibilityKeys: ["command-area-farmer", "water-user-association", "crop-cultivation-plan"],
+    documents: ["Land Records", "WUA Membership", "Crop Plan", "Water Connection Request"],
+    documentKeys: ["land-records", "wua-membership", "crop-plan", "water-connection-request"],
+    applicationDeadline: "Before irrigation season",
+    processingTime: "30-45 days",
+    governmentScheme: "Kaleshwaram Project",
+    targetBeneficiaries: ["Command Area Farmers"],
+    applicationFee: 250,
+    icon: <Building2 className="h-6 w-6" />,
+    status: "Active",
+    location: ["Telangana"],
+    contactInfo: {
+      phone: "1800-425-0127",
+      email: "kaleshwaram@telangana.gov.in",
+      website: "https://irrigation.telangana.gov.in"
+    },
+    stateCode: "TG",
+    stateName: "Telangana",
+    officialApplicationUrl: "https://webland.telangana.gov.in/webland/",
+    stateDepartment: "Irrigation Department, Telangana",
+    isAvailable: true,
+    stateSpecificEligibility: ["Kaleshwaram command area", "Active farming", "Water user association member"],
+    stateSpecificEligibilityKeys: ["kaleshwaram-command-area", "active-farming", "water-user-association-member"]
   }
 ];
 
@@ -569,9 +849,16 @@ export default function Loans() {
   const [selectedSubsidyCategory, setSelectedSubsidyCategory] = useState("All");
   const [subsidySearchTerm, setSubsidySearchTerm] = useState("");
   const [subsidyCalculatorAmount, setSubsidyCalculatorAmount] = useState(100000);
-  const [selectedSubsidyScheme, setSelectedSubsidyScheme] = useState<SubsidyScheme | null>(null);
-  const [comparisonSubsidies, setComparisonSubsidies] = useState<SubsidyScheme[]>([]);
+  const [selectedSubsidyScheme, setSelectedSubsidyScheme] = useState<AnyScheme | null>(null);
+  const [comparisonSubsidies, setComparisonSubsidies] = useState<AnyScheme[]>([]);
   const [subsidyActiveTab, setSubsidyActiveTab] = useState("browse");
+
+  // State schemes states
+  const [selectedState, setSelectedState] = useState("TG"); // Default to Telangana
+  const [stateSchemeSearchTerm, setStateSchemeSearchTerm] = useState("");
+  const [selectedStateCategory, setSelectedStateCategory] = useState("All");
+  const [isStateLoading, setIsStateLoading] = useState(false);
+  const [notificationEmail, setNotificationEmail] = useState("");
 
   const { t } = useLanguage();
 
@@ -597,7 +884,7 @@ export default function Loans() {
     return matchesCategory && matchesSearch;
   });
 
-  const addToSubsidyComparison = (subsidy: SubsidyScheme) => {
+  const addToSubsidyComparison = (subsidy: AnyScheme) => {
     if (comparisonSubsidies.length < 3 && !comparisonSubsidies.find(s => s.id === subsidy.id)) {
       setComparisonSubsidies([...comparisonSubsidies, subsidy]);
     }
@@ -607,9 +894,48 @@ export default function Loans() {
     setComparisonSubsidies(comparisonSubsidies.filter(s => s.id !== subsidyId));
   };
 
-  const calculateSubsidyAmount = (scheme: SubsidyScheme, amount: number) => {
+  const calculateSubsidyAmount = (scheme: AnyScheme, amount: number) => {
     const subsidyAmount = Math.min((amount * scheme.subsidyPercentage) / 100, scheme.maxAmount);
     return Math.max(subsidyAmount, scheme.minAmount);
+  };
+
+  // State schemes helper functions
+  const getStateSchemes = (stateCode: string): StateScheme[] => {
+    switch (stateCode) {
+      case "TG":
+        return telanganaSchemes;
+      default:
+        return [];
+    }
+  };
+
+  const currentStateSchemes = getStateSchemes(selectedState);
+  const selectedStateInfo = indianStates.find(state => state.code === selectedState);
+
+  const filteredStateSchemes = currentStateSchemes.filter(scheme => {
+    const matchesCategory = selectedStateCategory === "All" || scheme.category === selectedStateCategory;
+    const matchesSearch = scheme.name.toLowerCase().includes(stateSchemeSearchTerm.toLowerCase()) ||
+                         scheme.description.toLowerCase().includes(stateSchemeSearchTerm.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
+
+  const handleStateChange = async (stateCode: string) => {
+    setIsStateLoading(true);
+    setSelectedState(stateCode);
+    setStateSchemeSearchTerm("");
+    setSelectedStateCategory("All");
+
+    // Simulate loading delay for better UX
+    setTimeout(() => {
+      setIsStateLoading(false);
+    }, 500);
+  };
+
+  const handleNotificationSignup = (email: string) => {
+    // This would typically send to a backend API
+    console.log(`Notification signup for ${email} for state ${selectedStateInfo?.name}`);
+    setNotificationEmail("");
+    // Show success message (could use toast notification)
   };
 
   const calculateEMI = (principal: number, rate: number, tenure: number) => {
@@ -823,10 +1149,14 @@ export default function Loans() {
 
             {/* Subsidies Nested Tabs */}
             <Tabs value={subsidyActiveTab} onValueChange={setSubsidyActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-4 mb-6">
+              <TabsList className="grid w-full grid-cols-5 mb-6">
                 <TabsTrigger value="browse" className="flex items-center gap-2">
                   <Search className="h-4 w-4" />
                   Browse Schemes
+                </TabsTrigger>
+                <TabsTrigger value="state-schemes" className="flex items-center gap-2">
+                  <Flag className="h-4 w-4" />
+                  State Schemes
                 </TabsTrigger>
                 <TabsTrigger value="calculator" className="flex items-center gap-2">
                   <Calculator className="h-4 w-4" />
@@ -920,6 +1250,185 @@ export default function Loans() {
                   />
                 ))}
               </motion.div>
+            </TabsContent>
+
+            <TabsContent value="state-schemes" className="space-y-6">
+              {/* State Selection Header */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="space-y-4"
+              >
+                <GlassCard className="p-6">
+                  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                    <div>
+                      <h3 className="text-xl font-semibold mb-2 flex items-center gap-2">
+                        <Flag className="h-5 w-5 text-blue-600" />
+                        {t("state-specific-schemes") || "State-Specific Agricultural Schemes"}
+                      </h3>
+                      <p className="text-gray-600">
+                        {t("state-schemes-description") || "Explore agricultural subsidies and schemes specific to your state"}
+                      </p>
+                    </div>
+
+                    {/* State Selector */}
+                    <div className="flex items-center gap-3">
+                      <MapPin className="h-4 w-4 text-gray-500" />
+                      <select
+                        value={selectedState}
+                        onChange={(e) => handleStateChange(e.target.value)}
+                        className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent min-w-[200px]"
+                        disabled={isStateLoading}
+                      >
+                        <option value="">Select State/UT</option>
+                        <optgroup label="States">
+                          {indianStates.filter(s => s.type === "state").map(state => (
+                            <option key={state.code} value={state.code}>
+                              {state.name} {state.isAvailable ? `(${state.schemesCount} schemes)` : "(Coming Soon)"}
+                            </option>
+                          ))}
+                        </optgroup>
+                        <optgroup label="Union Territories">
+                          {indianStates.filter(s => s.type === "union_territory").map(state => (
+                            <option key={state.code} value={state.code}>
+                              {state.name} {state.isAvailable ? `(${state.schemesCount} schemes)` : "(Coming Soon)"}
+                            </option>
+                          ))}
+                        </optgroup>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* State Info Banner */}
+                  {selectedStateInfo && (
+                    <div className="mt-4 p-4 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg border border-blue-200">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <Landmark className="h-6 w-6 text-blue-600" />
+                          <div>
+                            <h4 className="font-semibold text-blue-900">{selectedStateInfo.name}</h4>
+                            <p className="text-sm text-blue-700">
+                              {selectedStateInfo.isAvailable
+                                ? `${selectedStateInfo.schemesCount} schemes available`
+                                : `Launching ${selectedStateInfo.launchDate || "soon"}`
+                              }
+                            </p>
+                          </div>
+                        </div>
+                        <Badge
+                          variant={selectedStateInfo.isAvailable ? "default" : "secondary"}
+                          className={selectedStateInfo.isAvailable ? "bg-green-500" : "bg-orange-500"}
+                        >
+                          {selectedStateInfo.isAvailable ? "Available" : "Coming Soon"}
+                        </Badge>
+                      </div>
+                    </div>
+                  )}
+                </GlassCard>
+              </motion.div>
+
+              {/* Loading State */}
+              {isStateLoading && (
+                <div className="flex items-center justify-center py-12">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+                  <span className="ml-3 text-gray-600">Loading schemes...</span>
+                </div>
+              )}
+
+              {/* Available Schemes (Telangana) */}
+              {!isStateLoading && selectedStateInfo?.isAvailable && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="space-y-6"
+                >
+                  {/* Search and Filter for State Schemes */}
+                  <GlassCard className="p-6">
+                    <div className="flex flex-col md:flex-row gap-4">
+                      <div className="flex-1 relative">
+                        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                        <input
+                          type="text"
+                          placeholder={t("search-state-schemes") || "Search state schemes..."}
+                          value={stateSchemeSearchTerm}
+                          onChange={(e) => setStateSchemeSearchTerm(e.target.value)}
+                          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        />
+                      </div>
+
+                      <div className="flex items-center gap-2">
+                        <Filter className="h-4 w-4 text-gray-500" />
+                        <select
+                          value={selectedStateCategory}
+                          onChange={(e) => setSelectedStateCategory(e.target.value)}
+                          className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        >
+                          {subsidyCategories.map(category => (
+                            <option key={category} value={category}>
+                              {t(category.toLowerCase().replace(' ', '-')) || category}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* State Schemes Stats */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-blue-600">{filteredStateSchemes.length}</div>
+                        <div className="text-sm text-gray-600">Available Schemes</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-green-600">₹10L+</div>
+                        <div className="text-sm text-gray-600">Max Benefit</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-purple-600">100%</div>
+                        <div className="text-sm text-gray-600">Max Coverage</div>
+                      </div>
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-orange-600">7 Days</div>
+                        <div className="text-sm text-gray-600">Min Processing</div>
+                      </div>
+                    </div>
+                  </GlassCard>
+
+                  {/* State Schemes Grid */}
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredStateSchemes.map((scheme, index) => (
+                      <motion.div
+                        key={scheme.id}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                      >
+                        <StateSchemeCard
+                          scheme={scheme}
+                          onAddToComparison={addToSubsidyComparison}
+                          onViewDetails={setSelectedSubsidyScheme}
+                          isInComparison={comparisonSubsidies.some(s => s.id === scheme.id)}
+                          calculatedAmount={calculateSubsidyAmount(scheme, subsidyCalculatorAmount)}
+                        />
+                      </motion.div>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+
+              {/* Coming Soon States */}
+              {!isStateLoading && selectedStateInfo && !selectedStateInfo.isAvailable && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                >
+                  <ComingSoonCard
+                    state={selectedStateInfo}
+                    onNotificationSignup={handleNotificationSignup}
+                    notificationEmail={notificationEmail}
+                    setNotificationEmail={setNotificationEmail}
+                  />
+                </motion.div>
+              )}
             </TabsContent>
 
             <TabsContent value="calculator">

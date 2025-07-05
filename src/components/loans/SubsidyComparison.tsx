@@ -46,7 +46,7 @@ interface SubsidyScheme {
 }
 
 interface SubsidyComparisonProps {
-  schemes: SubsidyScheme[];
+  schemes: any[];
   onRemove: (schemeId: string) => void;
   projectAmount?: number;
 }

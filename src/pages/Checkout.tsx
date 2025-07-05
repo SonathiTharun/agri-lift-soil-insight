@@ -8,25 +8,18 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Trash2, CreditCard, ShoppingCart, IndianRupee, Loader2, CheckCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/components/ui/use-toast";
 import { useCart } from "@/context/cartcontext";
-import { useAuth } from "@/contexts/AuthContext";
-import { paymentService } from "@/services/paymentService";
 
 export default function Checkout() {
   const navigate = useNavigate();
   const { cartItems, updateQuantity, removeFromCart, clearCart, getCartTotal, addToCart } = useCart();
-  const { user, isAuthenticated } = useAuth();
-  const { toast } = useToast();
 
+  const [step, setStep] = useState<'cart' | 'shipping' | 'payment' | 'confirmation'>('cart');
   const [isProcessing, setIsProcessing] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState<'razorpay' | 'cod'>('razorpay');
-  const [orderCreated, setOrderCreated] = useState(false);
-  const [orderId, setOrderId] = useState<string>('');
 
   const [shippingDetails, setShippingDetails] = useState({
-    fullName: user?.name || "",
-    address: user?.address || "",
+    fullName: "",
+    address: "",
     city: "",
     state: "",
     pincode: "",

@@ -29,7 +29,7 @@ interface SubsidyScheme {
 }
 
 interface SubsidyCalculatorProps {
-  schemes: SubsidyScheme[];
+  schemes: any[];
   projectAmount: number;
   setProjectAmount: (amount: number) => void;
 }

@@ -7,7 +7,6 @@ import { useLanguage } from "@/components/LanguageContext";
 import {
   Calendar,
   Clock,
-  MapPin,
   Phone,
   Mail,
   Globe,
@@ -18,17 +17,20 @@ import {
   IndianRupee,
   Percent,
   CheckCircle,
-  AlertCircle,
-  ExternalLink
+  ExternalLink,
+  Flag,
+  Building,
+  MapPin,
+  AlertCircle
 } from "lucide-react";
 
-interface SubsidyScheme {
+interface StateScheme {
   id: string;
   name: string;
   nameKey: string;
   description: string;
   descriptionKey: string;
-  category: "Equipment" | "Land Development" | "Crop Insurance" | "Working Capital" | "Infrastructure" | "Technology";
+  category: string;
   subsidyPercentage: number;
   maxAmount: number;
   minAmount: number;
@@ -42,31 +44,37 @@ interface SubsidyScheme {
   targetBeneficiaries: string[];
   applicationFee: number;
   icon: React.ReactNode;
-  status: "Active" | "Upcoming" | "Expired";
+  status: string;
   location: string[];
   contactInfo: {
     phone: string;
     email: string;
     website: string;
   };
-  officialApplicationUrl?: string;
+  stateCode: string;
+  stateName: string;
+  officialApplicationUrl: string;
+  stateDepartment: string;
+  isAvailable: boolean;
+  stateSpecificEligibility: string[];
+  stateSpecificEligibilityKeys: string[];
 }
 
-interface SubsidyCardProps {
-  scheme: SubsidyScheme;
+interface StateSchemeCardProps {
+  scheme: StateScheme;
   onAddToComparison: (scheme: any) => void;
   onViewDetails: (scheme: any) => void;
   isInComparison: boolean;
   calculatedAmount?: number;
 }
 
-export function SubsidyCard({ 
+export function StateSchemeCard({ 
   scheme, 
   onAddToComparison, 
   onViewDetails, 
   isInComparison,
   calculatedAmount 
-}: SubsidyCardProps) {
+}: StateSchemeCardProps) {
   const { t } = useLanguage();
   const [showDetails, setShowDetails] = useState(false);
 
@@ -92,9 +100,8 @@ export function SubsidyCard({
   };
 
   const handleApplyNow = () => {
-    if (scheme.officialApplicationUrl) {
-      window.open(scheme.officialApplicationUrl, '_blank', 'noopener,noreferrer');
-    }
+    // Open official application URL in new tab
+    window.open(scheme.officialApplicationUrl, '_blank', 'noopener,noreferrer');
   };
 
   return (
@@ -102,11 +109,19 @@ export function SubsidyCard({
       whileHover={{ y: -5 }}
       transition={{ duration: 0.2 }}
     >
-      <Card className="h-full hover:shadow-lg transition-all duration-300 border-l-4 border-l-green-500">
-        <CardHeader className="pb-3">
+      <Card className="h-full hover:shadow-lg transition-all duration-300 border-l-4 border-l-blue-500 relative">
+        {/* State Badge */}
+        <div className="absolute top-3 right-3">
+          <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+            <Flag className="h-3 w-3 mr-1" />
+            {scheme.stateName}
+          </Badge>
+        </div>
+
+        <CardHeader className="pb-3 pr-20">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-gradient-to-r from-green-100 to-blue-100 rounded-lg text-green-600">
+              <div className="p-2 bg-gradient-to-r from-blue-100 to-green-100 rounded-lg text-blue-600">
                 {scheme.icon}
               </div>
               <div>
@@ -115,9 +130,6 @@ export function SubsidyCard({
                 </Badge>
               </div>
             </div>
-            <Badge variant="outline" className={getCategoryColor(scheme.category)}>
-              {scheme.category}
-            </Badge>
           </div>
 
           <CardTitle className="text-lg line-clamp-2">
@@ -127,23 +139,29 @@ export function SubsidyCard({
           <p className="text-gray-600 text-sm line-clamp-3">
             {t(scheme.descriptionKey) || scheme.description}
           </p>
+
+          {/* Department Info */}
+          <div className="flex items-center gap-1 text-xs text-gray-500 mt-2">
+            <Building className="h-3 w-3" />
+            {scheme.stateDepartment}
+          </div>
         </CardHeader>
 
         <CardContent className="space-y-4">
           {/* Key Metrics */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="text-center p-3 bg-green-50 rounded-lg">
+            <div className="text-center p-3 bg-blue-50 rounded-lg">
               <div className="flex items-center justify-center gap-1 mb-1">
-                <Percent className="h-4 w-4 text-green-600" />
-                <span className="text-2xl font-bold text-green-600">{scheme.subsidyPercentage}%</span>
+                <Percent className="h-4 w-4 text-blue-600" />
+                <span className="text-2xl font-bold text-blue-600">{scheme.subsidyPercentage}%</span>
               </div>
               <span className="text-xs text-gray-600">Subsidy Rate</span>
             </div>
             
-            <div className="text-center p-3 bg-blue-50 rounded-lg">
+            <div className="text-center p-3 bg-green-50 rounded-lg">
               <div className="flex items-center justify-center gap-1 mb-1">
-                <IndianRupee className="h-4 w-4 text-blue-600" />
-                <span className="text-lg font-bold text-blue-600">
+                <IndianRupee className="h-4 w-4 text-green-600" />
+                <span className="text-lg font-bold text-green-600">
                   {(scheme.maxAmount / 100000).toFixed(1)}L
                 </span>
               </div>
@@ -172,10 +190,10 @@ export function SubsidyCard({
 
           {/* Calculated Amount */}
           {calculatedAmount && (
-            <div className="p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border border-green-200">
+            <div className="p-3 bg-gradient-to-r from-blue-50 to-green-50 rounded-lg border border-blue-200">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-700">Your Potential Subsidy:</span>
-                <span className="text-lg font-bold text-green-600">₹{calculatedAmount.toLocaleString()}</span>
+                <span className="text-sm font-medium text-gray-700">Your Potential Benefit:</span>
+                <span className="text-lg font-bold text-blue-600">₹{calculatedAmount.toLocaleString()}</span>
               </div>
             </div>
           )}
@@ -202,16 +220,16 @@ export function SubsidyCard({
                   className="overflow-hidden"
                 >
                   <div className="pt-3 space-y-3 border-t">
-                    {/* Eligibility */}
+                    {/* State-Specific Eligibility */}
                     <div>
                       <h5 className="font-medium text-sm mb-2 flex items-center gap-1">
-                        <Users className="h-3 w-3" />
-                        Eligibility:
+                        <MapPin className="h-3 w-3" />
+                        State-Specific Requirements:
                       </h5>
                       <div className="space-y-1">
-                        {scheme.eligibility.slice(0, 3).map((req, idx) => (
+                        {scheme.stateSpecificEligibility.slice(0, 3).map((req, idx) => (
                           <div key={idx} className="text-xs text-gray-600 flex items-center gap-1">
-                            <CheckCircle className="h-3 w-3 text-green-500" />
+                            <CheckCircle className="h-3 w-3 text-blue-500" />
                             {req}
                           </div>
                         ))}
@@ -255,15 +273,15 @@ export function SubsidyCard({
 
           {/* Action Buttons */}
           <div className="flex gap-2 pt-2">
-            <Button
-              size="sm"
+            <Button 
+              size="sm" 
               className="flex-1"
               onClick={() => onViewDetails(scheme)}
             >
               View Details
             </Button>
-            <Button
-              size="sm"
+            <Button 
+              size="sm" 
               variant="outline"
               onClick={() => onAddToComparison(scheme)}
               disabled={isInComparison}
@@ -274,22 +292,20 @@ export function SubsidyCard({
           </div>
 
           {/* Official Apply Button */}
-          {scheme.officialApplicationUrl && (
-            <div className="pt-2 border-t">
-              <Button
-                onClick={handleApplyNow}
-                className="w-full bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700"
-                size="sm"
-              >
-                <ExternalLink className="h-4 w-4 mr-2" />
-                {t("apply-on-official-portal") || "Apply on Official Portal"}
-              </Button>
-              <div className="flex items-center gap-1 mt-1 text-xs text-gray-500 justify-center">
-                <AlertCircle className="h-3 w-3" />
-                {t("redirects-to-government-portal") || "Redirects to Government Portal"}
-              </div>
+          <div className="pt-2 border-t">
+            <Button 
+              onClick={handleApplyNow}
+              className="w-full bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700"
+              size="sm"
+            >
+              <ExternalLink className="h-4 w-4 mr-2" />
+              Apply on Official Portal
+            </Button>
+            <div className="flex items-center gap-1 mt-1 text-xs text-gray-500 justify-center">
+              <AlertCircle className="h-3 w-3" />
+              Redirects to {scheme.stateName} Government Portal
             </div>
-          )}
+          </div>
         </CardContent>
       </Card>
     </motion.div>

@@ -399,6 +399,87 @@ export const translations: Record<string, Record<string, string>> = {
     "group-certificate": "Group Formation Certificate",
     "organic-plan": "Organic Plan",
 
+    // State Schemes Section
+    "state-specific-schemes": "State-Specific Agricultural Schemes",
+    "state-schemes-description": "Explore agricultural subsidies and schemes specific to your state",
+    "search-state-schemes": "Search state schemes...",
+    "state-schemes-coming-soon": "Agricultural Schemes Coming Soon",
+    "expected-launch": "Expected Launch",
+    "what-to-expect": "What to Expect",
+    "development-timeline": "Development Timeline",
+    "get-notified": "Get Notified",
+    "notification-description": "Be the first to know when agricultural schemes for your state become available. We'll send you an email notification as soon as they're launched.",
+    "email-address": "Email Address",
+    "enter-email": "Enter your email address",
+    "subscribing": "Subscribing...",
+    "notify-me": "Notify Me",
+    "subscription-confirmed": "Subscription Confirmed!",
+    "notification-success": "We'll notify you as soon as schemes for your state are available.",
+    "join-community": "Join Our Community",
+    "community-description": "Connect with other farmers and stay updated on the latest agricultural schemes and subsidies.",
+    "coming-soon-footer": "We're working closely with state governments to bring you the most comprehensive and up-to-date information on agricultural schemes.",
+
+    // Telangana Schemes
+    "rythu-bandhu-scheme": "Rythu Bandhu Scheme",
+    "rythu-bandhu-desc": "Investment support scheme providing ₹10,000 per acre per season to farmers for agricultural inputs",
+    "rythu-bima-scheme": "Rythu Bima Scheme",
+    "rythu-bima-desc": "Life insurance scheme providing ₹5 lakh coverage to farmers aged 18-59 years",
+    "mission-kakatiya": "Mission Kakatiya",
+    "mission-kakatiya-desc": "Tank restoration and irrigation infrastructure development with subsidies up to ₹2 lakh per tank",
+    "ts-ipass-agriculture": "TS-iPASS Agriculture",
+    "ts-ipass-agriculture-desc": "Industrial agriculture subsidies and single-window clearance for agri-business ventures",
+    "kaleshwaram-irrigation-subsidy": "Kaleshwaram Irrigation Subsidy",
+    "kaleshwaram-irrigation-desc": "Water supply subsidies and irrigation infrastructure support under Kaleshwaram project",
+
+    // State-specific eligibility
+    "telangana-resident": "Telangana resident",
+    "agricultural-land-telangana": "Agricultural land in Telangana",
+    "valid-land-records": "Valid land records",
+    "age-18-59": "Age 18-59 years",
+    "farmer-telangana": "Farmer in Telangana",
+    "telangana-farmer": "Telangana farmer",
+    "age-18-59-years": "Age between 18-59 years",
+    "active-farming": "Active farming",
+    "tank-committee-member": "Tank committee member",
+    "community-participation": "Community participation",
+    "tank-in-telangana": "Tank in Telangana",
+    "community-consensus": "Community consensus",
+    "environmental-clearance": "Environmental clearance",
+    "agri-business-venture": "Agri-business venture",
+    "investment-above-1lakh": "Investment above ₹1 lakh",
+    "employment-generation": "Employment generation",
+    "telangana-based-venture": "Telangana-based venture",
+    "minimum-investment-criteria": "Minimum investment criteria",
+    "job-creation-plan": "Job creation plan",
+    "command-area-farmer": "Command area farmer",
+    "water-user-association": "Water user association member",
+    "crop-cultivation-plan": "Crop cultivation plan",
+    "kaleshwaram-command-area": "Kaleshwaram command area",
+    "water-user-association-member": "Water user association member",
+
+    // Additional documents
+    "patta-title-deed": "Patta/Title deed",
+    "patta-document": "Patta Document",
+    "survey-settlement": "Survey Settlement",
+    "age-proof": "Age Proof",
+    "farmer-certificate": "Farmer Certificate",
+    "nominee-details": "Nominee Details",
+    "tank-survey-report": "Tank Survey Report",
+    "community-resolution": "Community Resolution",
+    "project-report": "Project Report",
+    "investment-proof": "Investment Proof",
+    "registration-certificate": "Registration Certificate",
+    "employment-plan": "Employment Plan",
+    "wua-membership": "WUA Membership",
+    "crop-plan": "Crop Plan",
+    "water-connection-request": "Water Connection Request",
+
+    // Official Application Integration
+    "apply-on-official-portal": "Apply on Official Portal",
+    "redirects-to-government-portal": "Redirects to Government Portal",
+    "official-application-available": "Official application available",
+    "visit-official-website": "Visit Official Website",
+
     // Labor Management Page
     "agricultural-labor-management": "Agricultural Labor Management",
     "labor-description": "Connect with skilled agricultural workers and teams. Find the right talent for your farming needs or post job opportunities.",
@@ -1274,6 +1355,32 @@ export const translations: Record<string, Record<string, string>> = {
     "add-subsidies-comparison": "तुलना शुरू करने के लिए मुख्य सूची से सब्सिडी जोड़ें",
     "detailed-comparison": "विस्तृत तुलना",
     "calculator-description": "अपनी कृषि परियोजना के लिए संभावित सब्सिडी की गणना करें",
+
+    // State Schemes Section
+    "state-specific-schemes": "राज्य-विशिष्ट कृषि योजनाएं",
+    "state-schemes-description": "अपने राज्य के लिए विशिष्ट कृषि सब्सिडी और योजनाओं का अन्वेषण करें",
+    "search-state-schemes": "राज्य योजनाएं खोजें...",
+    "state-schemes-coming-soon": "कृषि योजनाएं जल्द आ रही हैं",
+    "expected-launch": "अपेक्षित लॉन्च",
+    "what-to-expect": "क्या अपेक्षा करें",
+    "development-timeline": "विकास समयसीमा",
+    "get-notified": "सूचना प्राप्त करें",
+    "notification-description": "जब आपके राज्य के लिए कृषि योजनाएं उपलब्ध हों तो सबसे पहले जानें। जैसे ही वे लॉन्च होंगी हम आपको ईमेल सूचना भेजेंगे।",
+    "email-address": "ईमेल पता",
+    "enter-email": "अपना ईमेल पता दर्ज करें",
+    "subscribing": "सदस्यता ली जा रही है...",
+    "notify-me": "मुझे सूचित करें",
+    "subscription-confirmed": "सदस्यता की पुष्टि हो गई!",
+    "notification-success": "जैसे ही आपके राज्य के लिए योजनाएं उपलब्ध होंगी हम आपको सूचित करेंगे।",
+    "join-community": "हमारे समुदाय में शामिल हों",
+    "community-description": "अन्य किसानों से जुड़ें और नवीनतम कृषि योजनाओं और सब्सिडी पर अपडेट रहें।",
+    "coming-soon-footer": "हम राज्य सरकारों के साथ मिलकर आपको कृषि योजनाओं की सबसे व्यापक और अद्यतन जानकारी प्रदान करने के लिए काम कर रहे हैं।",
+
+    // Official Application Integration
+    "apply-on-official-portal": "आधिकारिक पोर्टल पर आवेदन करें",
+    "redirects-to-government-portal": "सरकारी पोर्टल पर रीडायरेक्ट करता है",
+    "official-application-available": "आधिकारिक आवेदन उपलब्ध है",
+    "visit-official-website": "आधिकारिक वेबसाइट पर जाएं",
 
     // Labor Management Page
     "agricultural-labor-management": "कृषि श्रम प्रबंधन",
@@ -3038,7 +3145,24 @@ export const translations: Record<string, Record<string, string>> = {
     "organic-farming-desc": "ధృవీకరణ మార్గదర్శకత్వం మరియు ప్రీమియం మార్కెట్ యాక్సెస్‌తో స్థిరమైన సేంద్రీయ వ్యవసాయ పద్ధతులు",
     "crop-farming": "పంట వ్యవసాయం",
     "crop-farming-desc": "మట్టి నిర్వహణ మరియు పంట అనుకూలీకరణతో సాంప్రదాయ మరియు ఆధునిక పంట సాగు పద్ధతులు",
-    "learn-more": "మరింత తెలుసుకోండి"
+    "learn-more": "మరింత తెలుసుకోండి",
+
+    // State Schemes - Telugu specific
+    "state-specific-schemes": "రాష్ట్ర-నిర్దిష్ట వ్యవసాయ పథకాలు",
+    "state-schemes-description": "మీ రాష్ట్రానికి ప్రత్యేకమైన వ్యవసాయ సబ్సిడీలు మరియు పథకాలను అన్వేషించండి",
+    "search-state-schemes": "రాష్ట్ర పథకాలను వెతకండి...",
+
+    // Telangana Schemes in Telugu
+    "rythu-bandhu-scheme": "రైతు బంధు పథకం",
+    "rythu-bandhu-desc": "వ్యవసాయ ఇన్‌పుట్‌ల కోసం రైతులకు ఎకరానికి సీజన్‌కు ₹10,000 పెట్టుబడి మద్దతు పథకం",
+    "rythu-bima-scheme": "రైతు బీమా పథకం",
+    "rythu-bima-desc": "18-59 సంవత్సరాల వయస్సు గల రైతులకు ₹5 లక్షల కవరేజ్ జీవిత బీమా పథకం",
+    "mission-kakatiya": "మిషన్ కాకతీయ",
+    "mission-kakatiya-desc": "ట్యాంక్ పునరుద్ధరణ మరియు నీటిపారుదల మౌలిక సదుపాయాల అభివృద్ధి ట్యాంక్‌కు ₹2 లక్షల వరకు సబ్సిడీలతో",
+    "ts-ipass-agriculture": "టీఎస్-ఐపాస్ వ్యవసాయం",
+    "ts-ipass-agriculture-desc": "వ్యవసాయ వ్యాపార వెంచర్లకు పారిశ్రామిక వ్యవసాయ సబ్సిడీలు మరియు సింగిల్ విండో క్లియరెన్స్",
+    "kaleshwaram-irrigation-subsidy": "కాళేశ్వరం నీటిపారుదల సబ్సిడీ",
+    "kaleshwaram-irrigation-desc": "కాళేశ్వరం ప్రాజెక్ట్ కింద నీటి సరఫరా సబ్సిడీలు మరియు నీటిపారుదల మౌలిక సదుపాయాల మద్దతు"
   }
 };
 

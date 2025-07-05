@@ -11,7 +11,7 @@ const Loans = React.lazy(() => import("./pages/Loans"));
 const Market = React.lazy(() => import("./pages/Market"));
 const ProductCategory = React.lazy(() => import("./pages/ProductCategory"));
 const ProductDetail = React.lazy(() => import("./pages/ProductDetail"));
-const Checkout = React.lazy(() => import("./pages/Checkout"));
+const Checkout = React.lazy(() => import("./pages/CheckoutSimple"));
 const Labour = React.lazy(() => import("./pages/Labour"));
 const Machinery = React.lazy(() => import("./pages/Machinery"));
 const Export = React.lazy(() => import("./pages/Export"));

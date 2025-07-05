@@ -54,10 +54,11 @@ interface SubsidyScheme {
     email: string;
     website: string;
   };
+  officialApplicationUrl?: string;
 }
 
 interface SubsidyDetailModalProps {
-  scheme: SubsidyScheme | null;
+  scheme: any | null;
   isOpen: boolean;
   onClose: () => void;
   projectAmount?: number;
@@ -76,6 +77,12 @@ export function SubsidyDetailModal({ scheme, isOpen, onClose, projectAmount = 10
 
   const subsidyAmount = calculateSubsidyAmount(projectAmount);
   const netAmount = projectAmount - subsidyAmount + scheme.applicationFee;
+
+  const handleApplyNow = () => {
+    if (scheme.officialApplicationUrl) {
+      window.open(scheme.officialApplicationUrl, '_blank', 'noopener,noreferrer');
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -351,9 +358,19 @@ export function SubsidyDetailModal({ scheme, isOpen, onClose, projectAmount = 10
                 <Button variant="outline" onClick={onClose}>
                   Close
                 </Button>
-                <Button>
-                  Apply Now
-                </Button>
+                {scheme.officialApplicationUrl ? (
+                  <Button
+                    onClick={handleApplyNow}
+                    className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700"
+                  >
+                    <ExternalLink className="h-4 w-4 mr-2" />
+                    {t("apply-on-official-portal") || "Apply on Official Portal"}
+                  </Button>
+                ) : (
+                  <Button disabled>
+                    Apply Now
+                  </Button>
+                )}
               </div>
             </div>
           </motion.div>
