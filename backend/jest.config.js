@@ -27,6 +27,6 @@ module.exports = {
   verbose: true,
   clearMocks: true,
   restoreMocks: true,
-  globalSetup: '<rootDir>/src/__tests__/globalSetup.js',
-  globalTeardown: '<rootDir>/src/__tests__/globalTeardown.js'
+  // globalSetup: '<rootDir>/src/__tests__/globalSetup.js',
+  // globalTeardown: '<rootDir>/src/__tests__/globalTeardown.js'
 };

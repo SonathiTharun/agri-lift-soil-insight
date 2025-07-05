@@ -1,8 +1,9 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import SellProduce from '../../pages/dairy-lift/SellProduce';
-import { AuthContext } from '../../contexts/AuthContext';
+import AuthContext from '../../contexts/AuthContext';
 import { dairyMarketplaceService } from '../../services/dairyMarketplaceService';
 
 // Mock the service
@@ -123,21 +124,21 @@ describe('SellProduce Component', () => {
     renderWithProviders(<SellProduce />);
 
     expect(screen.getByText('Sell Your Produce')).toBeInTheDocument();
-    expect(screen.getByText('Register Milk')).toBeInTheDocument();
-    expect(screen.getByText('Find Buyers')).toBeInTheDocument();
-    expect(screen.getByText('Export Gateway')).toBeInTheDocument();
-    expect(screen.getByText('Logistics')).toBeInTheDocument();
-    expect(screen.getByText('Payments')).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: /register milk/i })).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: /find buyers/i })).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: /export gateway/i })).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: /logistics/i })).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: /payments/i })).toBeInTheDocument();
   });
 
   it('shows milk registration form when button is clicked', async () => {
     renderWithProviders(<SellProduce />);
 
-    const registerButton = screen.getByText('Register Your Milk Production');
+    const registerButton = screen.getByRole('button', { name: /register your milk production/i });
     fireEvent.click(registerButton);
 
     await waitFor(() => {
-      expect(screen.getByText('Register Your Milk Production')).toBeInTheDocument();
+      expect(screen.getByRole('dialog')).toBeInTheDocument();
       expect(screen.getByLabelText('Daily Volume (Liters)')).toBeInTheDocument();
       expect(screen.getByLabelText('Fat Content (%)')).toBeInTheDocument();
       expect(screen.getByLabelText('SNF Content (%)')).toBeInTheDocument();
@@ -180,7 +181,7 @@ describe('SellProduce Component', () => {
 
     renderWithProviders(<SellProduce />);
 
-    const registerButton = screen.getByText('Register Your Milk Production');
+    const registerButton = screen.getByRole('button', { name: /register your milk production/i });
     fireEvent.click(registerButton);
 
     await waitFor(() => {
@@ -193,7 +194,7 @@ describe('SellProduce Component', () => {
       fireEvent.change(snfInput, { target: { value: '8.5' } });
     });
 
-    const submitButton = screen.getByText('Register Milk Production');
+    const submitButton = screen.getByRole('button', { name: /register milk production/i });
     fireEvent.click(submitButton);
 
     await waitFor(() => {
@@ -214,19 +215,31 @@ describe('SellProduce Component', () => {
   });
 
   it('handles registration errors', async () => {
+    const user = userEvent.setup();
     mockDairyMarketplaceService.registerMilkProduction.mockRejectedValue(
       new Error('Validation failed')
     );
 
     renderWithProviders(<SellProduce />);
 
-    const registerButton = screen.getByText('Register Your Milk Production');
-    fireEvent.click(registerButton);
+    const registerButton = screen.getByRole('button', { name: /register your milk production/i });
+    await user.click(registerButton);
 
+    // Fill out the required form fields
     await waitFor(() => {
-      const submitButton = screen.getByText('Register Milk Production');
-      fireEvent.click(submitButton);
+      expect(screen.getByLabelText(/daily volume/i)).toBeInTheDocument();
     });
+
+    await user.type(screen.getByLabelText(/daily volume/i), '100');
+    await user.type(screen.getByLabelText(/fat content/i), '3.5');
+    await user.type(screen.getByLabelText(/snf content/i), '8.5');
+    await user.type(screen.getByLabelText(/farmer name/i), 'Test Farmer');
+    await user.type(screen.getByLabelText(/contact number/i), '+91 9876543210');
+    await user.type(screen.getByLabelText(/farm location/i), 'Test Village, Test District');
+    await user.type(screen.getByLabelText(/farm address/i), 'Test Address');
+
+    const submitButton = screen.getByRole('button', { name: /register milk production/i });
+    await user.click(submitButton);
 
     await waitFor(() => {
       expect(mockToast).toHaveBeenCalledWith(
@@ -239,10 +252,11 @@ describe('SellProduce Component', () => {
   });
 
   it('loads and displays buyers when switching to buyers tab', async () => {
+    const user = userEvent.setup();
     renderWithProviders(<SellProduce />);
 
-    const buyersTab = screen.getByText('Find Buyers');
-    fireEvent.click(buyersTab);
+    const buyersTab = screen.getByRole('tab', { name: /find buyers/i });
+    await user.click(buyersTab);
 
     await waitFor(() => {
       expect(mockDairyMarketplaceService.getBuyers).toHaveBeenCalled();
@@ -253,10 +267,11 @@ describe('SellProduce Component', () => {
   });
 
   it('filters buyers by search term', async () => {
+    const user = userEvent.setup();
     renderWithProviders(<SellProduce />);
 
-    const buyersTab = screen.getByText('Find Buyers');
-    fireEvent.click(buyersTab);
+    const buyersTab = screen.getByRole('tab', { name: /find buyers/i });
+    await user.click(buyersTab);
 
     await waitFor(() => {
       const searchInput = screen.getByPlaceholderText('Search buyers by name or location...');
@@ -268,10 +283,11 @@ describe('SellProduce Component', () => {
   });
 
   it('loads export opportunities when switching to export tab', async () => {
+    const user = userEvent.setup();
     renderWithProviders(<SellProduce />);
 
-    const exportTab = screen.getByText('Export Gateway');
-    fireEvent.click(exportTab);
+    const exportTab = screen.getByRole('tab', { name: /export gateway/i });
+    await user.click(exportTab);
 
     await waitFor(() => {
       expect(mockDairyMarketplaceService.getExportOpportunities).toHaveBeenCalled();
@@ -281,10 +297,11 @@ describe('SellProduce Component', () => {
   });
 
   it('loads logistics providers when switching to logistics tab', async () => {
+    const user = userEvent.setup();
     renderWithProviders(<SellProduce />);
 
-    const logisticsTab = screen.getByText('Logistics');
-    fireEvent.click(logisticsTab);
+    const logisticsTab = screen.getByRole('tab', { name: /logistics/i });
+    await user.click(logisticsTab);
 
     await waitFor(() => {
       expect(mockDairyMarketplaceService.getLogisticsProviders).toHaveBeenCalled();
@@ -308,11 +325,11 @@ describe('SellProduce Component', () => {
       </BrowserRouter>
     );
 
-    const registerButton = screen.getByText('Register Your Milk Production');
+    const registerButton = screen.getByRole('button', { name: /register your milk production/i });
     fireEvent.click(registerButton);
 
     // Should show the form but submission should fail with auth error
-    expect(screen.getByText('Register Your Milk Production')).toBeInTheDocument();
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
 
   it('displays loading states correctly', async () => {
@@ -324,13 +341,16 @@ describe('SellProduce Component', () => {
       }), 100))
     );
 
+    const user = userEvent.setup();
     renderWithProviders(<SellProduce />);
 
-    const buyersTab = screen.getByText('Find Buyers');
-    fireEvent.click(buyersTab);
+    const buyersTab = screen.getByRole('tab', { name: /find buyers/i });
+    await user.click(buyersTab);
 
     // Should show loading state
-    expect(screen.getByText('Loading buyers...')).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText('Loading buyers...')).toBeInTheDocument();
+    });
 
     await waitFor(() => {
       expect(screen.queryByText('Loading buyers...')).not.toBeInTheDocument();

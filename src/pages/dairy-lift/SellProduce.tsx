@@ -49,8 +49,8 @@ const SellProduce = () => {
   const [showBuyerDetails, setShowBuyerDetails] = useState(false);
   const [selectedBuyer, setSelectedBuyer] = useState<Buyer | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [locationFilter, setLocationFilter] = useState("");
-  const [typeFilter, setTypeFilter] = useState("");
+  const [locationFilter, setLocationFilter] = useState("all");
+  const [typeFilter, setTypeFilter] = useState("all");
 
   // Loading states
   const [loading, setLoading] = useState(false);
@@ -117,8 +117,8 @@ const SellProduce = () => {
     try {
       setBuyersLoading(true);
       const response = await dairyMarketplaceService.getBuyers({
-        location: locationFilter || undefined,
-        type: typeFilter || undefined,
+        location: locationFilter === "all" ? undefined : locationFilter,
+        type: typeFilter === "all" ? undefined : typeFilter,
         page: pagination.page,
         limit: pagination.limit
       });
@@ -405,7 +405,7 @@ const SellProduce = () => {
                       <SelectValue placeholder="Filter by location" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">All Locations</SelectItem>
+                      <SelectItem value="all">All Locations</SelectItem>
                       <SelectItem value="Hyderabad">Hyderabad</SelectItem>
                       <SelectItem value="Vijayawada">Vijayawada</SelectItem>
                       <SelectItem value="Warangal">Warangal</SelectItem>
@@ -417,7 +417,7 @@ const SellProduce = () => {
                       <SelectValue placeholder="Filter by type" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="">All Types</SelectItem>
+                      <SelectItem value="all">All Types</SelectItem>
                       <SelectItem value="Large Processor">Large Processor</SelectItem>
                       <SelectItem value="Cooperative">Cooperative</SelectItem>
                       <SelectItem value="Local Dairy">Local Dairy</SelectItem>
@@ -818,8 +818,9 @@ const SellProduce = () => {
           <form onSubmit={handleMilkFormSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-2">Daily Volume (Liters)</label>
+                <label htmlFor="dailyVolume" className="block text-sm font-medium mb-2">Daily Volume (Liters)</label>
                 <Input
+                  id="dailyVolume"
                   type="number"
                   placeholder="e.g., 100"
                   value={milkForm.dailyVolume || ""}
@@ -828,8 +829,9 @@ const SellProduce = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Fat Content (%)</label>
+                <label htmlFor="fatContent" className="block text-sm font-medium mb-2">Fat Content (%)</label>
                 <Input
+                  id="fatContent"
                   type="number"
                   step="0.1"
                   placeholder="e.g., 3.5"
@@ -839,8 +841,9 @@ const SellProduce = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">SNF Content (%)</label>
+                <label htmlFor="snfContent" className="block text-sm font-medium mb-2">SNF Content (%)</label>
                 <Input
+                  id="snfContent"
                   type="number"
                   step="0.1"
                   placeholder="e.g., 8.5"
@@ -850,9 +853,9 @@ const SellProduce = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Collection Time</label>
+                <label htmlFor="collectionTime" className="block text-sm font-medium mb-2">Collection Time</label>
                 <Select value={milkForm.collectionTime} onValueChange={(value: "morning" | "evening" | "both") => setMilkForm({...milkForm, collectionTime: value})}>
-                  <SelectTrigger>
+                  <SelectTrigger id="collectionTime">
                     <SelectValue placeholder="Select time" />
                   </SelectTrigger>
                   <SelectContent>
@@ -863,8 +866,9 @@ const SellProduce = () => {
                 </Select>
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Farmer Name</label>
+                <label htmlFor="farmerName" className="block text-sm font-medium mb-2">Farmer Name</label>
                 <Input
+                  id="farmerName"
                   placeholder="Your full name"
                   value={milkForm.farmerName}
                   onChange={(e) => setMilkForm({...milkForm, farmerName: e.target.value})}
@@ -872,8 +876,9 @@ const SellProduce = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium mb-2">Contact Number</label>
+                <label htmlFor="contactNumber" className="block text-sm font-medium mb-2">Contact Number</label>
                 <Input
+                  id="contactNumber"
                   type="tel"
                   placeholder="+91 9876543210"
                   value={milkForm.contactNumber}
@@ -883,8 +888,9 @@ const SellProduce = () => {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2">Farm Location</label>
+              <label htmlFor="farmLocation" className="block text-sm font-medium mb-2">Farm Location</label>
               <Input
+                id="farmLocation"
                 placeholder="Village, District, State"
                 value={milkForm.location}
                 onChange={(e) => setMilkForm({...milkForm, location: e.target.value})}
@@ -892,8 +898,9 @@ const SellProduce = () => {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium mb-2">Farm Address</label>
+              <label htmlFor="farmAddress" className="block text-sm font-medium mb-2">Farm Address</label>
               <Textarea
+                id="farmAddress"
                 placeholder="Complete address with landmarks"
                 value={milkForm.farmAddress}
                 onChange={(e) => setMilkForm({...milkForm, farmAddress: e.target.value})}
