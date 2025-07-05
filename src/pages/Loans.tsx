@@ -14,6 +14,11 @@ import { LoanApplicationWizard } from "@/components/loans/LoanApplicationWizard"
 import { LoanFAQ } from "@/components/loans/LoanFAQ";
 import { FloatingActionButton } from "@/components/loans/FloatingActionButton";
 import { EligibilityChecker } from "@/components/loans/EligibilityChecker";
+import { SubsidyCard } from "@/components/loans/SubsidyCard";
+import { SubsidyCalculator } from "@/components/loans/SubsidyCalculator";
+import { SubsidyComparison } from "@/components/loans/SubsidyComparison";
+import { SubsidyDetailModal } from "@/components/loans/SubsidyDetailModal";
+import { SubsidyTracker } from "@/components/loans/SubsidyTracker";
 import {
   Calculator,
   TrendingUp,
@@ -32,7 +37,19 @@ import {
   Award,
   Zap,
   HelpCircle,
-  UserCheck
+  UserCheck,
+  Gift,
+  Search,
+  Filter,
+  Calendar,
+  MapPin,
+  IndianRupee,
+  Percent,
+  Building,
+  Tractor,
+  Wheat,
+  Home,
+  Umbrella
 } from "lucide-react";
 
 type Bank = {
@@ -74,6 +91,35 @@ type SuccessStory = {
   story: string;
   image: string;
   rating: number;
+};
+
+type SubsidyScheme = {
+  id: string;
+  name: string;
+  nameKey: string;
+  description: string;
+  descriptionKey: string;
+  category: "Equipment" | "Land Development" | "Crop Insurance" | "Working Capital" | "Infrastructure" | "Technology";
+  subsidyPercentage: number;
+  maxAmount: number;
+  minAmount: number;
+  eligibility: string[];
+  eligibilityKeys: string[];
+  documents: string[];
+  documentKeys: string[];
+  applicationDeadline: string;
+  processingTime: string;
+  governmentScheme: string;
+  targetBeneficiaries: string[];
+  applicationFee: number;
+  icon: React.ReactNode;
+  status: "Active" | "Upcoming" | "Expired";
+  location: string[];
+  contactInfo: {
+    phone: string;
+    email: string;
+    website: string;
+  };
 };
 
 const loanCategories: LoanCategory[] = [
@@ -157,6 +203,149 @@ const successStories: SuccessStory[] = [
     story: "Secured financing for additional farmland that doubled my corn production capacity.",
     image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
     rating: 4
+  }
+];
+
+const subsidySchemes: SubsidyScheme[] = [
+  {
+    id: "pmkisan-equipment",
+    name: "PM-KISAN Equipment Subsidy",
+    nameKey: "pmkisan-equipment-subsidy",
+    description: "Government subsidy for purchasing agricultural equipment and machinery",
+    descriptionKey: "pmkisan-equipment-desc",
+    category: "Equipment",
+    subsidyPercentage: 50,
+    maxAmount: 500000,
+    minAmount: 25000,
+    eligibility: ["Small & Marginal Farmers", "Valid Aadhaar Card", "Land ownership documents"],
+    eligibilityKeys: ["small-marginal-farmers", "valid-aadhaar", "land-ownership-docs"],
+    documents: ["Aadhaar Card", "Land Records", "Bank Account Details", "Quotation"],
+    documentKeys: ["aadhaar-card", "land-records", "bank-details", "quotation"],
+    applicationDeadline: "31st March 2024",
+    processingTime: "15-30 days",
+    governmentScheme: "PM-KISAN",
+    targetBeneficiaries: ["Small Farmers", "Marginal Farmers"],
+    applicationFee: 0,
+    icon: <Tractor className="h-6 w-6" />,
+    status: "Active",
+    location: ["All India"],
+    contactInfo: {
+      phone: "1800-115-526",
+      email: "pmkisan@gov.in",
+      website: "https://pmkisan.gov.in"
+    }
+  },
+  {
+    id: "crop-insurance-subsidy",
+    name: "Pradhan Mantri Fasal Bima Yojana",
+    nameKey: "pmfby-crop-insurance",
+    description: "Crop insurance subsidy to protect farmers against crop losses",
+    descriptionKey: "pmfby-desc",
+    category: "Crop Insurance",
+    subsidyPercentage: 95,
+    maxAmount: 200000,
+    minAmount: 5000,
+    eligibility: ["All Farmers", "Crop cultivation proof", "Bank account"],
+    eligibilityKeys: ["all-farmers", "crop-cultivation-proof", "bank-account"],
+    documents: ["Aadhaar Card", "Land Records", "Sowing Certificate", "Bank Passbook"],
+    documentKeys: ["aadhaar-card", "land-records", "sowing-certificate", "bank-passbook"],
+    applicationDeadline: "Before sowing season",
+    processingTime: "7-15 days",
+    governmentScheme: "PMFBY",
+    targetBeneficiaries: ["All Farmers"],
+    applicationFee: 100,
+    icon: <Umbrella className="h-6 w-6" />,
+    status: "Active",
+    location: ["All India"],
+    contactInfo: {
+      phone: "1800-180-1551",
+      email: "pmfby@gov.in",
+      website: "https://pmfby.gov.in"
+    }
+  },
+  {
+    id: "land-development-subsidy",
+    name: "Soil Health Management Subsidy",
+    nameKey: "soil-health-subsidy",
+    description: "Financial assistance for soil testing, organic farming, and land development",
+    descriptionKey: "soil-health-desc",
+    category: "Land Development",
+    subsidyPercentage: 75,
+    maxAmount: 300000,
+    minAmount: 15000,
+    eligibility: ["Landowner farmers", "Soil health card", "Organic farming certificate"],
+    eligibilityKeys: ["landowner-farmers", "soil-health-card", "organic-certificate"],
+    documents: ["Land Title", "Soil Health Card", "Project Proposal", "Bank Details"],
+    documentKeys: ["land-title", "soil-health-card", "project-proposal", "bank-details"],
+    applicationDeadline: "30th June 2024",
+    processingTime: "20-45 days",
+    governmentScheme: "National Mission for Sustainable Agriculture",
+    targetBeneficiaries: ["Small Farmers", "Medium Farmers"],
+    applicationFee: 250,
+    icon: <Home className="h-6 w-6" />,
+    status: "Active",
+    location: ["All India"],
+    contactInfo: {
+      phone: "1800-180-1551",
+      email: "nmsa@gov.in",
+      website: "https://nmsa.dac.gov.in"
+    }
+  },
+  {
+    id: "drip-irrigation-subsidy",
+    name: "Micro Irrigation Subsidy Scheme",
+    nameKey: "micro-irrigation-subsidy",
+    description: "Subsidy for drip irrigation, sprinkler systems, and water conservation",
+    descriptionKey: "micro-irrigation-desc",
+    category: "Infrastructure",
+    subsidyPercentage: 55,
+    maxAmount: 400000,
+    minAmount: 30000,
+    eligibility: ["Water source availability", "Minimum 0.5 hectare land", "Technical feasibility"],
+    eligibilityKeys: ["water-source", "minimum-land", "technical-feasibility"],
+    documents: ["Water Source Certificate", "Land Records", "Technical Estimate", "Quotations"],
+    documentKeys: ["water-certificate", "land-records", "technical-estimate", "quotations"],
+    applicationDeadline: "31st December 2024",
+    processingTime: "30-60 days",
+    governmentScheme: "Per Drop More Crop",
+    targetBeneficiaries: ["All Farmers"],
+    applicationFee: 500,
+    icon: <Building className="h-6 w-6" />,
+    status: "Active",
+    location: ["All India"],
+    contactInfo: {
+      phone: "1800-180-1551",
+      email: "pdmc@gov.in",
+      website: "https://pmksy.gov.in"
+    }
+  },
+  {
+    id: "organic-farming-subsidy",
+    name: "Paramparagat Krishi Vikas Yojana",
+    nameKey: "pkvy-organic-subsidy",
+    description: "Financial support for organic farming practices and certification",
+    descriptionKey: "pkvy-desc",
+    category: "Technology",
+    subsidyPercentage: 100,
+    maxAmount: 50000,
+    minAmount: 10000,
+    eligibility: ["Group of 50 farmers", "Cluster approach", "Organic farming commitment"],
+    eligibilityKeys: ["farmer-group", "cluster-approach", "organic-commitment"],
+    documents: ["Group Formation Certificate", "Land Records", "Organic Plan", "Bank Details"],
+    documentKeys: ["group-certificate", "land-records", "organic-plan", "bank-details"],
+    applicationDeadline: "Rolling basis",
+    processingTime: "45-90 days",
+    governmentScheme: "PKVY",
+    targetBeneficiaries: ["Farmer Groups"],
+    applicationFee: 0,
+    icon: <Wheat className="h-6 w-6" />,
+    status: "Active",
+    location: ["All India"],
+    contactInfo: {
+      phone: "1800-180-1551",
+      email: "pkvy@gov.in",
+      website: "https://pgsindia-ncof.gov.in"
+    }
   }
 ];
 
@@ -375,6 +564,15 @@ export default function Loans() {
   const [loanAmount, setLoanAmount] = useState(500000);
   const [loanTenure, setLoanTenure] = useState(5);
   const [interestRate, setInterestRate] = useState(8.5);
+
+  // Subsidy states
+  const [selectedSubsidyCategory, setSelectedSubsidyCategory] = useState("All");
+  const [subsidySearchTerm, setSubsidySearchTerm] = useState("");
+  const [subsidyCalculatorAmount, setSubsidyCalculatorAmount] = useState(100000);
+  const [selectedSubsidyScheme, setSelectedSubsidyScheme] = useState<SubsidyScheme | null>(null);
+  const [comparisonSubsidies, setComparisonSubsidies] = useState<SubsidyScheme[]>([]);
+  const [subsidyActiveTab, setSubsidyActiveTab] = useState("browse");
+
   const { t } = useLanguage();
 
   const banksForCountry = banks.filter((b) => b.country === country);
@@ -387,6 +585,31 @@ export default function Loans() {
 
   const removeFromComparison = (bankName: string) => {
     setComparisonBanks(comparisonBanks.filter(b => b.name !== bankName));
+  };
+
+  // Subsidy helper functions
+  const subsidyCategories = ["All", "Equipment", "Land Development", "Crop Insurance", "Working Capital", "Infrastructure", "Technology"];
+
+  const filteredSubsidies = subsidySchemes.filter(subsidy => {
+    const matchesCategory = selectedSubsidyCategory === "All" || subsidy.category === selectedSubsidyCategory;
+    const matchesSearch = subsidy.name.toLowerCase().includes(subsidySearchTerm.toLowerCase()) ||
+                         subsidy.description.toLowerCase().includes(subsidySearchTerm.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
+
+  const addToSubsidyComparison = (subsidy: SubsidyScheme) => {
+    if (comparisonSubsidies.length < 3 && !comparisonSubsidies.find(s => s.id === subsidy.id)) {
+      setComparisonSubsidies([...comparisonSubsidies, subsidy]);
+    }
+  };
+
+  const removeFromSubsidyComparison = (subsidyId: string) => {
+    setComparisonSubsidies(comparisonSubsidies.filter(s => s.id !== subsidyId));
+  };
+
+  const calculateSubsidyAmount = (scheme: SubsidyScheme, amount: number) => {
+    const subsidyAmount = Math.min((amount * scheme.subsidyPercentage) / 100, scheme.maxAmount);
+    return Math.max(subsidyAmount, scheme.minAmount);
   };
 
   const calculateEMI = (principal: number, rate: number, tenure: number) => {
@@ -498,7 +721,7 @@ export default function Loans() {
 
         {/* Main Content Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-6 mb-8">
+          <TabsList className="grid w-full grid-cols-7 mb-8">
             <TabsTrigger value="browse" className="flex items-center gap-2">
               <Banknote className="h-4 w-4" />
               {t("browse")}
@@ -506,6 +729,10 @@ export default function Loans() {
             <TabsTrigger value="calculator" className="flex items-center gap-2">
               <Calculator className="h-4 w-4" />
               {t("calculator")}
+            </TabsTrigger>
+            <TabsTrigger value="subsidies" className="flex items-center gap-2">
+              <Gift className="h-4 w-4" />
+              {t("subsidies")}
             </TabsTrigger>
             <TabsTrigger value="eligibility" className="flex items-center gap-2">
               <UserCheck className="h-4 w-4" />
@@ -578,6 +805,144 @@ export default function Loans() {
               setInterestRate={setInterestRate}
             />
           </TabsContent>
+
+          <TabsContent value="subsidies" className="space-y-8">
+            {/* Subsidies Header */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center"
+            >
+              <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+                {t("government-subsidies") || "Government Subsidies & Schemes"}
+              </h2>
+              <p className="text-gray-600 max-w-2xl mx-auto">
+                {t("subsidies-description") || "Explore various government subsidies and financial assistance programs available for farmers and agricultural businesses."}
+              </p>
+            </motion.div>
+
+            {/* Subsidies Nested Tabs */}
+            <Tabs value={subsidyActiveTab} onValueChange={setSubsidyActiveTab} className="w-full">
+              <TabsList className="grid w-full grid-cols-4 mb-6">
+                <TabsTrigger value="browse" className="flex items-center gap-2">
+                  <Search className="h-4 w-4" />
+                  Browse Schemes
+                </TabsTrigger>
+                <TabsTrigger value="calculator" className="flex items-center gap-2">
+                  <Calculator className="h-4 w-4" />
+                  Calculator
+                </TabsTrigger>
+                <TabsTrigger value="compare" className="flex items-center gap-2">
+                  <PieChart className="h-4 w-4" />
+                  Compare ({comparisonSubsidies.length})
+                </TabsTrigger>
+                <TabsTrigger value="track" className="flex items-center gap-2">
+                  <FileText className="h-4 w-4" />
+                  Track Applications
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="browse" className="space-y-6">
+                {/* Search and Filter Section */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  <GlassCard className="p-6">
+                <div className="flex flex-col md:flex-row gap-4">
+                  {/* Search Bar */}
+                  <div className="flex-1 relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <input
+                      type="text"
+                      placeholder={t("search-subsidies") || "Search subsidies..."}
+                      value={subsidySearchTerm}
+                      onChange={(e) => setSubsidySearchTerm(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    />
+                  </div>
+
+                  {/* Category Filter */}
+                  <div className="flex items-center gap-2">
+                    <Filter className="h-4 w-4 text-gray-500" />
+                    <select
+                      value={selectedSubsidyCategory}
+                      onChange={(e) => setSelectedSubsidyCategory(e.target.value)}
+                      className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                    >
+                      {subsidyCategories.map(category => (
+                        <option key={category} value={category}>
+                          {t(category.toLowerCase().replace(' ', '-')) || category}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                {/* Quick Stats */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-green-600">{filteredSubsidies.length}</div>
+                    <div className="text-sm text-gray-600">{t("available-schemes") || "Available Schemes"}</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-blue-600">₹50L+</div>
+                    <div className="text-sm text-gray-600">{t("max-subsidy") || "Max Subsidy"}</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-purple-600">95%</div>
+                    <div className="text-sm text-gray-600">{t("max-coverage") || "Max Coverage"}</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-orange-600">7 Days</div>
+                    <div className="text-sm text-gray-600">{t("min-processing") || "Min Processing"}</div>
+                  </div>
+                  </div>
+                </GlassCard>
+              </motion.div>
+
+              {/* Subsidies Grid */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+              >
+                {filteredSubsidies.map((scheme, index) => (
+                  <SubsidyCard
+                    key={scheme.id}
+                    scheme={scheme}
+                    onAddToComparison={addToSubsidyComparison}
+                    onViewDetails={setSelectedSubsidyScheme}
+                    isInComparison={comparisonSubsidies.some(s => s.id === scheme.id)}
+                    calculatedAmount={calculateSubsidyAmount(scheme, subsidyCalculatorAmount)}
+                  />
+                ))}
+              </motion.div>
+            </TabsContent>
+
+            <TabsContent value="calculator">
+              <SubsidyCalculator
+                schemes={filteredSubsidies}
+                projectAmount={subsidyCalculatorAmount}
+                setProjectAmount={setSubsidyCalculatorAmount}
+              />
+            </TabsContent>
+
+            <TabsContent value="compare">
+              <SubsidyComparison
+                schemes={comparisonSubsidies}
+                onRemove={removeFromSubsidyComparison}
+                projectAmount={subsidyCalculatorAmount}
+              />
+            </TabsContent>
+
+            <TabsContent value="track">
+              <SubsidyTracker />
+            </TabsContent>
+          </Tabs>
+        </TabsContent>
 
           <TabsContent value="eligibility">
             <EligibilityChecker />
@@ -655,6 +1020,14 @@ export default function Loans() {
       <FloatingActionButton
         onCalculatorClick={() => setActiveTab("calculator")}
         onApplyClick={() => setActiveTab("apply")}
+      />
+
+      {/* Subsidy Detail Modal */}
+      <SubsidyDetailModal
+        scheme={selectedSubsidyScheme}
+        isOpen={!!selectedSubsidyScheme}
+        onClose={() => setSelectedSubsidyScheme(null)}
+        projectAmount={subsidyCalculatorAmount}
       />
     </div>
   );
