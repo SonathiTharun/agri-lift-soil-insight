@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { 
-  Milk, 
-  Users, 
-  Globe, 
-  Truck, 
-  CreditCard, 
-  MapPin, 
-  Phone, 
-  Mail, 
-  Star, 
-  Shield, 
-  Clock, 
+import {
+  Milk,
+  Users,
+  Globe,
+  Truck,
+  CreditCard,
+  MapPin,
+  Phone,
+  Mail,
+  Star,
+  Shield,
+  Clock,
   TrendingUp,
   Plus,
   Search,
@@ -24,7 +24,8 @@ import {
   Package,
   FileText,
   Eye,
-  MessageCircle
+  MessageCircle,
+  Loader2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,173 +35,256 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
+import { dairyMarketplaceService, type Buyer, type ExportOpportunity, type MilkRegistration } from "@/services/dairyMarketplaceService";
+import { useAuth } from "@/contexts/AuthContext";
 
-// Mock data for buyers
-const mockBuyers = [
-  {
-    id: 1,
-    name: "Heritage Foods",
-    type: "Large Processor",
-    location: "Hyderabad, Telangana",
-    rating: 4.8,
-    reviews: 245,
-    minVolume: "500L/day",
-    maxVolume: "5000L/day",
-    fatContent: "3.5% min",
-    snfContent: "8.5% min",
-    priceRange: "₹35-42/L",
-    pickupRadius: "50km",
-    paymentTerms: "Weekly",
-    certifications: ["FSSAI", "ISO 22000", "HACCP"],
-    contact: {
-      phone: "+91 9876543210",
-      email: "procurement@heritage.com"
-    },
-    requirements: "Premium quality milk with regular testing",
-    verified: true
-  },
-  {
-    id: 2,
-    name: "Vijaya Dairy",
-    type: "Cooperative",
-    location: "Vijayawada, Andhra Pradesh",
-    rating: 4.6,
-    reviews: 189,
-    minVolume: "200L/day",
-    maxVolume: "2000L/day",
-    fatContent: "3.0% min",
-    snfContent: "8.0% min",
-    priceRange: "₹32-38/L",
-    pickupRadius: "30km",
-    paymentTerms: "Bi-weekly",
-    certifications: ["FSSAI", "Organic"],
-    contact: {
-      phone: "+91 9876543211",
-      email: "milk@vijayadairy.com"
-    },
-    requirements: "Consistent quality with health certificates",
-    verified: true
-  },
-  {
-    id: 3,
-    name: "Local Dairy Hub",
-    type: "Local Dairy",
-    location: "Warangal, Telangana",
-    rating: 4.2,
-    reviews: 67,
-    minVolume: "100L/day",
-    maxVolume: "800L/day",
-    fatContent: "2.8% min",
-    snfContent: "7.5% min",
-    priceRange: "₹28-35/L",
-    pickupRadius: "20km",
-    paymentTerms: "Weekly",
-    certifications: ["FSSAI"],
-    contact: {
-      phone: "+91 9876543212",
-      email: "info@localdairyhub.com"
-    },
-    requirements: "Fresh milk with basic quality standards",
-    verified: false
-  }
-];
 
-// Mock data for logistics providers
-const mockLogistics = [
-  {
-    id: 1,
-    name: "ColdChain Express",
-    type: "Cold Chain Transport",
-    coverage: "Pan South India",
-    rating: 4.7,
-    services: ["Refrigerated Transport", "Quality Monitoring", "GPS Tracking"],
-    contact: "+91 9876543213"
-  },
-  {
-    id: 2,
-    name: "Dairy Transport Co.",
-    type: "Milk Collection",
-    coverage: "Telangana & AP",
-    rating: 4.4,
-    services: ["Daily Collection", "Bulk Transport", "Quality Testing"],
-    contact: "+91 9876543214"
-  }
-];
-
-// Mock data for export opportunities
-const mockExportOpportunities = [
-  {
-    id: 1,
-    destination: "Middle East",
-    requirements: "A2 Milk, Organic Certified",
-    volume: "10,000L/month",
-    price: "₹65-75/L",
-    exporter: "Global Dairy Exports Ltd.",
-    certifications: ["Organic", "Halal", "ISO 22000", "HACCP"]
-  },
-  {
-    id: 2,
-    destination: "Southeast Asia",
-    requirements: "Premium Buffalo Milk",
-    volume: "5,000L/month",
-    price: "₹55-65/L",
-    exporter: "Asia Pacific Dairy",
-    certifications: ["FSSAI", "Export License", "Quality Assurance"]
-  }
-];
 
 const SellProduce = () => {
+  const { toast } = useToast();
+  const { user, isAuthenticated } = useAuth();
   const [activeTab, setActiveTab] = useState("register");
   const [showMilkForm, setShowMilkForm] = useState(false);
   const [showBuyerDetails, setShowBuyerDetails] = useState(false);
-  const [selectedBuyer, setSelectedBuyer] = useState(null);
+  const [selectedBuyer, setSelectedBuyer] = useState<Buyer | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [locationFilter, setLocationFilter] = useState("");
   const [typeFilter, setTypeFilter] = useState("");
 
+  // Loading states
+  const [loading, setLoading] = useState(false);
+  const [buyersLoading, setBuyersLoading] = useState(false);
+  const [exportLoading, setExportLoading] = useState(false);
+  const [logisticsLoading, setLogisticsLoading] = useState(false);
+
+  // Data states
+  const [buyers, setBuyers] = useState<Buyer[]>([]);
+  const [exportOpportunities, setExportOpportunities] = useState<ExportOpportunity[]>([]);
+  const [logisticsProviders, setLogisticsProviders] = useState<any[]>([]);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 20,
+    total: 0,
+    pages: 0
+  });
+
   // Form state for milk registration
-  const [milkForm, setMilkForm] = useState({
-    volume: "",
-    fatContent: "",
-    snfContent: "",
-    location: "",
-    collectionTime: "",
-    farmerName: "",
-    contactNumber: "",
-    farmAddress: "",
+  const [milkForm, setMilkForm] = useState<MilkRegistration>({
+    farmerName: user?.name || "",
+    contactNumber: user?.phone || "",
+    farmAddress: user?.farmDetails?.address || "",
+    location: user?.farmDetails?.location || "",
+    dailyVolume: 0,
+    fatContent: 0,
+    snfContent: 0,
+    collectionTime: "morning",
     qualityCertificates: []
   });
 
-  const filteredBuyers = mockBuyers.filter(buyer => {
-    const matchesSearch = buyer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         buyer.location.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesLocation = !locationFilter || buyer.location.includes(locationFilter);
-    const matchesType = !typeFilter || buyer.type === typeFilter;
-    return matchesSearch && matchesLocation && matchesType;
-  });
+  // Update form when user data changes
+  useEffect(() => {
+    if (user) {
+      setMilkForm(prev => ({
+        ...prev,
+        farmerName: user.name || prev.farmerName,
+        contactNumber: user.phone || prev.contactNumber,
+        farmAddress: user.farmDetails?.address || prev.farmAddress,
+        location: user.farmDetails?.location || prev.location,
+      }));
+    }
+  }, [user]);
 
-  const handleMilkFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log("Milk registration:", milkForm);
-    setShowMilkForm(false);
-    // Reset form
-    setMilkForm({
-      volume: "",
-      fatContent: "",
-      snfContent: "",
-      location: "",
-      collectionTime: "",
-      farmerName: "",
-      contactNumber: "",
-      farmAddress: "",
-      qualityCertificates: []
-    });
+  // Load data on component mount and tab changes
+  useEffect(() => {
+    if (activeTab === "buyers") {
+      loadBuyers();
+    } else if (activeTab === "export") {
+      loadExportOpportunities();
+    } else if (activeTab === "logistics") {
+      loadLogisticsProviders();
+    }
+  }, [activeTab]);
+
+  // Load buyers when filters change
+  useEffect(() => {
+    if (activeTab === "buyers") {
+      loadBuyers();
+    }
+  }, [searchTerm, locationFilter, typeFilter]);
+
+  const loadBuyers = async () => {
+    try {
+      setBuyersLoading(true);
+      const response = await dairyMarketplaceService.getBuyers({
+        location: locationFilter || undefined,
+        type: typeFilter || undefined,
+        page: pagination.page,
+        limit: pagination.limit
+      });
+
+      if (response.success) {
+        setBuyers(response.data.buyers);
+        setPagination(response.data.pagination);
+      }
+    } catch (error) {
+      console.error('Failed to load buyers:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load buyers. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setBuyersLoading(false);
+    }
   };
 
-  const openBuyerDetails = (buyer: any) => {
-    setSelectedBuyer(buyer);
-    setShowBuyerDetails(true);
+  const loadExportOpportunities = async () => {
+    try {
+      setExportLoading(true);
+      const response = await dairyMarketplaceService.getExportOpportunities();
+
+      if (response.success) {
+        setExportOpportunities(response.data.opportunities);
+      }
+    } catch (error) {
+      console.error('Failed to load export opportunities:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load export opportunities. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setExportLoading(false);
+    }
+  };
+
+  const loadLogisticsProviders = async () => {
+    try {
+      setLogisticsLoading(true);
+      const response = await dairyMarketplaceService.getLogisticsProviders();
+
+      if (response.success) {
+        setLogisticsProviders(response.data);
+      }
+    } catch (error) {
+      console.error('Failed to load logistics providers:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load logistics providers. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setLogisticsLoading(false);
+    }
+  };
+
+  const filteredBuyers = buyers.filter(buyer => {
+    if (!searchTerm) return true;
+    const matchesSearch = buyer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         buyer.location.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchesSearch;
+  });
+
+  const handleMilkFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Check authentication
+    if (!isAuthenticated || !user) {
+      toast({
+        title: "Authentication Required",
+        description: "Please log in to register your milk production.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await dairyMarketplaceService.registerMilkProduction(milkForm);
+
+      if (response.success) {
+        toast({
+          title: "Registration Successful!",
+          description: `Your milk production has been registered with quality grade ${response.data.milkProduction.qualityGrade}. Found ${response.data.matchingBuyers.length} matching buyers.`,
+        });
+
+        setShowMilkForm(false);
+
+        // Reset form
+        setMilkForm({
+          farmerName: "",
+          contactNumber: "",
+          farmAddress: "",
+          location: "",
+          dailyVolume: 0,
+          fatContent: 0,
+          snfContent: 0,
+          collectionTime: "morning",
+          qualityCertificates: []
+        });
+
+        // Switch to buyers tab to show matches
+        setActiveTab("buyers");
+        loadBuyers();
+      }
+    } catch (error: any) {
+      console.error('Failed to register milk production:', error);
+      toast({
+        title: "Registration Failed",
+        description: error.message || "Failed to register milk production. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const openBuyerDetails = async (buyer: Buyer) => {
+    try {
+      setLoading(true);
+      const response = await dairyMarketplaceService.getBuyerDetails(buyer.id);
+
+      if (response.success) {
+        setSelectedBuyer(response.data.buyer);
+        setShowBuyerDetails(true);
+      }
+    } catch (error: any) {
+      console.error('Failed to load buyer details:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load buyer details. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleContactBuyer = async (buyer: Buyer) => {
+    try {
+      const message = `Hello, I am interested in selling milk to your company. My daily production is ${milkForm.dailyVolume}L with ${milkForm.fatContent}% fat and ${milkForm.snfContent}% SNF. Please contact me.`;
+
+      const response = await dairyMarketplaceService.contactBuyer(
+        buyer.id,
+        message,
+        milkForm.contactNumber || "Not provided"
+      );
+
+      if (response.success) {
+        toast({
+          title: "Message Sent!",
+          description: response.message,
+        });
+      }
+    } catch (error: any) {
+      console.error('Failed to contact buyer:', error);
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try calling directly.",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
@@ -341,69 +425,84 @@ const SellProduce = () => {
                   </Select>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredBuyers.map((buyer) => (
-                    <Card key={buyer.id} className="hover:shadow-lg transition-shadow">
-                      <CardContent className="p-6">
-                        <div className="flex items-start justify-between mb-4">
-                          <div>
-                            <h3 className="font-bold text-lg text-gray-800 flex items-center gap-2">
-                              {buyer.name}
-                              {buyer.verified && (
-                                <CheckCircle className="h-4 w-4 text-green-500" />
-                              )}
-                            </h3>
-                            <p className="text-sm text-gray-600">{buyer.type}</p>
+                {buyersLoading ? (
+                  <div className="flex items-center justify-center py-12">
+                    <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+                    <span className="ml-2 text-gray-600">Loading buyers...</span>
+                  </div>
+                ) : filteredBuyers.length === 0 ? (
+                  <div className="text-center py-12">
+                    <Users className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2">No buyers found</h3>
+                    <p className="text-gray-600">Try adjusting your search filters or check back later.</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredBuyers.map((buyer) => (
+                      <Card key={buyer.id} className="hover:shadow-lg transition-shadow">
+                        <CardContent className="p-6">
+                          <div className="flex items-start justify-between mb-4">
+                            <div>
+                              <h3 className="font-bold text-lg text-gray-800 flex items-center gap-2">
+                                {buyer.name}
+                                {buyer.verified && (
+                                  <CheckCircle className="h-4 w-4 text-green-500" />
+                                )}
+                              </h3>
+                              <p className="text-sm text-gray-600">{buyer.type}</p>
+                            </div>
+                            <Badge variant={buyer.verified ? "default" : "secondary"}>
+                              {buyer.verified ? "Verified" : "Pending"}
+                            </Badge>
                           </div>
-                          <Badge variant={buyer.verified ? "default" : "secondary"}>
-                            {buyer.verified ? "Verified" : "Pending"}
-                          </Badge>
-                        </div>
 
-                        <div className="space-y-2 mb-4">
-                          <div className="flex items-center gap-2 text-sm">
-                            <MapPin className="h-4 w-4 text-gray-500" />
-                            <span>{buyer.location}</span>
+                          <div className="space-y-2 mb-4">
+                            <div className="flex items-center gap-2 text-sm">
+                              <MapPin className="h-4 w-4 text-gray-500" />
+                              <span>{buyer.location}</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm">
+                              <Star className="h-4 w-4 text-yellow-500" />
+                              <span>{buyer.rating} ({buyer.reviews} reviews)</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm">
+                              <DollarSign className="h-4 w-4 text-green-500" />
+                              <span>{buyer.priceRange}</span>
+                            </div>
                           </div>
-                          <div className="flex items-center gap-2 text-sm">
-                            <Star className="h-4 w-4 text-yellow-500" />
-                            <span>{buyer.rating} ({buyer.reviews} reviews)</span>
-                          </div>
-                          <div className="flex items-center gap-2 text-sm">
-                            <DollarSign className="h-4 w-4 text-green-500" />
-                            <span>{buyer.priceRange}</span>
-                          </div>
-                        </div>
 
-                        <div className="space-y-1 mb-4 text-sm">
-                          <p><strong>Volume:</strong> {buyer.minVolume} - {buyer.maxVolume}</p>
-                          <p><strong>Fat:</strong> {buyer.fatContent}</p>
-                          <p><strong>SNF:</strong> {buyer.snfContent}</p>
-                          <p><strong>Payment:</strong> {buyer.paymentTerms}</p>
-                        </div>
+                          <div className="space-y-1 mb-4 text-sm">
+                            <p><strong>Volume:</strong> {buyer.minVolume} - {buyer.maxVolume}</p>
+                            <p><strong>Fat:</strong> {buyer.fatContent}</p>
+                            <p><strong>SNF:</strong> {buyer.snfContent}</p>
+                            <p><strong>Payment:</strong> {buyer.paymentTerms}</p>
+                          </div>
 
-                        <div className="flex gap-2">
-                          <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={() => openBuyerDetails(buyer)}
-                            className="flex-1"
-                          >
-                            <Eye className="h-4 w-4 mr-1" />
-                            View Details
-                          </Button>
-                          <Button
-                            size="sm"
-                            className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600"
-                          >
-                            <MessageCircle className="h-4 w-4 mr-1" />
-                            Contact
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
+                          <div className="flex gap-2">
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => openBuyerDetails(buyer)}
+                              className="flex-1"
+                              disabled={loading}
+                            >
+                              <Eye className="h-4 w-4 mr-1" />
+                              View Details
+                            </Button>
+                            <Button
+                              size="sm"
+                              className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600"
+                              onClick={() => handleContactBuyer(buyer)}
+                            >
+                              <MessageCircle className="h-4 w-4 mr-1" />
+                              Contact
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
@@ -434,42 +533,64 @@ const SellProduce = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {mockExportOpportunities.map((opportunity) => (
-                    <Card key={opportunity.id} className="border-2 border-purple-200">
-                      <CardContent className="p-6">
-                        <div className="flex items-center gap-2 mb-4">
-                          <Globe className="h-5 w-5 text-purple-600" />
-                          <h3 className="font-bold text-lg">{opportunity.destination}</h3>
-                          <Badge className="bg-purple-100 text-purple-800">Premium</Badge>
-                        </div>
-
-                        <div className="space-y-2 mb-4">
-                          <p><strong>Requirements:</strong> {opportunity.requirements}</p>
-                          <p><strong>Volume Needed:</strong> {opportunity.volume}</p>
-                          <p><strong>Price Range:</strong> {opportunity.price}</p>
-                          <p><strong>Exporter:</strong> {opportunity.exporter}</p>
-                        </div>
-
-                        <div className="mb-4">
-                          <p className="text-sm font-medium mb-2">Required Certifications:</p>
-                          <div className="flex flex-wrap gap-1">
-                            {opportunity.certifications.map((cert, index) => (
-                              <Badge key={index} variant="outline" className="text-xs">
-                                {cert}
-                              </Badge>
-                            ))}
+                {exportLoading ? (
+                  <div className="flex items-center justify-center py-12">
+                    <Loader2 className="h-8 w-8 animate-spin text-purple-600" />
+                    <span className="ml-2 text-gray-600">Loading export opportunities...</span>
+                  </div>
+                ) : exportOpportunities.length === 0 ? (
+                  <div className="text-center py-12">
+                    <Globe className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2">No export opportunities available</h3>
+                    <p className="text-gray-600">Check back later for new international opportunities.</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {exportOpportunities.map((opportunity) => (
+                      <Card key={opportunity.id} className="border-2 border-purple-200">
+                        <CardContent className="p-6">
+                          <div className="flex items-center gap-2 mb-4">
+                            <Globe className="h-5 w-5 text-purple-600" />
+                            <h3 className="font-bold text-lg">{opportunity.destination}</h3>
+                            <Badge className="bg-purple-100 text-purple-800">Premium</Badge>
                           </div>
-                        </div>
 
-                        <Button className="w-full bg-gradient-to-r from-purple-500 to-pink-600">
-                          <Award className="h-4 w-4 mr-2" />
-                          Apply for Export
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
+                          <div className="space-y-2 mb-4">
+                            <p><strong>Requirements:</strong> {opportunity.requirements}</p>
+                            <p><strong>Volume Needed:</strong> {opportunity.volume}</p>
+                            <p><strong>Price Range:</strong> {opportunity.price}</p>
+                            <p><strong>Exporter:</strong> {opportunity.exporter}</p>
+                          </div>
+
+                          <div className="mb-4">
+                            <p className="text-sm font-medium mb-2">Required Certifications:</p>
+                            <div className="flex flex-wrap gap-1">
+                              {opportunity.certifications.map((cert, index) => (
+                                <Badge key={index} variant="outline" className="text-xs">
+                                  {cert}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+
+                          <div className="flex gap-2">
+                            <Button className="flex-1 bg-gradient-to-r from-purple-500 to-pink-600">
+                              <Award className="h-4 w-4 mr-2" />
+                              Apply for Export
+                            </Button>
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => window.open(`tel:${opportunity.contact.phone}`, '_self')}
+                            >
+                              <Phone className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
               </CardContent>
             </Card>
           </TabsContent>
@@ -488,51 +609,68 @@ const SellProduce = () => {
                   Connect with reliable milk transport and cold chain service providers in your area.
                 </p>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {mockLogistics.map((provider) => (
-                    <Card key={provider.id} className="border-l-4 border-l-blue-500">
-                      <CardContent className="p-6">
-                        <div className="flex items-start justify-between mb-4">
-                          <div>
-                            <h3 className="font-bold text-lg text-gray-800">{provider.name}</h3>
-                            <p className="text-sm text-gray-600">{provider.type}</p>
+                {logisticsLoading ? (
+                  <div className="flex items-center justify-center py-12">
+                    <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+                    <span className="ml-2 text-gray-600">Loading logistics providers...</span>
+                  </div>
+                ) : logisticsProviders.length === 0 ? (
+                  <div className="text-center py-12">
+                    <Truck className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2">No logistics providers available</h3>
+                    <p className="text-gray-600">Check back later for transport services.</p>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {logisticsProviders.map((provider) => (
+                      <Card key={provider.id} className="border-l-4 border-l-blue-500">
+                        <CardContent className="p-6">
+                          <div className="flex items-start justify-between mb-4">
+                            <div>
+                              <h3 className="font-bold text-lg text-gray-800">{provider.name}</h3>
+                              <p className="text-sm text-gray-600">{provider.type}</p>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Star className="h-4 w-4 text-yellow-500" />
+                              <span className="text-sm">{provider.rating}</span>
+                            </div>
                           </div>
-                          <div className="flex items-center gap-1">
-                            <Star className="h-4 w-4 text-yellow-500" />
-                            <span className="text-sm">{provider.rating}</span>
-                          </div>
-                        </div>
 
-                        <div className="space-y-2 mb-4">
-                          <div className="flex items-center gap-2 text-sm">
-                            <MapPin className="h-4 w-4 text-gray-500" />
-                            <span>{provider.coverage}</span>
+                          <div className="space-y-2 mb-4">
+                            <div className="flex items-center gap-2 text-sm">
+                              <MapPin className="h-4 w-4 text-gray-500" />
+                              <span>{provider.coverage}</span>
+                            </div>
+                            <div className="flex items-center gap-2 text-sm">
+                              <Phone className="h-4 w-4 text-gray-500" />
+                              <span>{provider.contact}</span>
+                            </div>
                           </div>
-                          <div className="flex items-center gap-2 text-sm">
-                            <Phone className="h-4 w-4 text-gray-500" />
-                            <span>{provider.contact}</span>
-                          </div>
-                        </div>
 
-                        <div className="mb-4">
-                          <p className="text-sm font-medium mb-2">Services:</p>
-                          <div className="flex flex-wrap gap-1">
-                            {provider.services.map((service, index) => (
-                              <Badge key={index} variant="outline" className="text-xs">
-                                {service}
-                              </Badge>
-                            ))}
+                          <div className="mb-4">
+                            <p className="text-sm font-medium mb-2">Services:</p>
+                            <div className="flex flex-wrap gap-1">
+                              {provider.services.map((service: string, index: number) => (
+                                <Badge key={index} variant="outline" className="text-xs">
+                                  {service}
+                                </Badge>
+                              ))}
+                            </div>
                           </div>
-                        </div>
 
-                        <Button className="w-full" variant="outline">
-                          <Phone className="h-4 w-4 mr-2" />
-                          Contact Provider
-                        </Button>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
+                          <Button
+                            className="w-full"
+                            variant="outline"
+                            onClick={() => window.open(`tel:${provider.contact}`, '_self')}
+                          >
+                            <Phone className="h-4 w-4 mr-2" />
+                            Contact Provider
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
 
                 <Card className="mt-6 bg-gradient-to-r from-green-50 to-blue-50">
                   <CardContent className="p-6">
@@ -684,8 +822,8 @@ const SellProduce = () => {
                 <Input
                   type="number"
                   placeholder="e.g., 100"
-                  value={milkForm.volume}
-                  onChange={(e) => setMilkForm({...milkForm, volume: e.target.value})}
+                  value={milkForm.dailyVolume || ""}
+                  onChange={(e) => setMilkForm({...milkForm, dailyVolume: parseFloat(e.target.value) || 0})}
                   required
                 />
               </div>
@@ -695,8 +833,8 @@ const SellProduce = () => {
                   type="number"
                   step="0.1"
                   placeholder="e.g., 3.5"
-                  value={milkForm.fatContent}
-                  onChange={(e) => setMilkForm({...milkForm, fatContent: e.target.value})}
+                  value={milkForm.fatContent || ""}
+                  onChange={(e) => setMilkForm({...milkForm, fatContent: parseFloat(e.target.value) || 0})}
                   required
                 />
               </div>
@@ -706,14 +844,14 @@ const SellProduce = () => {
                   type="number"
                   step="0.1"
                   placeholder="e.g., 8.5"
-                  value={milkForm.snfContent}
-                  onChange={(e) => setMilkForm({...milkForm, snfContent: e.target.value})}
+                  value={milkForm.snfContent || ""}
+                  onChange={(e) => setMilkForm({...milkForm, snfContent: parseFloat(e.target.value) || 0})}
                   required
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium mb-2">Collection Time</label>
-                <Select value={milkForm.collectionTime} onValueChange={(value) => setMilkForm({...milkForm, collectionTime: value})}>
+                <Select value={milkForm.collectionTime} onValueChange={(value: "morning" | "evening" | "both") => setMilkForm({...milkForm, collectionTime: value})}>
                   <SelectTrigger>
                     <SelectValue placeholder="Select time" />
                   </SelectTrigger>
@@ -763,11 +901,18 @@ const SellProduce = () => {
               />
             </div>
             <div className="flex gap-4 pt-4">
-              <Button type="button" variant="outline" onClick={() => setShowMilkForm(false)} className="flex-1">
+              <Button type="button" variant="outline" onClick={() => setShowMilkForm(false)} className="flex-1" disabled={loading}>
                 Cancel
               </Button>
-              <Button type="submit" className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600">
-                Register Milk Production
+              <Button type="submit" className="flex-1 bg-gradient-to-r from-blue-500 to-purple-600" disabled={loading}>
+                {loading ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Registering...
+                  </>
+                ) : (
+                  "Register Milk Production"
+                )}
               </Button>
             </div>
           </form>

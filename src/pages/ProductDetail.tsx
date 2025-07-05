@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 import { productsByCategory, type Product } from "@/data/marketData";
 import { apiService } from "@/services/apiService";
-import { useCart } from "@/context/CartContext";
+import { useCart } from "@/context/cartcontext";
 import { motion } from "framer-motion";
 import { ProductImageCarousel } from "@/components/market/ProductImageCarousel";
 import { ProductInfo } from "@/components/market/ProductInfo";

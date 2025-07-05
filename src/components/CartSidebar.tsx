@@ -5,7 +5,7 @@ import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, Dr
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { useCart } from '@/context/CartContext';
+import { useCart } from '@/context/cartcontext';
 import { Link } from 'react-router-dom';
 
 export function CartSidebar() {

@@ -5,39 +5,72 @@ import { WeatherWidget } from "@/components/WeatherWidget";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Trash2, CreditCard, ShoppingCart, IndianRupee } from "lucide-react";
+import { ArrowLeft, Trash2, CreditCard, ShoppingCart, IndianRupee, Loader2, CheckCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { toast } from "@/components/ui/use-toast";
-import { useCart } from "@/context/CartContext";
+import { useToast } from "@/components/ui/use-toast";
+import { useCart } from "@/context/cartcontext";
+import { useAuth } from "@/contexts/AuthContext";
+import { paymentService } from "@/services/paymentService";
 
 export default function Checkout() {
   const navigate = useNavigate();
-  const { cartItems, updateQuantity, removeFromCart, clearCart, getCartTotal } = useCart();
-  
+  const { cartItems, updateQuantity, removeFromCart, clearCart, getCartTotal, addToCart } = useCart();
+  const { user, isAuthenticated } = useAuth();
+  const { toast } = useToast();
+
   const [isProcessing, setIsProcessing] = useState(false);
-  const [paymentDetails, setPaymentDetails] = useState({
-    cardNumber: "",
-    cardholderName: "",
-    expiryDate: "",
-    cvv: ""
-  });
+  const [paymentMethod, setPaymentMethod] = useState<'razorpay' | 'cod'>('razorpay');
+  const [orderCreated, setOrderCreated] = useState(false);
+  const [orderId, setOrderId] = useState<string>('');
+
   const [shippingDetails, setShippingDetails] = useState({
-    fullName: "",
-    address: "",
+    fullName: user?.name || "",
+    address: user?.address || "",
     city: "",
     state: "",
     pincode: "",
-    phoneNumber: ""
+    phoneNumber: user?.phone || ""
   });
   const [step, setStep] = useState<"cart" | "shipping" | "payment">("cart");
+
+  // Create order in backend
+  const createCartOrder = async (orderData: any) => {
+    try {
+      const response = await fetch('http://localhost:5001/api/orders/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
+        },
+        body: JSON.stringify(orderData)
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to create order');
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Create order error:', error);
+      throw error;
+    }
+  };
   
   const getShipping = () => {
     return getCartTotal() > 1000 ? 0 : 99;
   };
   
+  const getShippingCost = () => {
+    return getShipping();
+  };
+
   const getTotalWithShipping = () => {
-    return getCartTotal() + getShipping();
+    const subtotal = getCartTotal();
+    const shipping = getShipping();
+    const codCharges = paymentMethod === 'cod' ? 50 : 0;
+    return subtotal + shipping + codCharges;
   };
   
   const handleShippingChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,9 +78,11 @@ export default function Checkout() {
     setShippingDetails(prev => ({ ...prev, [name]: value }));
   };
   
+  // This function is not currently used but kept for future payment form fields
   const handlePaymentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setPaymentDetails(prev => ({ ...prev, [name]: value }));
+    // Payment method selection is handled directly in the JSX
+    console.log('Payment field changed:', name, value);
   };
   
   const handleContinue = () => {
@@ -76,34 +111,159 @@ export default function Checkout() {
     }
   };
   
-  const processPayment = () => {
-    // Validate payment details
-    const { cardNumber, cardholderName, expiryDate, cvv } = paymentDetails;
-    if (!cardNumber || !cardholderName || !expiryDate || !cvv) {
+  const processPayment = async () => {
+    if (!isAuthenticated || !user) {
       toast({
-        title: "Missing information",
-        description: "Please fill in all payment details to complete your purchase",
+        title: "Authentication Required",
+        description: "Please log in to complete your purchase",
         variant: "destructive"
       });
       return;
     }
-    
-    setIsProcessing(true);
-    
-    // Simulate payment processing
-    setTimeout(() => {
-      setIsProcessing(false);
-      
-      // Show success toast
+
+    // Validate shipping details
+    const { fullName, address, city, state, pincode, phoneNumber } = shippingDetails;
+    if (!fullName || !address || !city || !state || !pincode || !phoneNumber) {
       toast({
-        title: "Order placed successfully!",
-        description: `Thank you for your purchase. Your order #${Math.floor(Math.random() * 10000)} has been placed.`,
+        title: "Missing information",
+        description: "Please fill in all shipping details to complete your purchase",
+        variant: "destructive"
       });
-      
-      // Clear cart and navigate to orders
-      clearCart();
-      navigate('/orders');
-    }, 2000);
+      return;
+    }
+
+    setIsProcessing(true);
+
+    try {
+      if (paymentMethod === 'cod') {
+        // Handle Cash on Delivery
+        await handleCODOrder();
+      } else {
+        // Handle Razorpay payment
+        await handleRazorpayPayment();
+      }
+    } catch (error: any) {
+      console.error('Payment processing error:', error);
+      toast({
+        title: "Payment Failed",
+        description: error.message || "Failed to process payment. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  const handleRazorpayPayment = async () => {
+    try {
+      // Create order in backend
+      const orderData = {
+        amount: getTotalWithShipping(),
+        currency: 'INR',
+        description: `Agri-Lift Order - ${cartItems.length} items`,
+        items: cartItems.map(item => ({
+          productId: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+          category: item.category
+        })),
+        shippingAddress: shippingDetails
+      };
+
+      const orderResponse = await createCartOrder(orderData);
+
+      if (!orderResponse.success) {
+        throw new Error(orderResponse.message || 'Failed to create order');
+      }
+
+      const order = orderResponse.data;
+      setOrderId(order.orderNumber);
+
+      // Process payment with Razorpay
+      const paymentResult = await paymentService.processRazorpayPayment(
+        {
+          id: order.razorpayOrderId,
+          amount: order.total,
+          currency: order.currency || 'INR',
+          description: order.description || 'Agri-Lift Purchase'
+        },
+        {
+          name: user.name || shippingDetails.fullName,
+          email: user.email || 'customer@agrilift.com',
+          contact: shippingDetails.phoneNumber
+        },
+        order.orderNumber // Pass order number for verification
+      );
+
+      if (paymentResult.success) {
+        // Payment successful
+        setOrderCreated(true);
+        toast({
+          title: "Payment Successful!",
+          description: `Your order #${order.orderNumber} has been placed successfully.`,
+        });
+
+        // Clear cart after successful payment
+        clearCart();
+
+        // Navigate to orders page after a delay
+        setTimeout(() => {
+          navigate('/orders');
+        }, 3000);
+      } else {
+        throw new Error(paymentResult.error || 'Payment failed');
+      }
+    } catch (error: any) {
+      console.error('Razorpay payment error:', error);
+      throw error;
+    }
+  };
+
+  const handleCODOrder = async () => {
+    try {
+      // Create COD order
+      const orderData = {
+        amount: getTotalWithShipping(),
+        currency: 'INR',
+        description: `Agri-Lift COD Order - ${cartItems.length} items`,
+        paymentMethod: 'cod',
+        items: cartItems.map(item => ({
+          productId: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+          category: item.category
+        })),
+        shippingAddress: shippingDetails
+      };
+
+      const orderResponse = await createCartOrder(orderData);
+
+      if (orderResponse.success) {
+        const order = orderResponse.data;
+        setOrderId(order.orderNumber);
+        setOrderCreated(true);
+
+        toast({
+          title: "Order Placed Successfully!",
+          description: `Your COD order #${order.orderNumber} has been placed.`,
+        });
+
+        // Clear cart
+        clearCart();
+
+        // Navigate to orders page after a delay
+        setTimeout(() => {
+          navigate('/orders');
+        }, 3000);
+      } else {
+        throw new Error(orderResponse.message || 'Failed to create COD order');
+      }
+    } catch (error: any) {
+      console.error('COD order error:', error);
+      throw error;
+    }
   };
   
   return (
@@ -154,9 +314,28 @@ export default function Checkout() {
                 <ShoppingCart className="h-16 w-16 text-gray-400" />
                 <CardTitle>Your cart is empty</CardTitle>
                 <p className="text-gray-500">Add some products to your cart from our market</p>
-                <Button onClick={() => navigate('/market')}>
-                  Continue Shopping
-                </Button>
+                <div className="flex gap-4">
+                  <Button onClick={() => navigate('/dairy-lift/equipment-mart')}>
+                    Equipment Mart
+                  </Button>
+                  <Button onClick={() => navigate('/dairy-lift/livestock-market')}>
+                    Livestock Market
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => {
+                      // Add test items for demo
+                      addToCart('test-1', 'Organic Fertilizer', 899, '/api/placeholder/150/150', 'fertilizer', 2);
+                      addToCart('test-2', 'Premium Seeds Pack', 599, '/api/placeholder/150/150', 'seeds', 1);
+                      toast({
+                        title: "Test Items Added",
+                        description: "Added sample items to test checkout flow"
+                      });
+                    }}
+                  >
+                    Add Test Items
+                  </Button>
+                </div>
               </div>
             </Card>
           ) : (
@@ -304,77 +483,113 @@ export default function Checkout() {
                   </Card>
                 )}
                 
-                {step === "payment" && (
+                {step === "payment" && !orderCreated && (
                   <Card className="animate-fade-in">
                     <CardHeader>
-                      <CardTitle>Payment Details</CardTitle>
+                      <CardTitle>Payment Method</CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <div className="space-y-4">
-                        <div className="space-y-2">
-                          <Label htmlFor="cardNumber">Card Number</Label>
-                          <div className="flex items-center border rounded-md overflow-hidden">
-                            <Input 
-                              id="cardNumber" 
-                              name="cardNumber" 
-                              value={paymentDetails.cardNumber} 
-                              onChange={handlePaymentChange}
-                              placeholder="4111 1111 1111 1111"
-                              className="border-0"
-                            />
-                            <span className="px-3">
-                              <CreditCard className="h-4 w-4 text-gray-500" />
-                            </span>
+                      <div className="space-y-6">
+                        {/* Payment Method Selection */}
+                        <div className="space-y-4">
+                          <Label className="text-base font-medium">Choose Payment Method</Label>
+
+                          {/* Razorpay Option */}
+                          <div
+                            className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
+                              paymentMethod === 'razorpay'
+                                ? 'border-blue-500 bg-blue-50'
+                                : 'border-gray-200 hover:border-gray-300'
+                            }`}
+                            onClick={() => setPaymentMethod('razorpay')}
+                          >
+                            <div className="flex items-center space-x-3">
+                              <input
+                                type="radio"
+                                id="razorpay"
+                                name="paymentMethod"
+                                value="razorpay"
+                                checked={paymentMethod === 'razorpay'}
+                                onChange={() => setPaymentMethod('razorpay')}
+                                className="h-4 w-4 text-blue-600"
+                              />
+                              <div className="flex-1">
+                                <div className="flex items-center gap-2">
+                                  <CreditCard className="h-5 w-5 text-blue-600" />
+                                  <Label htmlFor="razorpay" className="font-medium cursor-pointer">
+                                    Online Payment (Razorpay)
+                                  </Label>
+                                </div>
+                                <p className="text-sm text-gray-600 mt-1">
+                                  Pay securely with UPI, Cards, Net Banking, or Wallets
+                                </p>
+                                <div className="flex gap-2 mt-2">
+                                  <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">UPI</span>
+                                  <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">Cards</span>
+                                  <span className="text-xs bg-purple-100 text-purple-800 px-2 py-1 rounded">Wallets</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Cash on Delivery Option */}
+                          <div
+                            className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
+                              paymentMethod === 'cod'
+                                ? 'border-green-500 bg-green-50'
+                                : 'border-gray-200 hover:border-gray-300'
+                            }`}
+                            onClick={() => setPaymentMethod('cod')}
+                          >
+                            <div className="flex items-center space-x-3">
+                              <input
+                                type="radio"
+                                id="cod"
+                                name="paymentMethod"
+                                value="cod"
+                                checked={paymentMethod === 'cod'}
+                                onChange={() => setPaymentMethod('cod')}
+                                className="h-4 w-4 text-green-600"
+                              />
+                              <div className="flex-1">
+                                <div className="flex items-center gap-2">
+                                  <IndianRupee className="h-5 w-5 text-green-600" />
+                                  <Label htmlFor="cod" className="font-medium cursor-pointer">
+                                    Cash on Delivery
+                                  </Label>
+                                </div>
+                                <p className="text-sm text-gray-600 mt-1">
+                                  Pay when your order is delivered to your doorstep
+                                </p>
+                                <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-1 rounded mt-2 inline-block">
+                                  Additional ₹50 COD charges apply
+                                </span>
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        <div className="space-y-2">
-                          <Label htmlFor="cardholderName">Cardholder Name</Label>
-                          <Input 
-                            id="cardholderName" 
-                            name="cardholderName" 
-                            value={paymentDetails.cardholderName} 
-                            onChange={handlePaymentChange}
-                            placeholder="John Doe"
-                          />
-                        </div>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div className="space-y-2">
-                            <Label htmlFor="expiryDate">Expiry Date</Label>
-                            <Input 
-                              id="expiryDate" 
-                              name="expiryDate" 
-                              value={paymentDetails.expiryDate} 
-                              onChange={handlePaymentChange}
-                              placeholder="MM/YY"
-                            />
-                          </div>
-                          <div className="space-y-2">
-                            <Label htmlFor="cvv">CVV</Label>
-                            <Input 
-                              id="cvv" 
-                              name="cvv"
-                              type="password"
-                              value={paymentDetails.cvv} 
-                              onChange={handlePaymentChange}
-                              placeholder="123"
-                            />
-                          </div>
-                        </div>
-                        
-                        <div className="mt-6 p-3 bg-gray-50 rounded-md">
-                          <h3 className="font-medium mb-2">Payment Methods</h3>
-                          <div className="flex gap-2 flex-wrap">
-                            <div className="border rounded p-2 bg-white">
-                              <img src="https://cdn.worldvectorlogo.com/logos/visa-10.svg" alt="Visa" className="h-6" />
+
+                        {/* Order Summary */}
+                        <div className="bg-gray-50 p-4 rounded-lg">
+                          <h4 className="font-medium mb-3">Order Summary</h4>
+                          <div className="space-y-2 text-sm">
+                            <div className="flex justify-between">
+                              <span>Subtotal ({cartItems.length} items)</span>
+                              <span>₹{getCartTotal()}</span>
                             </div>
-                            <div className="border rounded p-2 bg-white">
-                              <img src="https://cdn.worldvectorlogo.com/logos/mastercard-6.svg" alt="Mastercard" className="h-6" />
+                            <div className="flex justify-between">
+                              <span>Shipping</span>
+                              <span>₹{getShippingCost()}</span>
                             </div>
-                            <div className="border rounded p-2 bg-white">
-                              <img src="https://cdn.worldvectorlogo.com/logos/upi-1.svg" alt="UPI" className="h-6" />
-                            </div>
-                            <div className="border rounded p-2 bg-white">
-                              <img src="https://cdn.worldvectorlogo.com/logos/paytm-1.svg" alt="Paytm" className="h-6" />
+                            {paymentMethod === 'cod' && (
+                              <div className="flex justify-between">
+                                <span>COD Charges</span>
+                                <span>₹50</span>
+                              </div>
+                            )}
+                            <div className="border-t pt-2 flex justify-between font-medium">
+                              <span>Total</span>
+                              <span>₹{getTotalWithShipping()}</span>
                             </div>
                           </div>
                         </div>
@@ -384,14 +599,59 @@ export default function Checkout() {
                       <Button variant="outline" onClick={handleBack}>
                         Back to Shipping
                       </Button>
-                      <Button 
-                        onClick={processPayment} 
+                      <Button
+                        onClick={processPayment}
                         disabled={isProcessing}
-                        className="bg-foliage hover:bg-foliage-dark"
+                        className="min-w-[200px] bg-foliage hover:bg-foliage-dark"
                       >
-                        {isProcessing ? "Processing..." : <>Pay <IndianRupee className="ml-1 h-4 w-4" /> {getTotalWithShipping()}</>}
+                        {isProcessing ? (
+                          <>
+                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                            Processing...
+                          </>
+                        ) : (
+                          <>
+                            {paymentMethod === 'razorpay' ? (
+                              <>
+                                <CreditCard className="h-4 w-4 mr-2" />
+                                Pay ₹{getTotalWithShipping()}
+                              </>
+                            ) : (
+                              <>
+                                <IndianRupee className="h-4 w-4 mr-2" />
+                                Place COD Order
+                              </>
+                            )}
+                          </>
+                        )}
                       </Button>
                     </CardFooter>
+                  </Card>
+                )}
+
+                {/* Order Success */}
+                {orderCreated && (
+                  <Card className="animate-fade-in border-green-200 bg-green-50">
+                    <CardContent className="p-8 text-center">
+                      <CheckCircle className="h-16 w-16 text-green-600 mx-auto mb-4" />
+                      <h2 className="text-2xl font-bold text-green-800 mb-2">
+                        Order Placed Successfully!
+                      </h2>
+                      <p className="text-green-700 mb-4">
+                        Your order #{orderId} has been confirmed and will be processed shortly.
+                      </p>
+                      <div className="space-y-2 text-sm text-green-600">
+                        <p>✓ Order confirmation sent to your email</p>
+                        <p>✓ You will receive tracking information soon</p>
+                        <p>✓ Expected delivery in 3-5 business days</p>
+                      </div>
+                      <Button
+                        onClick={() => navigate('/orders')}
+                        className="mt-6 bg-green-600 hover:bg-green-700"
+                      >
+                        View Order Details
+                      </Button>
+                    </CardContent>
                   </Card>
                 )}
               </div>

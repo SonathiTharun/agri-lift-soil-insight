@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { CartSidebar } from "@/components/CartSidebar";
-import { useCart } from "@/context/CartContext";
+import { useCart } from "@/context/cartcontext";
 import { toast } from "@/components/ui/use-toast";
 
 const categories = [

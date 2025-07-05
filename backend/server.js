@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const path = require('path');
 const fs = require('fs');
 const cookieParser = require('cookie-parser');
+const http = require('http');
 require('dotenv').config();
 
 const { initializeDatabase } = require('./src/database/init');
@@ -19,9 +20,14 @@ const weatherRoutes = require('./src/routes/weather');
 const marketPricesRoutes = require('./src/routes/marketPrices');
 const livestockRoutes = require('./src/routes/livestock');
 const equipmentRoutes = require('./src/routes/equipment');
+const dairyMarketplaceRoutes = require('./src/routes/dairyMarketplace');
+const paymentsRoutes = require('./src/routes/payments');
+const ordersRoutes = require('./src/routes/orders');
+const socketService = require('./src/services/socketService');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const server = http.createServer(app);
+const PORT = process.env.PORT || 5001;
 
 // Create necessary directories
 const createDirectories = () => {
@@ -93,6 +99,9 @@ app.use('/api/weather', weatherRoutes);
 app.use('/api/market-prices', marketPricesRoutes);
 app.use('/api/livestock', livestockRoutes);
 app.use('/api/equipment', equipmentRoutes);
+app.use('/api/dairy-marketplace', dairyMarketplaceRoutes);
+app.use('/api/payments', paymentsRoutes);
+app.use('/api/orders', ordersRoutes);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
@@ -131,10 +140,14 @@ const startServer = async () => {
       console.log('Database error:', dbError.message);
     }
 
-    app.listen(PORT, () => {
+    // Initialize WebSocket service
+    socketService.initialize(server);
+
+    server.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
       console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
       console.log(`🌐 CORS enabled for: ${process.env.FRONTEND_URL || 'http://localhost:8080'}`);
+      console.log(`🔔 WebSocket service initialized`);
     });
   } catch (error) {
     console.error('Failed to start server:', error);
