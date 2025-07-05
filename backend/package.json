@@ -16,7 +16,7 @@
     "migrate": "node scripts/migrate.js",
     "seed": "node scripts/seedDairyMarketplace.js",
     "docker:build": "docker build -t agri-lift-backend .",
-    "docker:run": "docker run -p 5001:5001 agri-lift-backend"
+    "docker:run": "docker run -p 8081:8081 agri-lift-backend"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

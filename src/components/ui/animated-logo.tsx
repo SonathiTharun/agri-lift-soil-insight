@@ -8,6 +8,7 @@ interface AnimatedLogoProps {
   variant?: 'farmer' | 'executive';
   showText?: boolean;
   size?: 'sm' | 'md' | 'lg' | 'xl';
+  className?: string;
 }
 
 const sizeClasses = {
@@ -17,11 +18,12 @@ const sizeClasses = {
   xl: 'h-16 w-auto sm:h-18 md:h-20'
 };
 
-export function AnimatedLogo({ 
-  to, 
-  variant = 'farmer', 
-  showText = false, 
-  size = 'lg' 
+export function AnimatedLogo({
+  to,
+  variant = 'farmer',
+  showText = false,
+  size = 'lg',
+  className = ''
 }: AnimatedLogoProps) {
   const isExecutive = variant === 'executive';
   
@@ -31,7 +33,7 @@ export function AnimatedLogo({
       whileTap={{ scale: 0.95 }}
       className="relative"
     >
-      <Link to={to} className="flex items-center group">
+      <Link to={to} className={`flex items-center group ${className}`}>
         <motion.div
           className="relative p-1"
           whileHover={{ 

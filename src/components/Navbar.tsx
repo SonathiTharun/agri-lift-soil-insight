@@ -81,9 +81,9 @@ export function Navbar() {
     >
       {/* Animated background gradient */}
       <motion.div
-        className="absolute inset-0 bg-gradient-to-r from-green-500/5 via-transparent to-emerald-500/5"
+        className="absolute inset-0 bg-gradient-to-r from-green-500/3 via-transparent to-green-500/3"
         animate={{ x: ['-100%', '100%'] }}
-        transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
+        transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
       />
 
       <div className="relative professional-container">
@@ -100,7 +100,7 @@ export function Navbar() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="professional-button professional-shimmer"
+                      className="farmer-portal-button professional-shimmer"
                     >
                       <Menu size={22} />
                     </Button>
@@ -186,7 +186,7 @@ export function Navbar() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="text-white mr-2 hover:bg-white/20 transition-all duration-300 rounded-xl backdrop-blur-sm border border-white/20"
+                      className="farmer-portal-button mr-2 transition-all duration-300 rounded-xl backdrop-blur-sm"
                     >
                       <Menu size={22} />
                     </Button>
@@ -194,7 +194,7 @@ export function Navbar() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent
                   align="start"
-                  className="w-64 bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border border-white/20 dark:border-gray-700/30 shadow-2xl rounded-xl p-2"
+                  className="w-64 bg-white/98 dark:bg-gray-800/95 backdrop-blur-lg border border-green-200/30 dark:border-gray-700/30 shadow-2xl rounded-xl p-2"
                 >
                   <motion.div
                     initial={{ opacity: 0, y: -10 }}
@@ -211,7 +211,7 @@ export function Navbar() {
                         <DropdownMenuItem asChild className="rounded-lg mb-1">
                           <Link
                             to={item.path}
-                            className="flex items-center gap-3 cursor-pointer px-3 py-2.5 hover:bg-green-50 transition-all duration-300 group"
+                            className="professional-nav-item-farmer flex items-center gap-3 cursor-pointer transition-all duration-300 group"
                           >
                             <motion.div
                               className="text-green-600 group-hover:text-green-700"
@@ -235,6 +235,7 @@ export function Navbar() {
               to="/dashboard"
               variant="farmer"
               size="xl"
+              className="farmer-portal-logo"
             />
           </div>
 
@@ -284,7 +285,7 @@ export function Navbar() {
                   <Button
                     variant="outline"
                     size="sm"
-                    className="bg-white/20 border-white/30 text-white hover:bg-white/30 transition-all duration-300 rounded-xl backdrop-blur-sm"
+                    className="farmer-portal-button transition-all duration-300 rounded-xl backdrop-blur-sm"
                   >
                     <motion.div
                       animate={{ rotate: [0, 360] }}
@@ -298,7 +299,7 @@ export function Navbar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 align="end"
-                className="bg-white/95 dark:bg-gray-800/95 backdrop-blur-lg border border-white/20 dark:border-gray-700/30 shadow-2xl rounded-xl p-2"
+                className="bg-white/98 dark:bg-gray-800/95 backdrop-blur-lg border border-green-200/30 dark:border-gray-700/30 shadow-2xl rounded-xl p-2"
               >
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}

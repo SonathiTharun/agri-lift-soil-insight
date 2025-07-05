@@ -225,14 +225,19 @@
   }
 
   .professional-header-farmer {
-    @apply backdrop-blur-2xl border-b border-green-200/30 shadow-2xl;
+    @apply backdrop-blur-2xl border-b shadow-2xl;
     background: linear-gradient(135deg,
-      rgba(240, 253, 244, 0.98) 0%,
-      rgba(220, 252, 231, 0.98) 25%,
-      rgba(187, 247, 208, 0.98) 50%,
-      rgba(154, 240, 185, 0.98) 75%,
-      rgba(134, 239, 172, 0.98) 100%);
-    box-shadow: 0 4px 32px rgba(34, 197, 94, 0.08), 0 1px 3px rgba(34, 197, 94, 0.12);
+      rgba(76, 175, 80, 0.95) 0%,
+      rgba(76, 175, 80, 0.98) 30%,
+      rgba(76, 175, 80, 1) 50%,
+      rgba(76, 175, 80, 0.98) 70%,
+      rgba(76, 175, 80, 0.95) 100%);
+    border-bottom: 2px solid rgba(46, 125, 50, 0.3);
+    box-shadow:
+      0 4px 32px rgba(0, 0, 0, 0.12),
+      0 1px 3px rgba(0, 0, 0, 0.15),
+      0 0 0 1px rgba(255, 255, 255, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
   }
 
   .professional-header-executive {
@@ -441,8 +446,13 @@
   }
 
   .professional-mobile-menu-farmer {
-    @apply bg-green-50/95 backdrop-blur-xl border border-green-200/50 shadow-2xl rounded-xl;
+    @apply backdrop-blur-xl shadow-2xl rounded-xl;
     @apply animate-in slide-in-from-top-4 duration-300;
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(248, 250, 252, 0.95) 50%,
+      rgba(240, 253, 244, 0.95) 100%);
+    border: 1px solid rgba(34, 197, 94, 0.2);
   }
 
   .professional-mobile-menu-executive {
@@ -457,14 +467,19 @@
   }
 
   .dark .professional-header-farmer {
-    @apply backdrop-blur-2xl border-b border-green-700/50 shadow-2xl;
+    @apply backdrop-blur-2xl border-b shadow-2xl;
     background: linear-gradient(135deg,
-      rgba(20, 83, 45, 0.95) 0%,
-      rgba(22, 101, 52, 0.95) 25%,
-      rgba(21, 128, 61, 0.95) 50%,
-      rgba(22, 163, 74, 0.95) 75%,
-      rgba(34, 197, 94, 0.95) 100%);
-    box-shadow: 0 4px 32px rgba(34, 197, 94, 0.15), 0 1px 3px rgba(34, 197, 94, 0.2);
+      rgba(46, 125, 50, 0.9) 0%,
+      rgba(46, 125, 50, 0.95) 30%,
+      rgba(46, 125, 50, 1) 50%,
+      rgba(46, 125, 50, 0.95) 70%,
+      rgba(46, 125, 50, 0.9) 100%);
+    border-bottom: 2px solid rgba(76, 175, 80, 0.4);
+    box-shadow:
+      0 4px 32px rgba(0, 0, 0, 0.3),
+      0 1px 3px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
   }
 
   .dark .professional-header-executive {
@@ -477,6 +492,40 @@
 
   .dark .professional-nav-item-executive {
     @apply text-emerald-300 hover:bg-emerald-800/80 hover:text-emerald-100;
+  }
+
+  /* Enhanced Farmer Portal Navigation Items */
+  .professional-nav-item-farmer {
+    @apply text-white hover:bg-white/20 hover:text-white transition-all duration-200;
+    @apply border border-transparent hover:border-white/30 rounded-lg px-3 py-2;
+    @apply font-medium;
+  }
+
+  .dark .professional-nav-item-farmer {
+    @apply text-white hover:bg-white/10 hover:text-white;
+    @apply border border-transparent hover:border-white/20;
+  }
+
+  /* Farmer Portal Logo and Branding */
+  .farmer-portal-logo {
+    @apply text-white hover:text-white/90 transition-colors duration-200;
+    @apply drop-shadow-lg;
+  }
+
+  .dark .farmer-portal-logo {
+    @apply text-white hover:text-white/90;
+  }
+
+  /* Farmer Portal Button Styles */
+  .farmer-portal-button {
+    @apply bg-white/90 hover:bg-white text-gray-800 hover:text-gray-900;
+    @apply border border-white/50 hover:border-white transition-all duration-200;
+    @apply shadow-md hover:shadow-lg;
+  }
+
+  .dark .farmer-portal-button {
+    @apply bg-white/10 hover:bg-white/20 text-white hover:text-white;
+    @apply border border-white/20 hover:border-white/40;
   }
 
   .dark .professional-button {

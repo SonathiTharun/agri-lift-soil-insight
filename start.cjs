@@ -55,28 +55,28 @@ async function startServers() {
   // Check and handle port conflicts
   console.log('🔍 Checking for port conflicts...');
   
-  const backendPortAvailable = await isPortAvailable(5001);
-  const frontendPortAvailable = await isPortAvailable(3000);
-  
+  const backendPortAvailable = await isPortAvailable(8081);
+  const frontendPortAvailable = await isPortAvailable(8080);
+
   if (!backendPortAvailable) {
-    console.log('⚠️  Port 5001 is in use. Attempting to free it...');
-    await killProcessOnPort(5001);
+    console.log('⚠️  Port 8081 is in use. Attempting to free it...');
+    await killProcessOnPort(8081);
   }
-  
+
   if (!frontendPortAvailable) {
-    console.log('⚠️  Port 3000 is in use. Attempting to free it...');
-    await killProcessOnPort(3000);
+    console.log('⚠️  Port 8080 is in use. Attempting to free it...');
+    await killProcessOnPort(8080);
   }
 
   // Start backend
-  console.log('📡 Starting Backend Server on port 5001...');
+  console.log('📡 Starting Backend Server on port 8081...');
   const backend = spawnProcess('npm', ['run', 'dev'], {
     cwd: path.join(__dirname, 'backend')
   });
 
   // Wait a bit for backend to start, then start frontend
   setTimeout(() => {
-    console.log('🌐 Starting Frontend Development Server on port 3000...');
+    console.log('🌐 Starting Frontend Development Server on port 8080...');
     const frontend = spawnProcess('npm', ['run', 'dev:frontend-only']);
     
     // Handle process termination
@@ -89,8 +89,8 @@ async function startServers() {
   }, 3000);
 
   console.log('\n✅ Both servers are starting up!');
-  console.log('📡 Backend will be available at: http://localhost:5001');
-  console.log('🌐 Frontend will be available at: http://localhost:3000');
+  console.log('📡 Backend will be available at: http://localhost:8081');
+  console.log('🌐 Frontend will be available at: http://localhost:8080');
   console.log('\n💡 Press Ctrl+C to stop both servers\n');
 }
 
