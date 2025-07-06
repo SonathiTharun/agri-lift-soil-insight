@@ -38,8 +38,7 @@ const productSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    trim: true,
-    index: true
+    trim: true
   },
   description: {
     type: String,
@@ -48,8 +47,7 @@ const productSchema = new mongoose.Schema({
   categoryId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'ProductCategory',
-    required: true,
-    index: true
+    required: true
   },
   price: {
     type: Number,

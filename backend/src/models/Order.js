@@ -108,13 +108,11 @@ const orderSchema = new mongoose.Schema({
   orderNumber: {
     type: String,
     required: true,
-    unique: true,
-    index: true
+    unique: true
   },
   userId: {
     type: String,
-    required: true,
-    index: true
+    required: true
   },
   items: [orderItemSchema],
   subtotal: {
@@ -148,8 +146,7 @@ const orderSchema = new mongoose.Schema({
     type: String,
     required: true,
     enum: ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled', 'returned'],
-    default: 'pending',
-    index: true
+    default: 'pending'
   },
   shippingAddress: shippingAddressSchema,
   paymentInfo: paymentInfoSchema,
@@ -181,7 +178,7 @@ const orderSchema = new mongoose.Schema({
 // Indexes for better performance
 orderSchema.index({ userId: 1, createdAt: -1 });
 orderSchema.index({ status: 1, createdAt: -1 });
-orderSchema.index({ orderNumber: 1 });
+// Note: orderNumber already has unique index from schema definition
 orderSchema.index({ 'paymentInfo.status': 1 });
 
 // Pre-save middleware to generate order number

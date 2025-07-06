@@ -345,7 +345,7 @@ exportSchema.index({ status: 1, createdAt: -1 });
 exportSchema.index({ 'product.cropName': 1 });
 exportSchema.index({ targetMarkets: 1 });
 exportSchema.index({ isActive: 1, status: 1 });
-exportSchema.index({ exportId: 1 });
+// Note: exportId already has unique index from schema definition
 exportSchema.index({ 'logistics.trackingNumber': 1 });
 exportSchema.index({ 'payment.transactionId': 1 });
 

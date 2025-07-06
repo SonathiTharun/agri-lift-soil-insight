@@ -5,12 +5,10 @@ const userSessionSchema = new mongoose.Schema({
   sessionId: {
     type: String,
     required: true,
-    unique: true,
-    index: true
+    unique: true
   },
   userId: {
-    type: String,
-    index: true
+    type: String
   },
   ipAddress: {
     type: String,
@@ -91,7 +89,7 @@ const userSessionSchema = new mongoose.Schema({
 });
 
 // Indexes for performance
-userSessionSchema.index({ sessionId: 1 });
+// Note: sessionId already has unique index from schema definition
 userSessionSchema.index({ userId: 1, lastActivity: -1 });
 userSessionSchema.index({ isActive: 1, lastActivity: -1 });
 userSessionSchema.index({ createdAt: -1 });

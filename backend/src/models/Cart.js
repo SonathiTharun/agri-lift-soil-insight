@@ -37,12 +37,10 @@ const cartSchema = new mongoose.Schema({
   userId: {
     type: String,
     required: true,
-    unique: true,
-    index: true
+    unique: true
   },
   sessionId: {
-    type: String,
-    index: true
+    type: String
   },
   items: [cartItemSchema],
   subtotal: {
@@ -76,7 +74,7 @@ const cartSchema = new mongoose.Schema({
 });
 
 // Indexes for better performance
-cartSchema.index({ userId: 1 });
+// Note: userId already has unique index from schema definition
 cartSchema.index({ sessionId: 1 });
 cartSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
 cartSchema.index({ lastUpdated: 1 });
