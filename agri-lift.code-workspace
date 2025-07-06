@@ -1,0 +1,155 @@
+{
+  "folders": [
+    {
+      "name": "Root",
+      "path": "."
+    },
+    {
+      "name": "Backend",
+      "path": "./backend"
+    },
+    {
+      "name": "Frontend",
+      "path": "./src"
+    }
+  ],
+  "settings": {
+    "terminal.integrated.defaultProfile.windows": "Command Prompt",
+    "terminal.integrated.cwd": "${workspaceFolder}",
+    "files.exclude": {
+      "**/node_modules": true,
+      "**/dist": true,
+      "**/build": true,
+      "**/.git": true
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/dist": true,
+      "**/build": true
+    },
+    "typescript.preferences.includePackageJsonAutoImports": "auto",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": "explicit"
+    }
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Start Full Application",
+        "type": "shell",
+        "command": "npm",
+        "args": ["run", "dev:smart"],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "new",
+          "showReuseMessage": true,
+          "clear": false
+        },
+        "problemMatcher": [],
+        "runOptions": {
+          "runOn": "default"
+        }
+      },
+      {
+        "label": "Start Backend Only",
+        "type": "shell",
+        "command": "npm",
+        "args": ["run", "dev"],
+        "options": {
+          "cwd": "${workspaceFolder}/backend"
+        },
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "new"
+        }
+      },
+      {
+        "label": "Start Frontend Only",
+        "type": "shell",
+        "command": "npm",
+        "args": ["run", "dev:frontend-only"],
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "new"
+        }
+      },
+      {
+        "label": "Install All Dependencies",
+        "type": "shell",
+        "command": "npm",
+        "args": ["install"],
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "new"
+        },
+        "dependsOrder": "sequence",
+        "dependsOn": ["Install Backend Dependencies"]
+      },
+      {
+        "label": "Install Backend Dependencies",
+        "type": "shell",
+        "command": "npm",
+        "args": ["install"],
+        "options": {
+          "cwd": "${workspaceFolder}/backend"
+        },
+        "group": "build",
+        "presentation": {
+          "echo": true,
+          "reveal": "always",
+          "focus": false,
+          "panel": "new"
+        }
+      }
+    ]
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Debug Backend",
+        "type": "node",
+        "request": "launch",
+        "program": "${workspaceFolder}/backend/server.js",
+        "cwd": "${workspaceFolder}/backend",
+        "env": {
+          "NODE_ENV": "development"
+        },
+        "console": "integratedTerminal",
+        "restart": true,
+        "runtimeExecutable": "nodemon",
+        "skipFiles": ["<node_internals>/**"]
+      }
+    ]
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-vscode.vscode-typescript-next",
+      "bradlc.vscode-tailwindcss",
+      "esbenp.prettier-vscode",
+      "ms-vscode.vscode-eslint",
+      "ms-vscode.vscode-json",
+      "ms-vscode.vscode-node-debug2",
+      "formulahendry.auto-rename-tag",
+      "christian-kohler.path-intellisense",
+      "ms-vscode.vscode-npm-script"
+    ]
+  }
+}

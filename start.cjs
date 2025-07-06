@@ -3,8 +3,35 @@
 const { spawn, exec } = require('child_process');
 const path = require('path');
 const net = require('net');
+const fs = require('fs');
 
 console.log('🚀 Starting Agri-Lift Full Stack Application...\n');
+
+// Check if dependencies are installed
+function checkDependencies() {
+  const rootNodeModules = path.join(__dirname, 'node_modules');
+  const backendNodeModules = path.join(__dirname, 'backend', 'node_modules');
+
+  if (!fs.existsSync(rootNodeModules)) {
+    console.log('📦 Installing root dependencies...');
+    exec('npm install', { cwd: __dirname }, (error) => {
+      if (error) {
+        console.error('❌ Failed to install root dependencies:', error);
+        process.exit(1);
+      }
+    });
+  }
+
+  if (!fs.existsSync(backendNodeModules)) {
+    console.log('📦 Installing backend dependencies...');
+    exec('npm install', { cwd: path.join(__dirname, 'backend') }, (error) => {
+      if (error) {
+        console.error('❌ Failed to install backend dependencies:', error);
+        process.exit(1);
+      }
+    });
+  }
+}
 
 // Function to check if a port is available
 function isPortAvailable(port) {
@@ -52,9 +79,13 @@ function killProcessOnPort(port) {
 }
 
 async function startServers() {
+  // Check dependencies first
+  console.log('📦 Checking dependencies...');
+  checkDependencies();
+
   // Check and handle port conflicts
   console.log('🔍 Checking for port conflicts...');
-  
+
   const backendPortAvailable = await isPortAvailable(8081);
   const frontendPortAvailable = await isPortAvailable(8080);
 
