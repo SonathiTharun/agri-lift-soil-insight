@@ -156,7 +156,7 @@ export const featuredProducts: FeaturedProduct[] = [
     name: "Premium Organic Compost",
     description: "Nutrient-rich organic compost for all your farming needs",
     price: 149,
-    image: "https://media.istockphoto.com/id/1198255281/photo/professional-gardener-adds-compost-to-the-soil-in-the-garden.webp?a=1&b=1&s=612x612&w=0&k=20&c=1KLUuAP1w_kEzQ7aCKSz6WRtC3AW8eSXIHi_5xpHtKc=",
+    image: "https://images-cdn.ubuy.co.in/634f6bf504748a51bf456dde-r-m-organics-premium-organic-compost.jpg",
     rating: 4.9
   },
   {
@@ -165,7 +165,7 @@ export const featuredProducts: FeaturedProduct[] = [
     name: "Premium Garden Tool Set",
     description: "Complete set of essential farming tools for everyday use",
     price: 129,
-    image: "https://media.istockphoto.com/id/621356882/photo/gardening-tools-and-flowers-in-pots.jpg?s=612x612&w=0&k=20&c=CR-w4NJNLsQSJoK00tRWCzwfXQ_VPOaSTQecYSs_tCE=",
+    image: "https://organicbazar.net/cdn/shop/products/Hand-Trowel-for-Digging-and-Gardening-_E2_80_93-Small-Size-3.png?v=1692321767&width=533",
     rating: 4.8,
     discount: 20
   }
@@ -261,7 +261,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Pest-Resistant Eggplant",
       description: "Eggplant seedlings designed to resist common pests",
       price: 189,
-      image: "https://api.deepai.org/job-view-file/ba82a04e-a346-4086-ad61-efd28c62f4d9/outputs/output.jpg",
+      image: "https://gdb.voanews.com/06903614-b017-4fce-9bb3-10f0a53b7678_w408_r1_s.jpg",
       rating: 4.5,
       stock: 110
     },
@@ -270,7 +270,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "High-Yield Cassava Seedling",
       description: "Lab-grown cassava with 45% higher starch content",
       price: 219,
-      image: "https://media.istockphoto.com/id/1325117993/photo/tapioca-tuber-thai-cassava-crop.jpg?s=612x612&w=0&k=20&c=YdzreFUIPHPHVHo0cMLN56NStGiW-SQ7qGT3_tYGCp4=",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRcUYXa8RnC9POaqYokfJV7TyHIrc23f4QCZQ&s",
       rating: 4.9,
       stock: 65
     },
@@ -279,7 +279,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Climate-Adaptive Potato",
       description: "Potato seedlings engineered to adapt to climate fluctuations",
       price: 169,
-      image: "https://media.istockphoto.com/id/1318666271/photo/a-pile-of-young-potatoes-close-up-freshly-dug-potatoes-cultivation-of-potatoes.jpg?s=612x612&w=0&k=20&c=8U83vL00_J7OpH2uBN2DGmNAewbpyDtKHxkJz_RL74o=",
+      image: "https://cipotato.org/wp-content/uploads/2023/08/file.jpg",
       rating: 4.6,
       stock: 88
     }
@@ -309,7 +309,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Organic Bottleguard Seeds",
       description: "High-quality organic gourd seeds for healthy farming",
       price: 99,
-      image: "https://media.istockphoto.com/id/502490988/photo/bottle-gourd-plant-with-young-fruit.webp?a=1&b=1&s=612x612&w=0&k=20&c=MxnSAJYrNkoeKQyieI-dp9UDQDX_oWwZNeT2R-ncpl8=",
+      image: "https://5.imimg.com/data5/SELLER/Default/2022/5/WC/TH/HF/44902003/new-product-500x500.jpeg",
       rating: 4.5,
       stock: 200
     },
@@ -318,7 +318,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Wheat Seeds - Premium Quality",
       description: "Clean, certified wheat seeds for optimal production",
       price: 129,
-      image: "https://media.istockphoto.com/id/1345650890/photo/wheat-and-grain-in-hand-wheat-grain-kernel.jpg?s=612x612&w=0&k=20&c=KpOkbRUbFC5vD2e_X0DZ1KXBmnJzzIPDHnfCAhDB1x0=",
+      image: "https://m.media-amazon.com/images/I/711KJzRJIvL._UF350,350_QL80_.jpg",
       rating: 4.8,
       stock: 180
     },
@@ -327,7 +327,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Premium Carrot Seeds",
       description: "High-germination carrot seeds for abundant harvests",
       price: 79,
-      image: "https://media.istockphoto.com/id/1431027073/photo/carrot-seeds-in-hand.webp?a=1&b=1&s=612x612&w=0&k=20&c=YXJ-pnLj-ulMR9KVpCq6eQoAw_GyWQb6pWUrKCbPzVU=",
+      image: "https://m.media-amazon.com/images/I/718BUMMdHDL._UF1000,1000_QL80_.jpg",
       rating: 4.7,
       stock: 220
     },
@@ -375,7 +375,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Premium Organic Compost",
       description: "Nutrient-rich organic compost for all your farming needs",
       price: 149,
-      image: "https://media.istockphoto.com/id/1198255281/photo/professional-gardener-adds-compost-to-the-soil-in-the-garden.webp?a=1&b=1&s=612x612&w=0&k=20&c=1KLUuAP1w_kEzQ7aCKSz6WRtC3AW8eSXIHi_5xpHtKc=",
+      image: "https://images-cdn.ubuy.co.in/634f6bf504748a51bf456dde-r-m-organics-premium-organic-compost.jpg",
       rating: 4.9,
       stock: 300
     },
@@ -442,7 +442,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Organic Pest Control Spray",
       description: "Natural formula to control common plant pests",
       price: 89,
-      image: "https://media.istockphoto.com/id/1217779052/photo/farmer-spraying-vegetables-with-chemicals-in-the-garden.webp?a=1&b=1&s=612x612&w=0&k=20&c=r7Mfptx_suxSOkL5PhVcqBGdCTax1_Qvkr7aHWCeVFc=",
+      image: "https://m.media-amazon.com/images/I/71IwdmvlTNL.jpg",
       rating: 4.5,
       stock: 150
     },
@@ -451,7 +451,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Neem Oil Concentrate",
       description: "Organic solution for pest and fungal control",
       price: 69,
-      image: "https://media.istockphoto.com/id/1398630956/photo/neem-oil-extract-in-bottle-on-wooden-surface-selective-focus-ayurvedic-medicine.webp?a=1&b=1&s=612x612&w=0&k=20&c=4i6gVZdHeWSPwdkcpzLzjsGSp9NByPFflgRSPtJJ4o8=",
+      image: "https://m.media-amazon.com/images/I/61apvuoK0WL._UF350,350_QL80_.jpg",
       rating: 4.7,
       stock: 200,
       discount: 15
@@ -461,7 +461,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Insect Barrier Mesh",
       description: "Physical protection against flying pests",
       price: 129,
-      image: "https://media.istockphoto.com/id/1371333320/photo/pigeons-and-other-birds-control-net-installed-in-balcony-celling.webp?a=1&b=1&s=612x612&w=0&k=20&c=yISvzG7xjVeyZEiQuE8H0iWv1Y8PWDbvRF7VotW-z2c=",
+      image: "https://img.kwcdn.com/product/Fancyalgo/VirtualModelMatting/a0434ed81ad9511c812c226182e4bfee.jpg?imageView2/2/w/500/q/60/format/webp",
       rating: 4.6,
       stock: 80
     },
@@ -489,7 +489,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Soil Pest Control Granules",
       description: "Long-lasting granular formula for controlling soil-dwelling pests",
       price: 119,
-      image: "https://media.istockphoto.com/id/510252595/photo/compost-for-the-garden.jpg?s=612x612&w=0&k=20&c=zgpnMB_bk6ZcjZBO8VsqLRAlB6HlLmgaP_aKJw4Idsg=",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI8rpOaPkLeWg83wiCB59_i8U0t1J81hoB1w&s",
       rating: 4.6,
       stock: 90
     }
@@ -500,7 +500,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Premium Garden Tool Set",
       description: "Complete set of essential farming tools for everyday use",
       price: 129,
-      image: "https://media.istockphoto.com/id/621356882/photo/gardening-tools-and-flowers-in-pots.jpg?s=612x612&w=0&k=20&c=CR-w4NJNLsQSJoK00tRWCzwfXQ_VPOaSTQecYSs_tCE=",
+      image: "https://organicbazar.net/cdn/shop/products/Hand-Trowel-for-Digging-and-Gardening-_E2_80_93-Small-Size-3.png?v=1692321767&width=533",
       rating: 4.8,
       stock: 75,
       discount: 20
