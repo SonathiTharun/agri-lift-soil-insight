@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Star, ChevronRight } from "lucide-react";
+import { useLanguage } from "@/components/LanguageContext";
 
 interface Product {
   id: string;
@@ -51,6 +52,7 @@ const RelatedProductCard = ({ product, categoryId, navigate }: {
 };
 
 export const RelatedProducts = ({ relatedProducts, categoryId, navigate }: RelatedProductsProps) => {
+  const { t } = useLanguage();
   if (relatedProducts.length === 0) return null;
 
   return (
@@ -63,10 +65,10 @@ export const RelatedProducts = ({ relatedProducts, categoryId, navigate }: Relat
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center">
           <div className="w-1.5 h-6 bg-foliage rounded-full mr-3"></div>
-          <h2 className="text-2xl font-bold text-gray-800">Related Products</h2>
+          <h2 className="text-2xl font-bold text-gray-800">{t('related-products')}</h2>
         </div>
         <Button variant="ghost" className="text-foliage font-medium" onClick={() => navigate(`/market/${categoryId}`)}>
-          View All <ChevronRight className="ml-1 h-4 w-4" />
+          {t('view-all')} <ChevronRight className="ml-1 h-4 w-4" />
         </Button>
       </div>
       

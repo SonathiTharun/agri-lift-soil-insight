@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "@/components/LanguageContext";
 
 const serviceBlocks = [
     {
@@ -28,25 +29,26 @@ const serviceBlocks = [
     },
 ];
 
-const testimonials = [
+const getTestimonials = (t: (key: string) => string) => [
     {
-        name: "Ramesh, Telangana",
-        quote: "Dairy-Lift helped me get better prices for my milk and buy healthy cows easily!",
+        name: t("ramesh-location"),
+        quote: t("ramesh-testimonial"),
         img: "https://randomuser.me/api/portraits/men/32.jpg",
     },
     {
-        name: "Lakshmi, Andhra Pradesh",
-        quote: "The advice and market info is a game changer for my dairy business.",
+        name: t("lakshmi-location"),
+        quote: t("lakshmi-testimonial"),
         img: "https://randomuser.me/api/portraits/women/44.jpg",
     },
     {
-        name: "Suresh, Karnataka",
-        quote: "I found the best feed deals and sold my old tractor in a day!",
+        name: t("suresh-location"),
+        quote: t("suresh-testimonial"),
         img: "https://randomuser.me/api/portraits/men/65.jpg",
     },
 ];
 
 const Dashboard = () => {
+    const { t } = useLanguage();
     const navigate = useNavigate();
 
     return (
@@ -120,13 +122,13 @@ const Dashboard = () => {
 
             {/* Testimonials */}
             <section className="max-w-5xl mx-auto px-4">
-                <h2 className="text-2xl font-bold text-blue-800 mb-6 text-center">What Farmers Say</h2>
+                <h2 className="text-2xl font-bold text-blue-800 mb-6 text-center">{t('what-farmers-say')}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {testimonials.map((t) => (
-                        <div key={t.name} className="bg-white/80 backdrop-blur rounded-2xl shadow-lg p-6 flex flex-col items-center border border-blue-100">
-                            <img src={t.img} alt={t.name} className="w-20 h-20 rounded-full mb-4 shadow-md object-cover" />
-                            <blockquote className="italic text-gray-700 mb-2 text-center">“{t.quote}”</blockquote>
-                            <span className="font-semibold text-blue-700">{t.name}</span>
+                    {getTestimonials(t).map((testimonial) => (
+                        <div key={testimonial.name} className="bg-white/80 backdrop-blur rounded-2xl shadow-lg p-6 flex flex-col items-center border border-blue-100">
+                            <img src={testimonial.img} alt={testimonial.name} className="w-20 h-20 rounded-full mb-4 shadow-md object-cover" />
+                            <blockquote className="italic text-gray-700 mb-2 text-center">“{testimonial.quote}”</blockquote>
+                            <span className="font-semibold text-blue-700">{testimonial.name}</span>
                         </div>
                     ))}
                 </div>

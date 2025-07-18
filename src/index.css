@@ -241,14 +241,19 @@
   }
 
   .professional-header-executive {
-    @apply backdrop-blur-2xl border-b border-emerald-200/30 shadow-2xl;
+    @apply backdrop-blur-3xl border-b border-emerald-200/20;
     background: linear-gradient(135deg,
-      rgba(236, 253, 245, 0.98) 0%,
-      rgba(209, 250, 229, 0.98) 25%,
-      rgba(167, 243, 208, 0.98) 50%,
-      rgba(134, 239, 172, 0.98) 75%,
-      rgba(110, 231, 183, 0.98) 100%);
-    box-shadow: 0 4px 32px rgba(16, 185, 129, 0.12), 0 1px 3px rgba(16, 185, 129, 0.15);
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(240, 253, 244, 0.95) 25%,
+      rgba(220, 252, 231, 0.95) 50%,
+      rgba(187, 247, 208, 0.95) 75%,
+      rgba(134, 239, 172, 0.95) 100%);
+    box-shadow:
+      0 8px 32px rgba(16, 185, 129, 0.08),
+      0 4px 16px rgba(16, 185, 129, 0.06),
+      0 2px 8px rgba(16, 185, 129, 0.04),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    border-image: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.3), transparent) 1;
   }
 
   .professional-nav-item {
@@ -270,21 +275,53 @@
   }
 
   .professional-nav-item-executive {
-    @apply relative px-5 py-3 rounded-xl font-semibold text-sm transition-all duration-300 ease-out;
-    @apply text-emerald-800 bg-emerald-50 border border-emerald-200 backdrop-blur-sm;
-    @apply hover:bg-emerald-100 hover:border-emerald-300 hover:text-emerald-900 hover:shadow-lg;
-    @apply focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:bg-emerald-100 focus:border-emerald-400;
+    @apply relative px-6 py-3.5 rounded-2xl font-semibold text-sm transition-all duration-500 ease-out;
+    @apply text-emerald-700 backdrop-blur-xl border border-emerald-200/50;
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(240, 253, 244, 0.8) 50%,
+      rgba(220, 252, 231, 0.9) 100%);
+    @apply hover:text-emerald-900 hover:border-emerald-300/70;
+    @apply focus:outline-none focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-400/60;
     @apply active:shadow-sm;
-    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.08), 0 1px 3px rgba(16, 185, 129, 0.12);
+    box-shadow:
+      0 4px 16px rgba(16, 185, 129, 0.06),
+      0 2px 8px rgba(16, 185, 129, 0.04),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
     transform: scale(1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .professional-nav-item-executive::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.6s ease;
+  }
+
+  .professional-nav-item-executive:hover::before {
+    left: 100%;
   }
 
   .professional-nav-item-executive:hover {
-    transform: scale(1.02);
+    transform: scale(1.05) translateY(-2px);
+    box-shadow:
+      0 8px 32px rgba(16, 185, 129, 0.12),
+      0 4px 16px rgba(16, 185, 129, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(240, 253, 244, 0.9) 50%,
+      rgba(220, 252, 231, 0.95) 100%);
   }
 
   .professional-nav-item-executive:active {
-    transform: scale(0.98);
+    transform: scale(0.98) translateY(0px);
   }
 
   .professional-nav-item-active {
@@ -316,31 +353,66 @@
   }
 
   .professional-nav-item-active-executive {
-    @apply relative px-5 py-3 rounded-xl font-bold text-sm transition-all duration-300 ease-out;
-    @apply text-white border border-emerald-400 backdrop-blur-sm;
-    background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
-    box-shadow: 0 4px 16px rgba(16, 185, 129, 0.3), 0 2px 8px rgba(16, 185, 129, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    @apply hover:shadow-2xl hover:border-emerald-300;
-    @apply focus:outline-none focus:ring-2 focus:ring-emerald-400/40;
+    @apply relative px-6 py-3.5 rounded-2xl font-bold text-sm transition-all duration-500 ease-out;
+    @apply text-white border border-emerald-400/60 backdrop-blur-xl;
+    background: linear-gradient(135deg,
+      #10b981 0%,
+      #059669 30%,
+      #047857 70%,
+      #065f46 100%);
+    box-shadow:
+      0 8px 32px rgba(16, 185, 129, 0.25),
+      0 4px 16px rgba(16, 185, 129, 0.15),
+      0 2px 8px rgba(16, 185, 129, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+    @apply hover:border-emerald-300/80;
+    @apply focus:outline-none focus:ring-2 focus:ring-emerald-400/50;
     transform: scale(1);
-  }
-
-  .professional-nav-item-active-executive:hover {
-    transform: scale(1.02);
-  }
-
-  .professional-nav-item-active-executive:active {
-    transform: scale(0.98);
+    position: relative;
+    overflow: hidden;
   }
 
   .professional-nav-item-active-executive::before {
     content: '';
-    @apply absolute inset-0 rounded-xl opacity-0 transition-opacity duration-300;
-    background: linear-gradient(135deg, rgba(52, 211, 153, 0.3) 0%, rgba(16, 185, 129, 0.3) 100%);
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.8s ease;
   }
 
   .professional-nav-item-active-executive:hover::before {
+    left: 100%;
+  }
+
+  .professional-nav-item-active-executive::after {
+    content: '';
+    @apply absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-300;
+    background: linear-gradient(135deg,
+      rgba(52, 211, 153, 0.2) 0%,
+      rgba(16, 185, 129, 0.2) 50%,
+      rgba(5, 150, 105, 0.2) 100%);
+  }
+
+  .professional-nav-item-active-executive:hover {
+    transform: scale(1.05) translateY(-3px);
+    box-shadow:
+      0 12px 48px rgba(16, 185, 129, 0.3),
+      0 8px 24px rgba(16, 185, 129, 0.2),
+      0 4px 12px rgba(16, 185, 129, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  }
+
+  .professional-nav-item-active-executive:hover::after {
     @apply opacity-100;
+  }
+
+  .professional-nav-item-active-executive:active {
+    transform: scale(0.98) translateY(-1px);
   }
 
   .professional-logo {
@@ -550,6 +622,69 @@
 
   .dark .professional-dropdown-item-executive {
     @apply text-emerald-300 hover:bg-emerald-800/80 hover:text-emerald-100;
+  }
+
+  /* Modern Executive Dashboard Cards */
+  .executive-kpi-card {
+    @apply relative overflow-hidden rounded-3xl border border-white/20 backdrop-blur-xl transition-all duration-500 ease-out;
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.95) 0%,
+      rgba(248, 250, 252, 0.9) 50%,
+      rgba(241, 245, 249, 0.95) 100%);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.04),
+      0 4px 16px rgba(0, 0, 0, 0.02),
+      0 2px 8px rgba(0, 0, 0, 0.01),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  }
+
+  .executive-kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #10b981, #059669, #047857);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .executive-kpi-card:hover::before {
+    opacity: 1;
+  }
+
+  .executive-kpi-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow:
+      0 20px 64px rgba(0, 0, 0, 0.08),
+      0 12px 32px rgba(0, 0, 0, 0.04),
+      0 6px 16px rgba(0, 0, 0, 0.02),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    border-color: rgba(16, 185, 129, 0.2);
+  }
+
+  .executive-chart-card {
+    @apply relative overflow-hidden rounded-3xl border border-gray-200/50 backdrop-blur-xl transition-all duration-500 ease-out;
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.98) 0%,
+      rgba(249, 250, 251, 0.95) 50%,
+      rgba(243, 244, 246, 0.98) 100%);
+    box-shadow:
+      0 12px 48px rgba(0, 0, 0, 0.06),
+      0 6px 24px rgba(0, 0, 0, 0.03),
+      0 3px 12px rgba(0, 0, 0, 0.02),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  }
+
+  .executive-chart-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 16px 64px rgba(0, 0, 0, 0.08),
+      0 8px 32px rgba(0, 0, 0, 0.04),
+      0 4px 16px rgba(0, 0, 0, 0.02),
+      inset 0 1px 0 rgba(255, 255, 255, 0.95);
+    border-color: rgba(16, 185, 129, 0.15);
   }
 
   /* Professional animations and effects */
@@ -923,6 +1058,52 @@
 
 .animate-scale-in {
   animation: scale-in 0.5s ease-out forwards;
+}
+
+/* Enhanced Executive Dashboard Animations */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s linear infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(16, 185, 129, 0.6);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer-effect {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
 }
 
 .animate-hover-bounce:hover {

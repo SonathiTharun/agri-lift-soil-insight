@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLanguage } from "@/components/LanguageContext";
 
 const breeds = ["Gir", "Sahiwal", "Holstein Friesian (HF)", "Jersey", "Murrah Buffalo"];
 const locations = ["Hyderabad", "Warangal", "Vijayawada", "Guntur", "Bangalore"];
@@ -21,6 +22,7 @@ const defaultForm = {
 const BACKEND_URL = "http://localhost:5006";
 
 const LivestockMarket = () => {
+  const { t } = useLanguage();
   const [filters, setFilters] = useState<{
     breed: string;
     location: string;
@@ -260,8 +262,8 @@ const LivestockMarket = () => {
       <section className="relative w-full h-64 flex items-center justify-center mb-10">
         <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" alt="Livestock Hero" className="absolute inset-0 w-full h-full object-cover brightness-75" />
         <div className="relative z-10 text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600 bg-clip-text text-transparent drop-shadow-lg animate-fadeInUp">Livestock Market</h1>
-          <p className="mt-4 text-lg md:text-2xl text-white/90 font-medium animate-fadeInUp delay-100">Buy and sell dairy animals with confidence. Trusted by farmers across India.</p>
+          <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600 bg-clip-text text-transparent drop-shadow-lg animate-fadeInUp">{t('livestock-market')}</h1>
+          <p className="mt-4 text-lg md:text-2xl text-white/90 font-medium animate-fadeInUp delay-100">{t('livestock-market-desc')}</p>
         </div>
       </section>
 

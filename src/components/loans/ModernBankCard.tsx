@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useLanguage } from "@/components/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -42,6 +43,7 @@ interface ModernBankCardProps {
 }
 
 export const ModernBankCard = ({ bank, onAddToComparison, isInComparison }: ModernBankCardProps) => {
+  const { t } = useLanguage();
   const [isHovered, setIsHovered] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
 
@@ -129,7 +131,7 @@ export const ModernBankCard = ({ bank, onAddToComparison, isInComparison }: Mode
           {/* Interest Rate */}
           <div className="text-center p-4 bg-gradient-to-r from-foliage/10 to-blue-500/10 rounded-lg">
             <div className="text-2xl font-bold text-foliage-dark">{bank.rate}</div>
-            <div className="text-sm text-gray-600">Interest Rate</div>
+            <div className="text-sm text-gray-600">{t('interest-rate')}</div>
           </div>
 
           {/* Key Info */}
@@ -212,7 +214,7 @@ export const ModernBankCard = ({ bank, onAddToComparison, isInComparison }: Mode
                 rel="noopener noreferrer"
                 className="flex items-center justify-center gap-1"
               >
-                Apply Now
+                {t('apply-now')}
                 <ExternalLink className="h-3 w-3" />
               </a>
             </Button>

@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiService } from "@/services/apiService";
+import { useLanguage } from "@/components/LanguageContext";
 
 interface Order {
   _id: string;
@@ -55,6 +56,7 @@ interface Order {
 }
 
 export const OrderManagement = () => {
+  const { t } = useLanguage();
   const { toast } = useToast();
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
@@ -150,8 +152,8 @@ export const OrderManagement = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Order Management</h1>
-          <p className="text-gray-600">Track and manage customer orders</p>
+          <h1 className="text-3xl font-bold text-gray-900">{t('order-management')}</h1>
+          <p className="text-gray-600">{t('order-management-desc')}</p>
         </div>
       </div>
 
@@ -159,7 +161,7 @@ export const OrderManagement = () => {
       <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Orders</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('total-orders')}</CardTitle>
             <ShoppingCart className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>

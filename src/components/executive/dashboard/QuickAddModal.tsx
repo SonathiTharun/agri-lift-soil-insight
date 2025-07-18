@@ -6,6 +6,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { useLanguage } from '@/components/LanguageContext';
 import {
   Plus,
   Package,
@@ -27,6 +28,7 @@ interface QuickAddModalProps {
 }
 
 const QuickAddModal: React.FC<QuickAddModalProps> = ({ open, onClose }) => {
+  const { t } = useLanguage();
   const { toast } = useToast();
   const navigate = useNavigate();
   const [form, setForm] = useState({ name: '', role: 'farmer', phone: '', email: '' });
@@ -191,16 +193,16 @@ const QuickAddModal: React.FC<QuickAddModalProps> = ({ open, onClose }) => {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-4">
-              <Input name="name" placeholder="Name" value={form.name} onChange={handleChange} required />
+              <Input name="name" placeholder={t('name')} value={form.name} onChange={handleChange} required />
               <select name="role" value={form.role} onChange={handleChange} className="w-full border rounded p-2">
-                <option value="farmer">Farmer</option>
-                <option value="executive">Executive</option>
+                <option value="farmer">{t('farmer')}</option>
+                <option value="executive">{t('executive')}</option>
               </select>
-              <Input name="phone" placeholder="Phone" value={form.phone} onChange={handleChange} required />
-              <Input name="email" placeholder="Email" value={form.email} onChange={handleChange} required type="email" />
+              <Input name="phone" placeholder={t('phone')} value={form.phone} onChange={handleChange} required />
+              <Input name="email" placeholder={t('email')} value={form.email} onChange={handleChange} required type="email" />
               <DialogFooter>
-                <Button type="button" variant="outline" onClick={onClose} disabled={loading}>Cancel</Button>
-                <Button type="submit" disabled={loading}>{loading ? 'Adding...' : 'Add User'}</Button>
+                <Button type="button" variant="outline" onClick={onClose} disabled={loading}>{t('cancel')}</Button>
+                <Button type="submit" disabled={loading}>{loading ? t('adding') : t('add-user')}</Button>
               </DialogFooter>
             </form>
           </TabsContent>

@@ -373,195 +373,270 @@ const ExecutiveDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30">
       <ExecutiveNavbar />
       <div className="pt-20 lg:pt-24 animate-fade-in">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex justify-between items-center mb-8 animate-slide-in">
-            <div>
-              <h1 className="text-3xl font-bold text-foliage-dark drop-shadow-md">{t('executive-dashboard')}</h1>
-              <p className="text-sky-dark mt-2 font-medium">{t('executive-dashboard-desc')}</p>
+        <div className="container mx-auto px-4 py-8">
+          <div className="mb-12 animate-slide-in">
+            {/* Header Section */}
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-8">
+                <div>
+                  <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-600 via-emerald-700 to-emerald-800 bg-clip-text text-transparent drop-shadow-sm tracking-tight">
+                    Executive Dashboard
+                  </h1>
+                </div>
+                <div className="hidden md:block w-px h-12 bg-gradient-to-b from-transparent via-slate-300 to-transparent"></div>
+                <div>
+                  <p className="text-slate-700 text-lg font-semibold tracking-wide">
+                    Monitor and manage AgriLift platform operations
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 bg-white/60 backdrop-blur-sm rounded-full px-4 py-2 border border-slate-200/50 shadow-sm">
+                <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse shadow-sm"></div>
+                <span className="text-sm font-medium text-slate-600">
+                  Live data • Updated {new Date().toLocaleTimeString()}
+                </span>
+              </div>
             </div>
-            <div className="flex gap-3">
-              <select
-                value={selectedTimeframe}
-                onChange={(e) => handleTimeframeChange(e.target.value)}
-                className="px-3 py-2 border rounded-md bg-white text-gray-900 focus:ring-2 focus:ring-gray-500 hover:bg-gray-50 transition-colors border-gray-300"
-              >
-                <option value="week">{t('this-week')}</option>
-                <option value="month">{t('this-month')}</option>
-                <option value="year">{t('this-year')}</option>
-              </select>
-              <Button variant="outline" size="sm" className="flex items-center gap-2 hover:scale-105 hover:shadow-2xl transition-all focus:ring-2 focus:ring-foliage-dark">
-                <RefreshCw className="h-4 w-4" />
-                Refresh
-              </Button>
-              <Button variant="outline" size="sm" className="flex items-center gap-2 hover:scale-105 hover:shadow-2xl transition-all focus:ring-2 focus:ring-foliage-dark" onClick={handleExport} disabled={exporting}>
-                <Download className="h-4 w-4" />
-                {exporting ? "Exporting..." : "Export"}
-              </Button>
-              <Button 
-                onClick={() => handleQuickAction("System Health Check")}
-                className="hover:scale-105 hover:shadow-2xl transition-all focus:ring-2 focus:ring-foliage-dark"
-                disabled={isLoading}
-              >
-                <Activity className="h-4 w-4 mr-2" />
-                Health Check
-              </Button>
-              <Button 
-                onClick={() => handleQuickAction("Generate Report")}
-                className="hover:scale-105 hover:shadow-2xl transition-all focus:ring-2 focus:ring-foliage-dark"
-                disabled={isLoading}
-              >
-                <BarChart3 className="h-4 w-4 mr-2" />
-                Generate Report
-              </Button>
-              <Button onClick={() => setShowQuickAdd(true)} variant="outline" size="sm" className="flex items-center gap-2 hover:scale-105 hover:shadow-2xl transition-all focus:ring-2 focus:ring-foliage-dark">
-                <Plus className="h-4 w-4" />
-                Quick Add
-              </Button>
-              <Button onClick={() => setShowAssignTask(true)} variant="outline" size="sm" className="flex items-center gap-2 hover:scale-105 hover:shadow-2xl transition-all focus:ring-2 focus:ring-foliage-dark">
-                <User className="h-4 w-4" />
-                Assign Task
-              </Button>
+
+            {/* Action Buttons Section */}
+            <div className="flex flex-wrap items-center justify-between gap-4 bg-white/40 backdrop-blur-sm rounded-2xl p-4 border border-slate-200/50 shadow-sm">
+              <div className="flex flex-wrap items-center gap-3">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2 bg-white/90 backdrop-blur-sm border-slate-300 hover:bg-emerald-50 hover:border-emerald-400 hover:scale-105 transition-all duration-300 shadow-sm font-medium"
+                >
+                  <RefreshCw className="h-4 w-4" />
+                  Refresh
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2 bg-white/90 backdrop-blur-sm border-slate-300 hover:bg-blue-50 hover:border-blue-400 hover:scale-105 transition-all duration-300 shadow-sm font-medium"
+                  onClick={handleExport}
+                  disabled={exporting}
+                >
+                  <Download className="h-4 w-4" />
+                  {exporting ? "Exporting..." : "Export"}
+                </Button>
+                <Button
+                  onClick={() => handleQuickAction("System Health Check")}
+                  className="bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white border-0 hover:scale-105 hover:shadow-lg transition-all duration-300 shadow-sm font-semibold"
+                  disabled={isLoading}
+                  size="sm"
+                >
+                  <Activity className="h-4 w-4 mr-2" />
+                  Health Check
+                </Button>
+                <Button
+                  onClick={() => handleQuickAction("Generate Report")}
+                  className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white border-0 hover:scale-105 hover:shadow-lg transition-all duration-300 shadow-sm font-semibold"
+                  disabled={isLoading}
+                  size="sm"
+                >
+                  <BarChart3 className="h-4 w-4 mr-2" />
+                  Generate Report
+                </Button>
+                <Button
+                  onClick={() => setShowQuickAdd(true)}
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-2 bg-white/90 backdrop-blur-sm border-slate-300 hover:bg-purple-50 hover:border-purple-400 hover:scale-105 transition-all duration-300 shadow-sm font-medium"
+                >
+                  <Plus className="h-4 w-4" />
+                  Quick Add
+                </Button>
+              </div>
+
+              {/* Timeframe Selector */}
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-slate-600">Period:</span>
+                <select
+                  value={selectedTimeframe}
+                  onChange={(e) => handleTimeframeChange(e.target.value)}
+                  className="px-4 py-2.5 border border-slate-300 rounded-xl bg-white/90 backdrop-blur-sm text-slate-700 focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-400 hover:bg-white transition-all duration-300 shadow-sm font-medium"
+                >
+                  <option value="week">This Week</option>
+                  <option value="month">This Month</option>
+                  <option value="year">This Year</option>
+                </select>
+              </div>
             </div>
           </div>
 
           {/* Enhanced Key Metrics Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <KPICard
-              title={t("total-farmers")}
-              value={metrics.totalFarmers.toLocaleString()}
-              subtitle={`${metrics.activeFarmers} ${t('active-farmers')} this month`}
-              icon={Users}
-              color="text-foliage-dark"
-              trend={{ value: 12.5, label: "this month" }}
-              className="animate-fade-in"
-            />
-            <KPICard
-              title={t("total-revenue")}
-              value={`₹${(enhancedMetrics.financial.totalRevenue / 100000).toFixed(1)}L`}
-              subtitle={`₹${(enhancedMetrics.financial.monthlyRevenue / 100000).toFixed(1)}L this month`}
-              icon={DollarSign}
-              color="text-foliage-dark"
-              trend={{ value: enhancedMetrics.financial.revenueGrowth, label: "monthly growth" }}
-              className="animate-fade-in"
-            />
-            <KPICard
-              title="Platform Performance"
-              value={`${enhancedMetrics.platform.successRate}%`}
-              subtitle={`${enhancedMetrics.platform.systemUptime}% uptime`}
-              icon={Activity}
-              color="text-foliage-dark"
-              trend={{ value: 2.3, label: "improvement" }}
-              className="animate-fade-in"
-            />
-            <KPICard
-              title="Customer Satisfaction"
-              value={`${enhancedMetrics.platform.customerSatisfaction}/5`}
-              subtitle={`${enhancedMetrics.platform.totalTransactions} transactions`}
-              icon={CheckCircle}
-              color="text-foliage-dark"
-              trend={{ value: 4.2, label: "rating increase" }}
-              className="animate-fade-in"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            <div className="executive-kpi-card animate-fade-in" style={{ animationDelay: '0.1s' }}>
+              <KPICard
+                title={t("total-farmers")}
+                value={metrics.totalFarmers.toLocaleString()}
+                subtitle={`${metrics.activeFarmers} ${t('active-farmers')} this month`}
+                icon={Users}
+                color="text-emerald-600"
+                trend={{ value: 12.5, label: "this month" }}
+                className="border-0 shadow-none bg-transparent"
+              />
+            </div>
+            <div className="executive-kpi-card animate-fade-in" style={{ animationDelay: '0.2s' }}>
+              <KPICard
+                title={t("total-revenue")}
+                value={`₹${(enhancedMetrics.financial.totalRevenue / 100000).toFixed(1)}L`}
+                subtitle={`₹${(enhancedMetrics.financial.monthlyRevenue / 100000).toFixed(1)}L this month`}
+                icon={DollarSign}
+                color="text-blue-600"
+                trend={{ value: enhancedMetrics.financial.revenueGrowth, label: "monthly growth" }}
+                className="border-0 shadow-none bg-transparent"
+              />
+            </div>
+            <div className="executive-kpi-card animate-fade-in" style={{ animationDelay: '0.3s' }}>
+              <KPICard
+                title="Platform Performance"
+                value={`${enhancedMetrics.platform.successRate}%`}
+                subtitle={`${enhancedMetrics.platform.systemUptime}% uptime`}
+                icon={Activity}
+                color="text-purple-600"
+                trend={{ value: 2.3, label: "improvement" }}
+                className="border-0 shadow-none bg-transparent"
+              />
+            </div>
+            <div className="executive-kpi-card animate-fade-in" style={{ animationDelay: '0.4s' }}>
+              <KPICard
+                title="Customer Satisfaction"
+                value={`${enhancedMetrics.platform.customerSatisfaction}/5`}
+                subtitle={`${enhancedMetrics.platform.totalTransactions} transactions`}
+                icon={CheckCircle}
+                color="text-orange-600"
+                trend={{ value: 4.2, label: "rating increase" }}
+                className="border-0 shadow-none bg-transparent"
+              />
+            </div>
           </div>
 
           {/* Secondary Metrics */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <KPICard
-              title={t("pending-loans")}
-              value={metrics.pendingLoans.toString()}
-              subtitle="Requiring approval"
-              icon={TrendingUp}
-              color="text-foliage-dark"
-              className="animate-fade-in"
-            />
-            <KPICard
-              title={t("market-orders")}
-              value={metrics.marketOrders.toString()}
-              subtitle="Active orders"
-              icon={ShoppingCart}
-              color="text-foliage-dark"
-              className="animate-fade-in"
-            />
-            <KPICard
-              title="Daily Active Users"
-              value={enhancedMetrics.userEngagement.dailyActiveUsers.toLocaleString()}
-              subtitle={`${enhancedMetrics.userEngagement.avgSessionDuration}min avg session`}
-              icon={Users}
-              color="text-foliage-dark"
-              trend={{ value: 8.7, label: "daily growth" }}
-              className="animate-fade-in"
-            />
-            <KPICard
-              title="Geographic Reach"
-              value={enhancedMetrics.geographic.totalRegions.toString()}
-              subtitle={`${enhancedMetrics.geographic.newRegions} new regions`}
-              icon={MapPin}
-              color="text-foliage-dark"
-              trend={{ value: 15.2, label: "expansion" }}
-              className="animate-fade-in"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+            <div className="executive-kpi-card animate-fade-in" style={{ animationDelay: '0.5s' }}>
+              <KPICard
+                title={t("pending-loans")}
+                value={metrics.pendingLoans.toString()}
+                subtitle="Requiring approval"
+                icon={TrendingUp}
+                color="text-red-600"
+                className="border-0 shadow-none bg-transparent"
+              />
+            </div>
+            <div className="executive-kpi-card animate-fade-in" style={{ animationDelay: '0.6s' }}>
+              <KPICard
+                title={t("market-orders")}
+                value={metrics.marketOrders.toString()}
+                subtitle="Active orders"
+                icon={ShoppingCart}
+                color="text-green-600"
+                className="border-0 shadow-none bg-transparent"
+              />
+            </div>
+            <div className="executive-kpi-card animate-fade-in" style={{ animationDelay: '0.7s' }}>
+              <KPICard
+                title="Daily Active Users"
+                value={enhancedMetrics.userEngagement.dailyActiveUsers.toLocaleString()}
+                subtitle={`${enhancedMetrics.userEngagement.avgSessionDuration}min avg session`}
+                icon={Users}
+                color="text-indigo-600"
+                trend={{ value: 8.7, label: "daily growth" }}
+                className="border-0 shadow-none bg-transparent"
+              />
+            </div>
+            <div className="executive-kpi-card animate-fade-in" style={{ animationDelay: '0.8s' }}>
+              <KPICard
+                title="Geographic Reach"
+                value={enhancedMetrics.geographic.totalRegions.toString()}
+                subtitle={`${enhancedMetrics.geographic.newRegions} new regions`}
+                icon={MapPin}
+                color="text-teal-600"
+                trend={{ value: 15.2, label: "expansion" }}
+                className="border-0 shadow-none bg-transparent"
+              />
+            </div>
           </div>
 
           {/* System Alerts */}
-          <div className="mb-8 animate-slide-in">
-            <Alert className="border-foliage-200 bg-foliage-50">
-              <AlertTriangle className="h-4 w-4 text-foliage-600" />
-              <AlertDescription className="text-foliage-800">
-                <strong>System Maintenance:</strong> Scheduled maintenance window tomorrow 2:00 AM - 4:00 AM IST
+          <div className="mb-12 animate-slide-in">
+            <Alert className="border-amber-200/50 bg-gradient-to-r from-amber-50 to-orange-50 backdrop-blur-sm rounded-2xl shadow-sm">
+              <AlertTriangle className="h-5 w-5 text-amber-600" />
+              <AlertDescription className="text-amber-800 font-medium">
+                <strong className="text-amber-900">System Maintenance:</strong> Scheduled maintenance window tomorrow 2:00 AM - 4:00 AM IST
               </AlertDescription>
             </Alert>
           </div>
 
           {/* Main Content Tabs */}
-          <Tabs defaultValue="overview" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-5">
-              <TabsTrigger value="overview" className="transition-all hover:scale-105 flex items-center gap-2">
+          <Tabs defaultValue="overview" className="space-y-8">
+            <TabsList className="grid w-full grid-cols-5 bg-white/80 backdrop-blur-sm border border-slate-200 rounded-2xl p-2 shadow-sm">
+              <TabsTrigger
+                value="overview"
+                className="transition-all duration-300 hover:scale-105 flex items-center gap-2 rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-emerald-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-lg"
+              >
                 <BarChart3 className="h-4 w-4" />
                 Overview
               </TabsTrigger>
-              <TabsTrigger value="analytics" className="transition-all hover:scale-105 flex items-center gap-2">
+              <TabsTrigger
+                value="analytics"
+                className="transition-all duration-300 hover:scale-105 flex items-center gap-2 rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg"
+              >
                 <PieChart className="h-4 w-4" />
                 Analytics
               </TabsTrigger>
-              <TabsTrigger value="geographic" className="transition-all hover:scale-105 flex items-center gap-2">
+              <TabsTrigger
+                value="geographic"
+                className="transition-all duration-300 hover:scale-105 flex items-center gap-2 rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-purple-600 data-[state=active]:text-white data-[state=active]:shadow-lg"
+              >
                 <MapPin className="h-4 w-4" />
                 Geographic
               </TabsTrigger>
-              <TabsTrigger value="quickActions" className="transition-all hover:scale-105 flex items-center gap-2">
+              <TabsTrigger
+                value="quickActions"
+                className="transition-all duration-300 hover:scale-105 flex items-center gap-2 rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-orange-600 data-[state=active]:text-white data-[state=active]:shadow-lg"
+              >
                 <Zap className="h-4 w-4" />
                 Quick Actions
               </TabsTrigger>
-              <TabsTrigger value="notifications" className="transition-all hover:scale-105 flex items-center gap-2">
+              <TabsTrigger
+                value="notifications"
+                className="transition-all duration-300 hover:scale-105 flex items-center gap-2 rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-red-500 data-[state=active]:to-red-600 data-[state=active]:text-white data-[state=active]:shadow-lg"
+              >
                 <Bell className="h-4 w-4" />
                 Notifications
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="overview" className="space-y-6 animate-fade-in">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <TabsContent value="overview" className="space-y-8 animate-fade-in">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Recent Activities */}
-                <Card className="hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Bell className="h-5 w-5" />
+                <Card className="executive-chart-card border-0 shadow-none">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="flex items-center gap-3 text-xl font-bold text-slate-800">
+                      <div className="p-2 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-xl text-white">
+                        <Bell className="h-5 w-5" />
+                      </div>
                       {t('recent-activities')}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-4">
                       {recentActivities.map((activity, index) => (
-                        <div key={activity.id} className={`flex items-start justify-between p-3 rounded-lg border transition-all hover:shadow-sm animate-slide-in ${getPriorityColor(activity.priority)}`} style={{ animationDelay: `${index * 100}ms` }}>
+                        <div key={activity.id} className={`flex items-start justify-between p-4 rounded-2xl border border-slate-100 transition-all duration-300 hover:shadow-md hover:scale-[1.02] animate-slide-in bg-gradient-to-r ${getPriorityColor(activity.priority)}`} style={{ animationDelay: `${index * 100}ms` }}>
                           <div className="flex-1 flex items-start gap-3">
-                            {getStatusIcon(activity.status)}
+                            <div className="p-1.5 bg-white/80 rounded-lg">
+                              {getStatusIcon(activity.status)}
+                            </div>
                             <div>
-                              <p className="text-sm font-medium">{activity.message}</p>
-                              <p className="text-xs opacity-75">{activity.time}</p>
+                              <p className="text-sm font-semibold text-slate-800">{activity.message}</p>
+                              <p className="text-xs text-slate-600 mt-1">{activity.time}</p>
                             </div>
                           </div>
-                          <Badge variant="outline" className="ml-2 capitalize">
+                          <Badge variant="outline" className="ml-2 capitalize bg-white/80 border-slate-200 text-slate-700">
                             {activity.type.replace('_', ' ')}
                           </Badge>
                         </div>
@@ -571,26 +646,35 @@ const ExecutiveDashboard = () => {
                 </Card>
 
                 {/* System Status */}
-                <Card className="hover:shadow-lg transition-shadow">
-                  <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
-                      <Activity className="h-5 w-5" />
+                <Card className="executive-chart-card border-0 shadow-none">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="flex items-center gap-3 text-xl font-bold text-slate-800">
+                      <div className="p-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl text-white">
+                        <Activity className="h-5 w-5" />
+                      </div>
                       System Status
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                       {[
-                        { label: "Platform Uptime", value: 99.8, color: "bg-foliage-500" },
-                        { label: "Database Performance", value: 96.2, color: "bg-foliage-500" },
-                        { label: "API Response Time", value: 85, color: "bg-foliage-500", unit: "142ms avg" }
+                        { label: "Platform Uptime", value: 99.8, color: "bg-gradient-to-r from-emerald-500 to-emerald-600", bgColor: "bg-emerald-100" },
+                        { label: "Database Performance", value: 96.2, color: "bg-gradient-to-r from-blue-500 to-blue-600", bgColor: "bg-blue-100" },
+                        { label: "API Response Time", value: 85, color: "bg-gradient-to-r from-purple-500 to-purple-600", bgColor: "bg-purple-100", unit: "142ms avg" }
                       ].map((stat, index) => (
-                        <div key={stat.label} className="animate-slide-in" style={{ animationDelay: `${index * 200}ms` }}>
-                          <div className="flex justify-between text-sm mb-1">
-                            <span>{stat.label}</span>
-                            <span>{stat.unit || `${stat.value}%`}</span>
+                        <div key={stat.label} className="animate-slide-in p-4 rounded-2xl bg-gradient-to-r from-slate-50 to-slate-100 border border-slate-200" style={{ animationDelay: `${index * 200}ms` }}>
+                          <div className="flex justify-between items-center text-sm mb-3">
+                            <span className="font-semibold text-slate-700">{stat.label}</span>
+                            <span className="font-bold text-slate-800 bg-white px-2 py-1 rounded-lg">{stat.unit || `${stat.value}%`}</span>
                           </div>
-                          <Progress value={stat.value} className="h-2" />
+                          <div className="relative">
+                            <div className={`h-3 rounded-full ${stat.bgColor}`}>
+                              <div
+                                className={`h-3 rounded-full ${stat.color} transition-all duration-1000 ease-out`}
+                                style={{ width: `${stat.value}%` }}
+                              ></div>
+                            </div>
+                          </div>
                         </div>
                       ))}
                     </div>

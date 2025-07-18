@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Shield, Sparkles, Star } from 'lucide-react';
+import { useLanguage } from '@/components/LanguageContext';
 
 interface AnimatedLogoProps {
   to: string;
@@ -25,6 +26,7 @@ export function AnimatedLogo({
   size = 'lg',
   className = ''
 }: AnimatedLogoProps) {
+  const { t } = useLanguage();
   const isExecutive = variant === 'executive';
   
   return (
@@ -226,7 +228,7 @@ export function AnimatedLogo({
                 </motion.div>
               )}
               <span className="text-white font-bold text-xl tracking-wide">
-                {isExecutive ? 'Executive Portal' : 'AgriLift'}
+                {isExecutive ? t('executive-portal') : t('agrilift')}
               </span>
             </div>
           </motion.div>

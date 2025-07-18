@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { useLanguage } from "@/components/LanguageContext";
 import { 
   Search, 
   ChevronDown, 
@@ -71,6 +72,7 @@ const faqs: FAQ[] = [
 const categories = ["All", "Documentation", "Process", "Amount", "Subsidies", "Repayment", "Eligibility"];
 
 export const LoanFAQ = () => {
+  const { t } = useLanguage();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [expandedFAQ, setExpandedFAQ] = useState<string | null>(null);
@@ -147,8 +149,8 @@ export const LoanFAQ = () => {
         {filteredFAQs.length === 0 ? (
           <GlassCard className="p-8 text-center">
             <HelpCircle className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No FAQs Found</h3>
-            <p className="text-gray-600">Try adjusting your search terms or category filter.</p>
+            <h3 className="text-lg font-semibold mb-2">{t('no-faqs-found')}</h3>
+            <p className="text-gray-600">{t('try-adjusting-search')}</p>
           </GlassCard>
         ) : (
           filteredFAQs.map((faq, index) => (

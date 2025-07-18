@@ -25,6 +25,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogClose } from "@/components/ui/dialog";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "@/components/LanguageContext";
 
 interface Farmer {
   id: string;
@@ -44,6 +45,7 @@ interface Farmer {
 }
 
 const FarmerManagement = () => {
+  const { t } = useLanguage();
   const { toast } = useToast();
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedStatus, setSelectedStatus] = useState<string>("all");
@@ -236,7 +238,7 @@ const FarmerManagement = () => {
   return (
     <div className="space-y-6 animate-fade-in">
       <div className="flex justify-between items-center animate-slide-in">
-        <h2 className="text-2xl font-bold">Farmer Management</h2>
+        <h2 className="text-2xl font-bold">{t('farmer-management')}</h2>
         <div className="flex gap-2">
           {selectedFarmers.length > 0 && (
             <div className="flex gap-2 animate-scale-in">
@@ -275,10 +277,10 @@ const FarmerManagement = () => {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {[
-          { label: "Total Farmers", value: stats.total, icon: User, color: "text-blue-600", bg: "bg-blue-50" },
-          { label: "Active", value: stats.active, icon: UserCheck, color: "text-green-600", bg: "bg-green-50" },
-          { label: "Pending Approval", value: stats.pending, icon: TrendingUp, color: "text-yellow-600", bg: "bg-yellow-50" },
-          { label: "Suspended", value: stats.suspended, icon: UserX, color: "text-red-600", bg: "bg-red-50" }
+          { label: t("total-farmers"), value: stats.total, icon: User, color: "text-blue-600", bg: "bg-blue-50" },
+          { label: t("active"), value: stats.active, icon: UserCheck, color: "text-green-600", bg: "bg-green-50" },
+          { label: t("pending-approval"), value: stats.pending, icon: TrendingUp, color: "text-yellow-600", bg: "bg-yellow-50" },
+          { label: t("suspended"), value: stats.suspended, icon: UserX, color: "text-red-600", bg: "bg-red-50" }
         ].map((stat, index) => (
           <Card key={stat.label} className={`hover:shadow-lg transition-all duration-300 hover:scale-105 animate-fade-in ${stat.bg}`} style={{ animationDelay: `${index * 100}ms` }}>
             <CardContent className="pt-6">

@@ -2,8 +2,10 @@
 import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/components/LanguageContext";
 
 export const CallToAction = () => {
+  const { t } = useLanguage();
   return (
     <motion.div 
       className="mt-20 text-center max-w-3xl mx-auto p-10 rounded-2xl bg-gradient-to-r from-foliage/10 to-sky/10"
@@ -18,7 +20,7 @@ export const CallToAction = () => {
         whileTap={{ scale: 0.95 }}
       >
         <Button size="lg" className="bg-foliage hover:bg-foliage-dark text-white px-8 py-6 text-lg shadow-lg">
-          Shop Now <ShoppingCart className="ml-2 h-5 w-5" />
+          {t('shop-now')} <ShoppingCart className="ml-2 h-5 w-5" />
         </Button>
       </motion.div>
     </motion.div>

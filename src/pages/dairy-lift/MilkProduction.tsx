@@ -1,10 +1,15 @@
 import React from "react";
+import { useLanguage } from "@/components/LanguageContext";
 
-const MilkProduction = () => (
-  <div className="p-8">
-    <h1 className="text-2xl font-bold text-blue-800 mb-4">Milk Production</h1>
-    <p className="text-blue-700">Track and analyze your dairy's milk production here.</p>
-  </div>
-);
+const MilkProduction = () => {
+  const { t } = useLanguage();
 
-export default MilkProduction; 
+  return (
+    <div className="p-8">
+      <h1 className="text-2xl font-bold text-blue-800 mb-4">{t('milk-production')}</h1>
+      <p className="text-blue-700">{t('milk-production-desc')}</p>
+    </div>
+  );
+};
+
+export default MilkProduction;

@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Filter } from "lucide-react";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/components/LanguageContext";
 
 interface FilterBarProps {
   filterOpen: boolean;
@@ -16,13 +17,15 @@ export const FilterBar = ({
   activeFilter, 
   setActiveFilter 
 }: FilterBarProps) => {
+  const { t } = useLanguage();
+
   const filterButtons = [
-    { id: "all", label: "All" },
-    { id: "lab-grown-plants", label: "Plants" },
-    { id: "seeds", label: "Seeds" },
-    { id: "fertilizers", label: "Fertilizers" },
-    { id: "pesticides", label: "Pesticides" },
-    { id: "farming-tools", label: "Tools" }
+    { id: "all", label: t("all") },
+    { id: "lab-grown-plants", label: t("plants") },
+    { id: "seeds", label: t("seeds") },
+    { id: "fertilizers", label: t("fertilizers") },
+    { id: "pesticides", label: t("pesticides") },
+    { id: "farming-tools", label: t("tools") }
   ];
 
   return (
@@ -39,7 +42,7 @@ export const FilterBar = ({
           className={`rounded-full border-gray-200 ${filterOpen ? 'bg-foliage text-white border-foliage' : ''}`}
           onClick={() => setFilterOpen(!filterOpen)}
         >
-          <Filter size={16} className="mr-1" /> Filters
+          <Filter size={16} className="mr-1" /> {t('filters')}
         </Button>
         
         {filterButtons.map((btn) => (

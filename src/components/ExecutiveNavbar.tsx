@@ -24,6 +24,7 @@ export function ExecutiveNavbar() {
   const location = useLocation();
   const { language, setLanguage, t } = useLanguage();
   const isMobile = useIsMobile();
+  const { toast } = useToast();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [activeItem, setActiveItem] = useState(() => {
     const path = location.pathname;
@@ -51,13 +52,13 @@ export function ExecutiveNavbar() {
   }, [location]);
 
   const navItems = [
-    { id: "dashboard", label: "Dashboard", path: "/executive-dashboard" },
-    { id: "farmers", label: "Farmers", path: "/executive/farmers" },
-    { id: "analytics", label: "Analytics", path: "/executive/analytics" },
-    { id: "geographic", label: "Geographic", path: "/executive/geographic" },
-    { id: "financial", label: "Financial", path: "/executive/financial" },
-    { id: "operations", label: "Operations", path: "/executive/operations" },
-    { id: "communications", label: "Communications", path: "/executive/communications" },
+    { id: "dashboard", label: "Dashboard", path: "/executive-dashboard", icon: BarChart3 },
+    { id: "farmers", label: "Farmers", path: "/executive/farmers", icon: Users },
+    { id: "analytics", label: "Analytics", path: "/executive/analytics", icon: TrendingUp },
+    { id: "geographic", label: "Geographic", path: "/executive/geographic", icon: MapPin },
+    { id: "financial", label: "Financial", path: "/executive/financial", icon: DollarSign },
+    { id: "operations", label: "Operations", path: "/executive/operations", icon: Settings },
+    { id: "communications", label: "Communications", path: "/executive/communications", icon: MessageSquare },
   ];
   
   const menuItems = [
@@ -279,7 +280,7 @@ export function ExecutiveNavbar() {
                 to="/executive-dashboard"
                 variant="executive"
                 size="xl"
-                showText={true}
+                showText={false}
               />
             </motion.div>
           </div>
@@ -336,7 +337,7 @@ export function ExecutiveNavbar() {
           </div>
 
           <motion.div
-            className="professional-nav-right"
+            className="professional-nav-right ml-8"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3 }}
@@ -359,7 +360,7 @@ export function ExecutiveNavbar() {
                       animate={{ scale: [1, 1.2, 1], rotate: [0, 10, -10, 0] }}
                       transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
                     >
-                      <Bell size={16} className="mr-2" />
+                      <Bell size={14} className="mr-1" />
                     </motion.div>
                     <motion.span
                       className="professional-notification-badge"
@@ -382,7 +383,7 @@ export function ExecutiveNavbar() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -10, scale: 0.95 }}
                 transition={{ duration: 0.2 }}
-                className="absolute right-24 top-16 w-80 professional-dropdown-executive professional-shadow-large z-50"
+                className="absolute right-20 top-16 w-80 professional-dropdown-executive professional-shadow-large z-50"
               >
                 <div className="p-4 border-b border-emerald-200/50">
                   <h3 className="font-semibold professional-text-gradient-executive">Notifications</h3>
@@ -432,7 +433,7 @@ export function ExecutiveNavbar() {
                       animate={{ rotate: [0, 360] }}
                       transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                     >
-                      <Globe size={16} className="mr-2" />
+                      <Globe size={14} className="mr-1" />
                     </motion.div>
                     <span className="font-semibold">{language.toUpperCase()}</span>
                   </Button>

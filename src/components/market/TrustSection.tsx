@@ -1,8 +1,10 @@
 
 import { Star, Truck, Shield } from "lucide-react";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/components/LanguageContext";
 
 export const TrustSection = () => {
+  const { t } = useLanguage();
   return (
     <motion.div 
       className="mt-16 py-10 px-6 rounded-2xl bg-white shadow-lg max-w-5xl mx-auto"
@@ -25,8 +27,8 @@ export const TrustSection = () => {
           <div className="bg-green-100 text-foliage-dark p-3 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-4">
             <Star className="h-6 w-6" />
           </div>
-          <h3 className="font-semibold text-lg mb-2">Premium Quality</h3>
-          <p className="text-gray-600">All our products undergo strict quality checks for better yield</p>
+          <h3 className="font-semibold text-lg mb-2">{t('premium-quality')}</h3>
+          <p className="text-gray-600">{t('premium-quality-desc')}</p>
         </motion.div>
         
         <motion.div 
@@ -37,8 +39,8 @@ export const TrustSection = () => {
           <div className="bg-blue-100 text-sky-dark p-3 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-4">
             <Truck className="h-6 w-6" />
           </div>
-          <h3 className="font-semibold text-lg mb-2">Fast Delivery</h3>
-          <p className="text-gray-600">Get products delivered to your doorstep within 3-5 business days</p>
+          <h3 className="font-semibold text-lg mb-2">{t('fast-delivery')}</h3>
+          <p className="text-gray-600">{t('fast-delivery-desc')}</p>
         </motion.div>
         
         <motion.div 
@@ -49,8 +51,8 @@ export const TrustSection = () => {
           <div className="bg-yellow-100 text-wheat-dark p-3 rounded-full w-14 h-14 flex items-center justify-center mx-auto mb-4">
             <Shield className="h-6 w-6" />
           </div>
-          <h3 className="font-semibold text-lg mb-2">Expert Support</h3>
-          <p className="text-gray-600">Our agricultural experts are available to guide you on best practices</p>
+          <h3 className="font-semibold text-lg mb-2">{t('expert-support')}</h3>
+          <p className="text-gray-600">{t('expert-support-desc')}</p>
         </motion.div>
       </div>
     </motion.div>

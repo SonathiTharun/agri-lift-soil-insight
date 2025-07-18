@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
+import { useLanguage } from "@/components/LanguageContext";
 import { AnimatedWeatherIcon } from "./WeatherWidget/AnimatedWeatherIcon";
 import { WeatherDetails } from "./WeatherWidget/WeatherDetails";
 import { WeatherAlerts } from "./WeatherWidget/WeatherAlerts";
@@ -11,7 +12,6 @@ import { toast } from "@/components/ui/use-toast";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChevronDown, ChevronUp, RefreshCw, MapPin, Maximize2, Minimize2, Bell, Tractor, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useLanguage } from './LanguageContext';
 
 type WeatherDay = {
   date: string;

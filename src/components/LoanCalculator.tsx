@@ -1,8 +1,10 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/components/LanguageContext";
 
 export default function LoanCalculator() {
+  const { t } = useLanguage();
   const [amount, setAmount] = useState(100000);
   const [years, setYears] = useState(5);
   const [rate, setRate] = useState(8.0);
@@ -19,11 +21,11 @@ export default function LoanCalculator() {
 
   return (
     <div className="rounded-lg bg-white px-5 py-6 shadow border mb-6">
-      <h2 className="text-lg font-semibold mb-2">Loan Repayment Calculator</h2>
-      <p className="text-xs text-gray-500 mb-3">Estimate EMI, total repayment, and interest for your desired loan.</p>
+      <h2 className="text-lg font-semibold mb-2">{t('loan-repayment-calculator')}</h2>
+      <p className="text-xs text-gray-500 mb-3">{t('estimate-emi-description')}</p>
       <div className="flex flex-col gap-3">
         <div>
-          <label htmlFor="loan-amt" className="block text-sm font-medium">Loan Amount</label>
+          <label htmlFor="loan-amt" className="block text-sm font-medium">{t('loan-amount')}</label>
           <input
             id="loan-amt"
             type="range"
@@ -41,7 +43,7 @@ export default function LoanCalculator() {
           <span className="text-xs">₹{amount.toLocaleString()}</span>
         </div>
         <div>
-          <label htmlFor="loan-years" className="block text-sm font-medium">Years</label>
+          <label htmlFor="loan-years" className="block text-sm font-medium">{t('years')}</label>
           <input
             id="loan-years"
             type="number"

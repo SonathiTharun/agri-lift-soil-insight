@@ -2,6 +2,7 @@
 import { useNavigate } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/components/LanguageContext";
 import { 
   Carousel, 
   CarouselContent, 
@@ -25,6 +26,7 @@ interface FeaturedProductsCarouselProps {
 }
 
 export const FeaturedProductsCarousel = ({ featuredProducts }: FeaturedProductsCarouselProps) => {
+  const { t } = useLanguage();
   const navigate = useNavigate();
   
   return (
@@ -37,13 +39,13 @@ export const FeaturedProductsCarousel = ({ featuredProducts }: FeaturedProductsC
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center">
           <div className="w-1.5 h-8 bg-foliage rounded-full mr-3"></div>
-          <h2 className="text-2xl font-bold">Featured Products</h2>
+          <h2 className="text-2xl font-bold">{t('featured-products')}</h2>
         </div>
         <div 
           onClick={() => navigate('/market')} 
           className="text-foliage hover:underline flex items-center font-medium cursor-pointer"
         >
-          View all <ChevronRight className="h-4 w-4" />
+          {t('view-all')} <ChevronRight className="h-4 w-4" />
         </div>
       </div>
       

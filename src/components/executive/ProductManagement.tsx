@@ -44,6 +44,7 @@ import {
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiService } from "@/services/apiService";
+import { useLanguage } from "@/components/LanguageContext";
 
 interface Product {
   _id: string;
@@ -69,6 +70,7 @@ interface ProductStats {
 }
 
 export const ProductManagement = () => {
+  const { t } = useLanguage();
   const { toast } = useToast();
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
@@ -341,8 +343,8 @@ export const ProductManagement = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Product Management</h1>
-          <p className="text-gray-600">Manage your marketplace products and inventory</p>
+          <h1 className="text-3xl font-bold text-gray-900">{t('product-management')}</h1>
+          <p className="text-gray-600">{t('product-management-desc')}</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline">
@@ -357,7 +359,7 @@ export const ProductManagement = () => {
             <DialogTrigger asChild>
               <Button>
                 <Plus className="h-4 w-4 mr-2" />
-                Add Product
+                {t('add-product')}
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-2xl">
@@ -540,7 +542,7 @@ export const ProductManagement = () => {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Products</CardTitle>
+            <CardTitle className="text-sm font-medium">{t('total-products')}</CardTitle>
             <Package className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>

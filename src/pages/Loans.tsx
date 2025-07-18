@@ -1152,15 +1152,15 @@ export default function Loans() {
               <TabsList className="grid w-full grid-cols-5 mb-6">
                 <TabsTrigger value="browse" className="flex items-center gap-2">
                   <Search className="h-4 w-4" />
-                  Browse Schemes
+                  {t('browse-schemes')}
                 </TabsTrigger>
                 <TabsTrigger value="state-schemes" className="flex items-center gap-2">
                   <Flag className="h-4 w-4" />
-                  State Schemes
+                  {t('state-schemes')}
                 </TabsTrigger>
                 <TabsTrigger value="calculator" className="flex items-center gap-2">
                   <Calculator className="h-4 w-4" />
-                  Calculator
+                  {t('calculator')}
                 </TabsTrigger>
                 <TabsTrigger value="compare" className="flex items-center gap-2">
                   <PieChart className="h-4 w-4" />
@@ -1168,7 +1168,7 @@ export default function Loans() {
                 </TabsTrigger>
                 <TabsTrigger value="track" className="flex items-center gap-2">
                   <FileText className="h-4 w-4" />
-                  Track Applications
+                  {t('track-applications')}
                 </TabsTrigger>
               </TabsList>
 
@@ -1376,7 +1376,7 @@ export default function Loans() {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
                       <div className="text-center">
                         <div className="text-2xl font-bold text-blue-600">{filteredStateSchemes.length}</div>
-                        <div className="text-sm text-gray-600">Available Schemes</div>
+                        <div className="text-sm text-gray-600">{t('available-schemes')}</div>
                       </div>
                       <div className="text-center">
                         <div className="text-2xl font-bold text-green-600">₹10L+</div>

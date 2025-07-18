@@ -15,6 +15,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useToast } from '@/hooks/use-toast';
 import { apiService } from '@/services/apiService';
+import { useLanguage } from '@/components/LanguageContext';
 import { motion } from 'framer-motion';
 import { 
   User, 
@@ -37,6 +38,7 @@ import {
 } from 'lucide-react';
 
 const Profile = () => {
+  const { t } = useLanguage();
   const { user, updateProfile, isAuthenticated, isLoading } = useAuth();
   const { theme, setTheme } = useTheme();
   const { toast } = useToast();
@@ -399,7 +401,7 @@ const Profile = () => {
                             className="bg-green-600 hover:bg-green-700 text-white"
                           >
                             <Edit3 className="h-4 w-4 mr-2" />
-                            Edit Profile
+                            {t('edit-profile')}
                           </Button>
                         ) : (
                           <div className="flex gap-2">

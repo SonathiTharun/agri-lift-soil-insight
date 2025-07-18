@@ -87,10 +87,10 @@ export function Navbar() {
   };
 
   const menuItems: MenuItem[] = [
-    { id: "diverse-farming", label: "Diverse Farming", path: "/farming-type", icon: <Tractor size={18} /> },
-    { id: "profile", label: "Profile", path: "/profile", icon: <User size={18} /> },
-    { id: "settings", label: "Settings", path: "/settings", icon: <Settings size={18} /> },
-    { id: "orders", label: "Orders", path: "/orders", icon: <ShoppingCart size={18} /> },
+    { id: "diverse-farming", label: t("diverse-farming"), path: "/farming-type", icon: <Tractor size={18} /> },
+    { id: "profile", label: t("profile"), path: "/profile", icon: <User size={18} /> },
+    { id: "settings", label: t("settings"), path: "/settings", icon: <Settings size={18} /> },
+    { id: "orders", label: t("orders"), path: "/orders", icon: <ShoppingCart size={18} /> },
     { id: "logout", label: "Logout", action: handleLogout, icon: <LogOut size={18} /> },
   ];
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import DairyLiftRoutes from "./routes";
+import { useLanguage } from "@/components/LanguageContext";
 
 // Example Dairy Lift color scheme
 const dairyLiftBg = "bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 min-h-screen";
@@ -15,19 +16,19 @@ const navLinkStyle = `relative mx-2 px-4 py-2 rounded-full font-bold text-white 
   after:content-[''] after:absolute after:left-4 after:right-4 after:-bottom-1 after:h-1 after:rounded-full
   after:bg-gradient-to-r after:from-emerald-400 after:to-cyan-400 after:opacity-0 hover:after:opacity-100 after:transition-all after:duration-300`;
 
-const topNavLinks = [
-  { label: "Home", path: "/dairy-lift" },
-  { label: "Livestock Market", path: "/dairy-lift/livestock-market" },
-  { label: "Equipment Mart", path: "/dairy-lift/equipment-mart" },
-  { label: "Sell Your Produce", path: "/dairy-lift/sell-produce" },
-  { label: "Knowledge Hub", path: "/dairy-lift/knowledge-hub" },
+const getTopNavLinks = (t: (key: string) => string) => [
+  { label: t("home"), path: "/dairy-lift" },
+  { label: t("livestock-market"), path: "/dairy-lift/livestock-market" },
+  { label: t("equipment-mart"), path: "/dairy-lift/equipment-mart" },
+  { label: t("sell-your-produce"), path: "/dairy-lift/sell-produce" },
+  { label: t("knowledge-hub"), path: "/dairy-lift/knowledge-hub" },
 ];
 
-const languages = [
-  { code: "en", label: "English" },
-  { code: "te", label: "Telugu" },
-  { code: "hi", label: "Hindi" },
-  { code: "ta", label: "Tamil" },
+const getLanguages = (t: (key: string) => string) => [
+  { code: "en", label: t("english") },
+  { code: "te", label: t("telugu") },
+  { code: "hi", label: t("hindi") },
+  { code: "ta", label: t("tamil") },
 ];
 
 const HamburgerIcon = ({ onClick }: { onClick: () => void }) => (
@@ -82,18 +83,19 @@ const Sidebar = ({ onHome, onClose }: { onHome: () => void; onClose: () => void 
   </aside>
 );
 
-const TopNav = ({ onNavigate, currentPath, language, onLanguageChange, onHamburger }: {
+const TopNav = ({ onNavigate, currentPath, language, onLanguageChange, onHamburger, t }: {
   onNavigate: (path: string) => void;
   currentPath: string;
   language: string;
   onLanguageChange: (lang: string) => void;
   onHamburger: () => void;
+  t: (key: string) => string;
 }) => (
   <nav className={topNavBg}>
     <div className="flex items-center gap-2">
       <HamburgerIcon onClick={onHamburger} />
       <img src="/dairy-lift-logo.png" alt="Dairy Lift Logo" className="h-20 w-28 mr-3 select-none align-middle transition-transform duration-300 hover:scale-110 hover:rotate-2 drop-shadow-lg" style={{ marginLeft: '-8px' }} />
-      {topNavLinks.map(link => (
+      {getTopNavLinks(t).map(link => (
         <button
           key={link.path}
           className={`${navLinkStyle} ${currentPath === link.path ? "bg-blue-100" : ""} hidden sm:inline-block`}
@@ -109,7 +111,7 @@ const TopNav = ({ onNavigate, currentPath, language, onLanguageChange, onHamburg
         onChange={e => onLanguageChange(e.target.value)}
         className="border border-blue-300 rounded px-2 py-1 text-blue-700 focus:outline-none"
       >
-        {languages.map(lang => (
+        {getLanguages(t).map(lang => (
           <option key={lang.code} value={lang.code}>{lang.label}</option>
         ))}
       </select>
@@ -117,17 +119,17 @@ const TopNav = ({ onNavigate, currentPath, language, onLanguageChange, onHamburg
   </nav>
 );
 
-const HamburgerMenu = ({ onHome }: { onHome: () => void }) => (
+const HamburgerMenu = ({ onHome, t }: { onHome: () => void; t: (key: string) => string }) => (
   <div className={hamburgerBg}>
-    <button onClick={onHome} className="font-bold">☰ Home</button>
+    <button onClick={onHome} className="font-bold">{t('hamburger-home')}</button>
   </div>
 );
 
 const DairyLiftHome: React.FC = () => {
+  const { t, language, setLanguage } = useLanguage();
   const navigate = useNavigate();
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
-  const [language, setLanguage] = React.useState("en");
 
   const handleHome = () => {
     setSidebarOpen(false);
@@ -137,7 +139,7 @@ const DairyLiftHome: React.FC = () => {
     setSidebarOpen(false);
     navigate(path);
   };
-  const handleLanguageChange = (lang: string) => setLanguage(lang);
+  const handleLanguageChange = (lang: string) => setLanguage(lang as 'en' | 'hi' | 'ta' | 'te');
   const handleHamburger = () => setSidebarOpen(true);
   const handleOverlayClick = () => setSidebarOpen(false);
   const handleSidebarClose = () => setSidebarOpen(false);
@@ -150,6 +152,7 @@ const DairyLiftHome: React.FC = () => {
         language={language}
         onLanguageChange={handleLanguageChange}
         onHamburger={handleHamburger}
+        t={t}
       />
       <div className="flex flex-1">
         {/* Sidebar overlay for all devices */}

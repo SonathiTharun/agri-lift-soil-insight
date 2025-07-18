@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
+import { useLanguage } from "@/components/LanguageContext";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -44,6 +45,7 @@ interface ModernProductCardProps {
 }
 
 export const ModernProductCard = ({ product, onAddToComparison, viewMode = 'grid' }: ModernProductCardProps) => {
+  const { t } = useLanguage();
   const [isHovered, setIsHovered] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [quantity, setQuantity] = useState(1);
@@ -294,10 +296,10 @@ export const ModernProductCard = ({ product, onAddToComparison, viewMode = 'grid
                       onClick={handleAddToCart}
                     >
                       {stockStatus === 'out'
-                        ? 'Out of Stock'
+                        ? t('out-of-stock')
                         : isAdding
-                          ? 'Added!'
-                          : 'Add to Cart'
+                          ? t('added')
+                          : t('add-to-cart')
                       }
                     </Button>
                   </div>
@@ -532,10 +534,10 @@ export const ModernProductCard = ({ product, onAddToComparison, viewMode = 'grid
                   onClick={handleAddToCart}
                 >
                   {stockStatus === 'out'
-                    ? 'Out of Stock'
+                    ? t('out-of-stock')
                     : isAdding
-                      ? 'Added!'
-                      : 'Add to Cart'
+                      ? t('added')
+                      : t('add-to-cart')
                   }
                 </Button>
               </motion.div>

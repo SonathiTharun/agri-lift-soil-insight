@@ -5,6 +5,7 @@ import { Search, Mic, X, TrendingUp, Clock, Filter } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useLanguage } from "@/components/LanguageContext";
 
 interface SearchSuggestion {
   id: string;
@@ -27,7 +28,9 @@ interface ModernSearchProps {
   placeholder?: string;
 }
 
-export const ModernSearch = ({ onSearch, placeholder = "Search products, categories..." }: ModernSearchProps) => {
+export const ModernSearch = ({ onSearch, placeholder }: ModernSearchProps) => {
+  const { t } = useLanguage();
+  const defaultPlaceholder = placeholder || t('search-products-categories');
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -85,7 +88,7 @@ export const ModernSearch = ({ onSearch, placeholder = "Search products, categor
               setIsFocused(true);
               setShowSuggestions(true);
             }}
-            placeholder={placeholder}
+            placeholder={defaultPlaceholder}
             className="flex-1 bg-transparent border-0 focus-visible:ring-0 text-gray-800 placeholder:text-gray-500"
           />
           

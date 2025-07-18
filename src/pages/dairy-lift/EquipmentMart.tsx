@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { CartSidebar } from "@/components/CartSidebar";
 import { useCart } from "@/context/cartcontext";
 import { toast } from "@/components/ui/use-toast";
+import { useLanguage } from "@/components/LanguageContext";
 
 const categories = [
     "Milking Machines",
@@ -172,6 +173,7 @@ const fallbackEquipment = [
 const PAGE_SIZE = 6;
 
 const EquipmentMart = () => {
+    const { t } = useLanguage();
     const [equipment, setEquipment] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -352,8 +354,8 @@ const EquipmentMart = () => {
             <section className="relative w-full h-64 flex items-center justify-center mb-10">
                 <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=1200&q=80" alt="Equipment Hero" className="absolute inset-0 w-full h-full object-cover brightness-75" />
                 <div className="relative z-10 text-center">
-                    <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600 bg-clip-text text-transparent drop-shadow-lg animate-fadeInUp">Equipment Mart</h1>
-                    <p className="mt-4 text-lg md:text-2xl text-white/90 font-medium animate-fadeInUp delay-100">A marketplace for new and used dairy farming machinery.</p>
+                    <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-emerald-400 via-blue-500 to-purple-600 bg-clip-text text-transparent drop-shadow-lg animate-fadeInUp">{t('equipment-mart')}</h1>
+                    <p className="mt-4 text-lg md:text-2xl text-white/90 font-medium animate-fadeInUp delay-100">{t('equipment-mart-desc')}</p>
                 </div>
             </section>
 
@@ -365,8 +367,8 @@ const EquipmentMart = () => {
             {/* Buy/Sell Tabs */}
             <div className="max-w-6xl mx-auto flex justify-center mt-4 mb-6">
                 <div className="flex rounded-full bg-blue-100 p-1 shadow-inner">
-                    <button onClick={() => setTab('buy')} className={`px-6 py-2 rounded-full font-bold transition-all duration-200 ${tab === 'buy' ? 'bg-blue-500 text-white shadow' : 'text-blue-700 hover:bg-blue-200'}`}>Buy Equipment</button>
-                    <button onClick={() => setTab('sell')} className={`px-6 py-2 rounded-full font-bold transition-all duration-200 ${tab === 'sell' ? 'bg-emerald-500 text-white shadow' : 'text-emerald-700 hover:bg-emerald-100'}`}>Sell Equipment</button>
+                    <button onClick={() => setTab('buy')} className={`px-6 py-2 rounded-full font-bold transition-all duration-200 ${tab === 'buy' ? 'bg-blue-500 text-white shadow' : 'text-blue-700 hover:bg-blue-200'}`}>{t('buy-equipment')}</button>
+                    <button onClick={() => setTab('sell')} className={`px-6 py-2 rounded-full font-bold transition-all duration-200 ${tab === 'sell' ? 'bg-emerald-500 text-white shadow' : 'text-emerald-700 hover:bg-emerald-100'}`}>{t('sell-equipment')}</button>
                 </div>
             </div>
 
@@ -466,7 +468,7 @@ const EquipmentMart = () => {
                 <>
                     {/* Add Equipment Button */}
                     <div className="max-w-6xl mx-auto flex justify-end mb-2 px-4">
-                        <button onClick={() => { setShowAddModal(true); setEditId(null); setEditEquipment(null); }} className="rounded-xl bg-gradient-to-r from-blue-400 to-emerald-400 text-white font-bold px-6 py-2 shadow hover:scale-105 transition-all duration-200">Add Equipment</button>
+                        <button onClick={() => { setShowAddModal(true); setEditId(null); setEditEquipment(null); }} className="rounded-xl bg-gradient-to-r from-blue-400 to-emerald-400 text-white font-bold px-6 py-2 shadow hover:scale-105 transition-all duration-200">{t('add-equipment')}</button>
                     </div>
                     {/* User's Equipment List */}
                     <section className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10 mb-8 px-4 animate-fadeInUp">

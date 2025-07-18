@@ -16,8 +16,10 @@ import {
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { useLanguage } from "@/components/LanguageContext";
 
 const AnalyticsDashboard = () => {
+  const { t } = useLanguage();
   const [selectedPeriod, setSelectedPeriod] = useState("monthly");
   const [filterOpen, setFilterOpen] = useState(false);
   const [dateRange, setDateRange] = useState({ from: "", to: "" });
@@ -67,11 +69,11 @@ const AnalyticsDashboard = () => {
     <div className="min-h-screen bg-white">
       <div className="container mx-auto px-4 py-12">
         <div className="flex justify-between items-center mb-10 animate-fade-in">
-          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foliage-dark drop-shadow-md">Analytics Dashboard</h2>
+          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foliage-dark drop-shadow-md">{t('analytics-dashboard')}</h2>
           <div className="flex gap-2">
             <Button variant="outline" onClick={() => setFilterOpen(true)} className="hover:scale-105 hover:shadow-2xl transition-all focus:ring-2 focus:ring-foliage-dark">
               <Filter className="h-4 w-4 mr-2" />
-              Filter
+              {t('filters')}
             </Button>
             <Button onClick={handleExport} disabled={exporting} className="bg-gradient-to-r from-foliage-light to-sky-light text-foliage-dark hover:from-foliage-dark hover:to-sky-dark hover:text-white focus:ring-4 focus:ring-foliage-300 transition-all">
               <Download className="h-4 w-4 mr-2" />

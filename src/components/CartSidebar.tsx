@@ -7,8 +7,10 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { useCart } from '@/context/cartcontext';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '@/components/LanguageContext';
 
 export function CartSidebar() {
+  const { t } = useLanguage();
   const { cartItems, getCartCount, getCartTotal, updateQuantity, removeFromCart, clearCart, formatCurrency } = useCart();
 
   const emptyCart = cartItems.length === 0;
@@ -33,11 +35,11 @@ export function CartSidebar() {
           <DrawerHeader className="px-4">
             <DrawerTitle className="flex items-center gap-2 text-xl">
               <ShoppingCart className="h-5 w-5" />
-              Your Cart
-              {cartCount > 0 && <Badge variant="outline" className="ml-2">{cartCount} items</Badge>}
+              {t('cart')}
+              {cartCount > 0 && <Badge variant="outline" className="ml-2">{t('cart-count', { count: cartCount })}</Badge>}
             </DrawerTitle>
             <DrawerDescription>
-              {emptyCart ? "Your cart is empty" : `Total: ${formatCurrency(getCartTotal())}`}
+              {emptyCart ? t('cart-empty') : `${t('total')}: ${formatCurrency(getCartTotal())}`}
             </DrawerDescription>
             <DrawerClose className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
               <X className="h-4 w-4" />
@@ -53,10 +55,10 @@ export function CartSidebar() {
             {emptyCart ? (
               <div className="flex flex-col items-center justify-center h-40 text-center">
                 <AlertCircle className="h-10 w-10 text-gray-300 mb-2" />
-                <p className="text-gray-500 mb-4">Your cart is empty</p>
+                <p className="text-gray-500 mb-4">{t('cart-empty')}</p>
                 <DrawerClose asChild>
                   <Button variant="default" size="sm" asChild>
-                    <Link to="/market">Start Shopping</Link>
+                    <Link to="/market">{t('start-shopping')}</Link>
                   </Button>
                 </DrawerClose>
               </div>
@@ -120,16 +122,16 @@ export function CartSidebar() {
               <div className="p-4 space-y-4">
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span>Subtotal</span>
+                    <span>{t('subtotal')}</span>
                     <span>{formatCurrency(getCartTotal())}</span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span>Shipping</span>
-                    <span>{getCartTotal() > 1000 ? "Free" : formatCurrency(99)}</span>
+                    <span>{t('shipping')}</span>
+                    <span>{getCartTotal() > 1000 ? t('free') : formatCurrency(99)}</span>
                   </div>
                   <Separator />
                   <div className="flex justify-between font-medium">
-                    <span>Total</span>
+                    <span>{t('total')}</span>
                     <span>{formatCurrency(getCartTotal() + (getCartTotal() > 1000 ? 0 : 99))}</span>
                   </div>
                 </div>
@@ -138,15 +140,15 @@ export function CartSidebar() {
               <DrawerFooter className="px-4 py-4">
                 <Button asChild className="bg-foliage hover:bg-foliage-dark">
                   <Link to="/checkout">
-                    Proceed to Checkout <ChevronRight className="ml-2 h-4 w-4" />
+                    {t('proceed-to-checkout')} <ChevronRight className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
-                <Button 
-                  variant="outline" 
-                  className="mt-2" 
+                <Button
+                  variant="outline"
+                  className="mt-2"
                   onClick={clearCart}
                 >
-                  Clear Cart
+                  {t('clear-cart')}
                 </Button>
               </DrawerFooter>
             </>
