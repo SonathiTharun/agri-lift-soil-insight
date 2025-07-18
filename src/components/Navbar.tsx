@@ -1,11 +1,12 @@
 
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "./LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Globe, Menu, Tractor, User, Settings, ShoppingCart, Sparkles } from "lucide-react";
+import { Globe, Menu, Tractor, User, Settings, ShoppingCart, Sparkles, LogOut } from "lucide-react";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { CartSidebar } from "./CartSidebar";
@@ -13,8 +14,18 @@ import { GlassNav, AnimatedDrawer, AnimatedMenuItem } from "@/components/ui/glas
 import { AnimatedNavItem, AnimatedNavContainer } from "@/components/ui/animated-nav-item";
 import { AnimatedLogo } from "@/components/ui/animated-logo";
 
+interface MenuItem {
+  id: string;
+  label: string;
+  path?: string;
+  action?: () => void;
+  icon: React.ReactNode;
+}
+
 export function Navbar() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { logout } = useAuth();
   const {
     language,
     setLanguage,
@@ -65,11 +76,22 @@ export function Navbar() {
     { id: "contact", label: t("contact"), path: "/contact" },
   ];
   
-  const menuItems = [
+  const handleLogout = async () => {
+    try {
+      await logout();
+      navigate("/");
+      setIsDrawerOpen(false);
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
+
+  const menuItems: MenuItem[] = [
     { id: "diverse-farming", label: "Diverse Farming", path: "/farming-type", icon: <Tractor size={18} /> },
     { id: "profile", label: "Profile", path: "/profile", icon: <User size={18} /> },
     { id: "settings", label: "Settings", path: "/settings", icon: <Settings size={18} /> },
     { id: "orders", label: "Orders", path: "/orders", icon: <ShoppingCart size={18} /> },
+    { id: "logout", label: "Logout", action: handleLogout, icon: <LogOut size={18} /> },
   ];
 
   return (
@@ -122,20 +144,37 @@ export function Navbar() {
                       >
                         {menuItems.map((item, index) => (
                           <AnimatedMenuItem key={item.id} onClick={() => setIsDrawerOpen(false)}>
-                            <Link
-                              to={item.path}
-                              className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-green-50 transition-all duration-300 group"
-                            >
-                              <motion.div
-                                className="text-green-600 group-hover:text-green-700"
-                                whileHover={{ rotate: 5, scale: 1.1 }}
+                            {item.action ? (
+                              <button
+                                onClick={item.action}
+                                className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-red-50 transition-all duration-300 group w-full text-left"
                               >
-                                {item.icon}
-                              </motion.div>
-                              <span className="font-medium text-gray-700 group-hover:text-green-700">
-                                {item.label}
-                              </span>
-                            </Link>
+                                <motion.div
+                                  className="text-red-600 group-hover:text-red-700"
+                                  whileHover={{ rotate: 5, scale: 1.1 }}
+                                >
+                                  {item.icon}
+                                </motion.div>
+                                <span className="font-medium text-red-700 group-hover:text-red-800">
+                                  {item.label}
+                                </span>
+                              </button>
+                            ) : (
+                              <Link
+                                to={item.path}
+                                className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-green-50 transition-all duration-300 group"
+                              >
+                                <motion.div
+                                  className="text-green-600 group-hover:text-green-700"
+                                  whileHover={{ rotate: 5, scale: 1.1 }}
+                                >
+                                  {item.icon}
+                                </motion.div>
+                                <span className="font-medium text-gray-700 group-hover:text-green-700">
+                                  {item.label}
+                                </span>
+                              </Link>
+                            )}
                           </AnimatedMenuItem>
                         ))}
                       </motion.div>
@@ -208,22 +247,41 @@ export function Navbar() {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.05 }}
                       >
-                        <DropdownMenuItem asChild className="rounded-lg mb-1">
-                          <Link
-                            to={item.path}
-                            className="professional-nav-item-farmer flex items-center gap-3 cursor-pointer transition-all duration-300 group"
-                          >
-                            <motion.div
-                              className="text-green-600 group-hover:text-green-700"
-                              whileHover={{ rotate: 5, scale: 1.1 }}
+                        {item.action ? (
+                          <DropdownMenuItem className="rounded-lg mb-1">
+                            <button
+                              onClick={item.action}
+                              className="professional-nav-item-farmer flex items-center gap-3 cursor-pointer transition-all duration-300 group w-full text-left hover:bg-red-50"
                             >
-                              {item.icon}
-                            </motion.div>
-                            <span className="font-medium text-gray-700 group-hover:text-green-700">
-                              {item.label}
-                            </span>
-                          </Link>
-                        </DropdownMenuItem>
+                              <motion.div
+                                className="text-red-600 group-hover:text-red-700"
+                                whileHover={{ rotate: 5, scale: 1.1 }}
+                              >
+                                {item.icon}
+                              </motion.div>
+                              <span className="font-medium text-red-700 group-hover:text-red-800">
+                                {item.label}
+                              </span>
+                            </button>
+                          </DropdownMenuItem>
+                        ) : (
+                          <DropdownMenuItem asChild className="rounded-lg mb-1">
+                            <Link
+                              to={item.path}
+                              className="professional-nav-item-farmer flex items-center gap-3 cursor-pointer transition-all duration-300 group"
+                            >
+                              <motion.div
+                                className="text-green-600 group-hover:text-green-700"
+                                whileHover={{ rotate: 5, scale: 1.1 }}
+                              >
+                                {item.icon}
+                              </motion.div>
+                              <span className="font-medium text-gray-700 group-hover:text-green-700">
+                                {item.label}
+                              </span>
+                            </Link>
+                          </DropdownMenuItem>
+                        )}
                       </motion.div>
                     ))}
                   </motion.div>
