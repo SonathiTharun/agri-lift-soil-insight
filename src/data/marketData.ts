@@ -336,7 +336,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Organic Lettuce Seed Mix",
       description: "A blend of premium organic lettuce varieties",
       price: 89,
-      image: "https://media.istockphoto.com/id/172875087/photo/lettuce-seedlings.webp?a=1&b=1&s=612x612&w=0&k=20&c=VDoD6YkTLVZzjbwYqd9XoTdhJU8ElgleFPKPd0MUMtk=",
+      image: "https://i5.walmartimages.com/seo/Organic-Lettuce-Garden-Seeds-Buttercrunch-2-5-Gram-Packet-Non-GMO-Heirloom-Vegetable-Gardening-Microgreens-Seeds-AKA-Butterhead_20e32865-35e6-409a-b0b2-0f1fc0026bbf_1.72abb7e9eff95160e835dbe92779f9e3.jpeg",
       rating: 4.6,
       stock: 150
     },
@@ -345,7 +345,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Organic Cucumber Seeds",
       description: "Fresh organic cucumber seeds with high germination rate",
       price: 85,
-      image: "https://media.istockphoto.com/id/537823237/photo/cucumbers-with-leaves.jpg?s=612x612&w=0&k=20&c=Dq8LE9Oj7XPxWBDyuBisNNdWRwgSqa5LffxiQyHZDhM=",
+      image: "https://m.media-amazon.com/images/I/71uE89hMMsL.jpg",
       rating: 4.8,
       stock: 175
     },
@@ -354,7 +354,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Premium Rice Seeds",
       description: "High-yield rice seed varieties for optimal production",
       price: 110,
-      image: "https://media.istockphoto.com/id/1093307216/photo/pile-of-rice-on-background-of-a-bag-of-rice.jpg?s=612x612&w=0&k=20&c=GPHkB9TQf6JQ0UygCTQDIZWvsZ_nnTaHaN6zzdg_Tmk=",
+      image: "https://www.jiomart.com/images/product/original/rv2xqclley/shree-jee-birds-food-premium-rice-paddy-seeds-900-grams-product-images-orv2xqclley-p602828705-0-202306291228.jpg?im=Resize=(1000,1000)",
       rating: 4.9,
       stock: 200,
       discount: 8
@@ -364,7 +364,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Organic Pumpkin Seeds",
       description: "Large, disease-resistant pumpkin seeds for commercial farming",
       price: 95,
-      image: "https://media.istockphoto.com/id/140348799/photo/pumpkin-seeds.jpg?s=612x612&w=0&k=20&c=RLWqi3klBiexuAM6A4tYdUFoeJbZqFWJXGFUtP8NIx8=",
+      image: "https://images-cdn.ubuy.co.in/64a4aa87ef36fe2570518315-good-sense-roasted-salted-organic.jpg",
       rating: 4.6,
       stock: 130
     }
