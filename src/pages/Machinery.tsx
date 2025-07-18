@@ -119,7 +119,7 @@ const machineryItems: MachineryItem[] = [
     dailyRentalPrice: 110,
     purchasePrice: 12300,
     availability: "unavailable",
-    image: "https://images.unsplash.com/photo-1587093611025-cfd7c1a58d18?q=80&w=2942&auto=format&fit=crop",
+    image: "https://www.patelagroindustries.com/public/images/blog/inner/Boom%20sprayers.jpg",
     icon: <Tractor className="h-6 w-6" />,
     rating: 4.6,
     reviews: 73,

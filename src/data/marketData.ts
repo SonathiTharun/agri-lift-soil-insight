@@ -65,7 +65,7 @@ export const getTranslatedCategories = (t: TranslationFunction): ProductCategory
     name: t("pesticides"),
     description: t("pesticides-desc"),
     icon: "Flower",
-    image: "https://media.istockphoto.com/id/652966504/photo/watering-field.webp?a=1&b=1&s=612x612&w=0&k=20&c=e_d5LE1bDvairIeXHvviiWc_2__Ptn2eRS03GqEm8ueM="
+    image: "https://www.niehs.nih.gov/sites/default/files/health/assets/images/pesticides_og.jpg"
   },
   {
     id: "farming-tools",
@@ -111,7 +111,7 @@ export const categories: ProductCategory[] = [
     name: "Pesticides",
     description: "Effective pest control solutions for healthier crops",
     icon: "Flower",
-    image: "https://media.istockphoto.com/id/652966504/photo/watering-field.webp?a=1&b=1&s=612x612&w=0&k=20&c=e_d5LE1bDvairIeXHvviiWc_2__Ptn2eRS03GqEm8ueM="
+    image: "https://www.niehs.nih.gov/sites/default/files/health/assets/images/pesticides_og.jpg"
   },
   {
     id: "farming-tools",
@@ -510,7 +510,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Ergonomic Hand Trowel",
       description: "Comfortable grip hand trowel for planting and soil work",
       price: 29,
-      image: "https://media.istockphoto.com/id/534204536/photo/gardening-tools.jpg?s=612x612&w=0&k=20&c=JYAv6h2eXMCc5JchZu1qE2e_dCLjeDQ8Db73G7zeWcs=",
+      image: "https://i.pinimg.com/474x/90/ca/81/90ca81d0cb4891570d8f58fa18725d09.jpg",
       rating: 4.7,
       stock: 150
     },
@@ -519,7 +519,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Professional Pruning Shears",
       description: "Sharp, durable pruning shears for precise plant maintenance",
       price: 45,
-      image: "https://media.istockphoto.com/id/1193094396/photo/pruning-shears-with-both-handles-open-in-hand.jpg?s=612x612&w=0&k=20&c=0o3qKrhBKLpa82ozk1BSZVx_DbuOjXElTFmQShlH1Ts=",
+      image: "https://www.bbassets.com/media/uploads/p/xl/40267498_4-natures-plus-pruning-shearscutter-durable-sturdy-strong-blade.jpg",
       rating: 4.9,
       stock: 100
     },
