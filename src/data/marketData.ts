@@ -63,9 +63,9 @@ export const getTranslatedCategories = (t: TranslationFunction): ProductCategory
   {
     id: "pesticides",
     name: t("pesticides"),
-    description: t("pesticides-desc"),
+    description: "Effective pest control solutions for healthier crops",
     icon: "Flower",
-    image: "https://media.istockphoto.com/id/652966504/photo/watering-field.webp?a=1&b=1&s=612x612&w=0&k=20&c=e_d5LE1bDvairIeXHvviiWc_2__Ptn2eRS03GqEm8ueM="
+    image: "https://www.niehs.nih.gov/sites/default/files/health/assets/images/pesticides_og.jpg"
   },
   {
     id: "farming-tools",
@@ -111,7 +111,7 @@ export const categories: ProductCategory[] = [
     name: "Pesticides",
     description: "Effective pest control solutions for healthier crops",
     icon: "Flower",
-    image: "https://media.istockphoto.com/id/652966504/photo/watering-field.webp?a=1&b=1&s=612x612&w=0&k=20&c=e_d5LE1bDvairIeXHvviiWc_2__Ptn2eRS03GqEm8ueM="
+    image: "https://www.niehs.nih.gov/sites/default/files/health/assets/images/pesticides_og.jpg"
   },
   {
     id: "farming-tools",
