@@ -261,7 +261,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Pest-Resistant Eggplant",
       description: "Eggplant seedlings designed to resist common pests",
       price: 189,
-      image: "https://gdb.voanews.com/06903614-b017-4fce-9bb3-10f0a53b7678_w408_r1_s.jpg",
+      image: "https://allianceforscience.org/wp-content/uploads/2018/02/22172931728_1223b8c407_k.jpg",
       rating: 4.5,
       stock: 110
     },
@@ -384,7 +384,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "NPK Fertilizer Blend",
       description: "Balanced nitrogen, phosphorus, and potassium for optimal growth",
       price: 199,
-      image: "https://media.istockphoto.com/id/927499422/photo/organic-fertilizer-in-a-wooden-bowl-on-dark-background-alternative-resource-of-fertilizer-for.webp?a=1&b=1&s=612x612&w=0&k=20&c=XViyaUlbE_AFT1JuhfDo4yWzXuMnYr1et9mZqV97DCA=",
+      image: "https://image.chukouplus.com/themes/simplebootx/Upload/W_715/upload/5f9bc5af5b6a1.jpg?x-oss-process=image/format,webp,image/resize,m_pad,h_400,w_400,color_FFFFFF&1",
       rating: 4.7,
       stock: 250,
       discount: 10
@@ -394,7 +394,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Organic Bone Meal",
       description: "Slow-release fertilizer perfect for root development",
       price: 129,
-      image: "https://media.istockphoto.com/id/1414162899/photo/bone-meal-organic-fertilizer-in-packaging-on-wooden-background.webp?a=1&b=1&s=612x612&w=0&k=20&c=LQF4dxjpCjpnM-1EUIv8X-5EHc8C5NGjM8Vl_78R28s=",
+      image: "https://m.media-amazon.com/images/I/611f-p12F8L.jpg",
       rating: 4.6,
       stock: 175
     },
@@ -403,7 +403,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Liquid Seaweed Fertilizer",
       description: "Nutrient-rich seaweed extract for boosting plant health",
       price: 109,
-      image: "https://media.istockphoto.com/id/1314115085/photo/organic-liquid-fertilizers.webp?a=1&b=1&s=612x612&w=0&k=20&c=R4rPu9TbJQ8FO05Re3zI0wkyPMeZFTwWCxN7poLkCrQ=",
+      image: "https://organicbazar.net/cdn/shop/products/Liquid-Seaweed-Concentrate-Fertilizer-for-Plants.jpg?v=1694169201",
       rating: 4.8,
       stock: 200
     },
@@ -412,7 +412,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Micronutrient Mix",
       description: "Essential micronutrients to prevent deficiencies in crops",
       price: 159,
-      image: "https://media.istockphoto.com/id/500927704/photo/chemical-fertilizers-blue-capsules.jpg?s=612x612&w=0&k=20&c=559ah2I1KJNzAlb8L-UOkTMiwwPXO1nWeX_DldJv70Y=",
+      image: "https://5.imimg.com/data5/SELLER/Default/2023/7/330299645/RF/QO/MG/7443034/mix-micronutrients-gujarat-grade-4.jpg",
       rating: 4.7,
       stock: 120
     },
@@ -421,7 +421,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Vermicompost Premium",
       description: "Worm-processed organic matter rich in beneficial microbes",
       price: 179,
-      image: "https://media.istockphoto.com/id/1334490239/photo/vermicompost-after-processing-in-coconut-shell-selective-focus-stock-photograph.jpg?s=612x612&w=0&k=20&c=L4F5KBjEhMrPxQJMerKGw4h_nZFOZtE9QP73l3TGo5k=",
+      image: "https://5.imimg.com/data5/SELLER/Default/2021/5/BY/MN/YQ/121958000/premium-vermicompost.jpg",
       rating: 4.9,
       stock: 150,
       discount: 12
@@ -431,7 +431,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Calcium Nitrate Fertilizer",
       description: "Fast-acting calcium and nitrogen source for vegetable crops",
       price: 139,
-      image: "https://media.istockphoto.com/id/1191225336/photo/calcium-nitrate-ca-no3-2-is-inorganic-compound-it-is-deliquescent-salt-that-consists-of-ionic.jpg?s=612x612&w=0&k=20&c=dwYd5Wj7N1WdOEEFJB2YEvIQRcj6340k4Fvn5bKoXOM=",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQigBA77b9lmr6_ORKpd0KhwAw3FVnidOwXkw&s",
       rating: 4.6,
       stock: 180
     }
@@ -510,7 +510,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Ergonomic Hand Trowel",
       description: "Comfortable grip hand trowel for planting and soil work",
       price: 29,
-      image: "https://media.istockphoto.com/id/534204536/photo/gardening-tools.jpg?s=612x612&w=0&k=20&c=JYAv6h2eXMCc5JchZu1qE2e_dCLjeDQ8Db73G7zeWcs=",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYAQ56gVbaYYVrsi_gdU-56hEhEnLN6_QYBw&s",
       rating: 4.7,
       stock: 150
     },
@@ -519,7 +519,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Professional Pruning Shears",
       description: "Sharp, durable pruning shears for precise plant maintenance",
       price: 45,
-      image: "https://media.istockphoto.com/id/1193094396/photo/pruning-shears-with-both-handles-open-in-hand.jpg?s=612x612&w=0&k=20&c=0o3qKrhBKLpa82ozk1BSZVx_DbuOjXElTFmQShlH1Ts=",
+      image: "https://images-cdn.ubuy.co.in/65cd88eb4be4734db70ac1c6-electric-pruning-shears-cordless.jpg",
       rating: 4.9,
       stock: 100
     },
@@ -528,7 +528,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Heavy-Duty Garden Hoe",
       description: "Sturdy hoe for weeding and soil preparation",
       price: 39,
-      image: "https://media.istockphoto.com/id/1251390223/photo/agriculture-tools-on-wooden-background.jpg?s=612x612&w=0&k=20&c=f27muVZWED4Xoq-_iKYnG8jTJvLUqLL9owB4pwNUuLs=",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQup8FPrNWGITvvjcYU8dUAVAiSjbPSRPFkbA&s",
       rating: 4.6,
       stock: 90
     },
@@ -537,7 +537,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Soil Moisture Meter",
       description: "Accurate tool for measuring soil moisture, pH, and light levels",
       price: 25,
-      image: "https://media.istockphoto.com/id/1185099339/photo/soil-testing-kit-with-tubes-and-charts.jpg?s=612x612&w=0&k=20&c=AS5WVTdAdWAAWw4VjMNUhYPUNfpyH58Ulq-4QXJwZuw=",
+      image: "https://static.wixstatic.com/media/b00896_1b390949b8674c5b95e1b9da706b7f49~mv2.jpg/v1/fill/w_484,h_644,al_c,lg_1,q_80/b00896_1b390949b8674c5b95e1b9da706b7f49~mv2.jpg",
       rating: 4.5,
       stock: 120
     },
@@ -546,7 +546,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Seedling Transplanter",
       description: "Specialized tool for safely transplanting seedlings",
       price: 19,
-      image: "https://media.istockphoto.com/id/1133113789/photo/seedling-growing-in-ground-on-bokeh-background-new-life-or-beginning-concept.jpg?s=612x612&w=0&k=20&c=E6k9AIFARbheo3fIC2_G2_hj8Ai2IlYbqBJCjg1XZ7E=",
+      image: "https://m.media-amazon.com/images/I/71nfr-k6O8L._UF1000,1000_QL80_.jpg",
       rating: 4.4,
       stock: 80
     },
@@ -565,7 +565,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Garden Kneeling Pad",
       description: "Thick foam pad to protect knees during planting and weeding",
       price: 22,
-      image: "https://media.istockphoto.com/id/517965884/photo/gardener-with-hat-is-planting-flowers-in-her-garden.jpg?s=612x612&w=0&k=20&c=HQC_qs10eXp5nA5-mT3PaVkTYtCM9AFFXFvyyC8eSLU=",
+      image: "https://m.media-amazon.com/images/I/915egWdrbdL.jpg",
       rating: 4.8,
       stock: 100
     }
@@ -576,7 +576,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Smart Drip Irrigation Kit",
       description: "Water-saving drip irrigation system with smart controls",
       price: 299,
-      image: "https://media.istockphoto.com/id/1270064595/photo/watering-field.webp?a=1&b=1&s=612x612&w=0&k=20&c=vzZ6GrpFj8RLNW8wvXEiWQzGDt91m0ASuFeiS-Eee2M=",
+      image: "https://plantlane.com/cdn/shop/articles/smart-garden-using-computer-cont_1100x.jpg?v=1693835652",
       rating: 4.8,
       stock: 50,
       discount: 20
@@ -586,7 +586,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Sprinkler System - Pro",
       description: "Professional-grade sprinkler system for even coverage",
       price: 349,
-      image: "https://media.istockphoto.com/id/1249603614/photo/sprinkler-head-watering-in-the-garden.webp?a=1&b=1&s=612x612&w=0&k=20&c=7XzfBxS68YoGX5AbDZPX7hQQ-gUgg0w9fqwx_QT5jC8=",
+      image: "https://5.imimg.com/data5/SELLER/Default/2021/2/EL/WS/FC/7227892/hunter-irrigation-pro-sprayer-fixed-arc-nozzles.jpg",
       rating: 4.7,
       stock: 35
     },
@@ -595,7 +595,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Smart Moisture Sensors",
       description: "IoT-enabled sensors to optimize watering schedules",
       price: 179,
-      image: "https://media.istockphoto.com/id/1137813603/photo/hand-check-the-soil-moisture-with-the-mete.webp?a=1&b=1&s=612x612&w=0&k=20&c=x30Sl4TdjYF2bKtodXXoTisJ67UbTnzODRXR7Km9dWo=",
+      image: "https://cdn1.npcdn.net/images/1621756470557096d6db60e4049c0b991e9a9af6d7.jpg?md5id=6b67560b23af2fb369555be4155d8c48&new_width=1000&new_height=1000&w=1744343065",
       rating: 4.9,
       stock: 75
     },
@@ -604,7 +604,7 @@ export const productsByCategory: Record<string, Product[]> = {
       name: "Solar-Powered Water Pump",
       description: "Eco-friendly water pump for irrigation systems",
       price: 249,
-      image: "https://media.istockphoto.com/id/95628526/photo/irrigation-ditch.jpg?s=612x612&w=0&k=20&c=PZkxj-8ErOObuidUznMSfmF_afd5pLQb80MHDwO9ka8=",
+      image: "https://5.imimg.com/data5/ET/CI/LO/SELLER-3310025/solar-powered-water-pump-500x500.jpg",
       rating: 4.6,
       stock: 40
     },
