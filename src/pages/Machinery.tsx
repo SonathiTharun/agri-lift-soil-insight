@@ -119,7 +119,7 @@ const machineryItems: MachineryItem[] = [
     dailyRentalPrice: 110,
     purchasePrice: 12300,
     availability: "unavailable",
-    image: "https://images.unsplash.com/photo-1587093611025-cfd7c1a58d18?q=80&w=2942&auto=format&fit=crop",
+    image: "https://github.com/SonathiTharun/Agri-Lift-images/blob/main/unnamed.png?raw=true",
     icon: <Tractor className="h-6 w-6" />,
     rating: 4.6,
     reviews: 73,
@@ -144,7 +144,7 @@ const comboOffers: ComboOffer[] = [
     dailyPrice: 220,
     duration: "3-7 days",
     savings: "Save 25% versus separate rental",
-    image: "https://images.unsplash.com/photo-1593275410252-bb58bd53d958?q=80&w=2924&auto=format&fit=crop"
+    image: "https://github.com/SonathiTharun/Agri-Lift-images/blob/main/unnamed.png?raw=true"
   },
   {
     id: "planting-combo",
@@ -155,7 +155,7 @@ const comboOffers: ComboOffer[] = [
     dailyPrice: 165,
     duration: "2-5 days",
     savings: "Save 20% versus separate rental",
-    image: "https://images.unsplash.com/photo-1589321402858-e29ae281b82e?q=80&w=2833&auto=format&fit=crop"
+    image: "https://github.com/SonathiTharun/Agri-Lift-images/blob/main/Spring%20Planting%20Solution.png?raw=true"
   },
   {
     id: "field-prep-combo",
@@ -166,7 +166,7 @@ const comboOffers: ComboOffer[] = [
     dailyPrice: 145,
     duration: "1-4 days",
     savings: "Save 15% versus separate rental",
-    image: "https://images.unsplash.com/photo-1605488686053-8042e08db305?q=80&w=2940&auto=format&fit=crop"
+    image: "https://github.com/SonathiTharun/Agri-Lift-images/blob/main/Field%20Preparation%20Package.png?raw=true"
   }
 ];
 
