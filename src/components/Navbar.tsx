@@ -6,7 +6,7 @@ import { useLanguage } from "./LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Globe, Menu, Tractor, User, Settings, ShoppingCart, Sparkles, LogOut } from "lucide-react";
+import { Globe, Menu, Tractor, User, Settings, ShoppingCart, Sparkles, LogOut, Phone } from "lucide-react";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { CartSidebar } from "./CartSidebar";
@@ -43,6 +43,7 @@ export function Navbar() {
     if (path === "/machinery") return "machinery";
     if (path === "/export") return "export";
     if (path === "/monitoring") return "monitoring";
+    if (path === "/lease") return "lease";
     if (path === "/services") return "services";
     if (path === "/orders") return "orders";
     if (path === "/settings") return "settings";
@@ -59,11 +60,13 @@ export function Navbar() {
     else if (path === "/machinery") setActiveItem("machinery");
     else if (path === "/export") setActiveItem("export");
     else if (path === "/monitoring") setActiveItem("monitoring");
+    else if (path === "/lease") setActiveItem("lease");
     else if (path === "/services") setActiveItem("services");
     else if (path === "/orders") setActiveItem("orders");
     else if (path === "/settings") setActiveItem("settings");
   }, [location]);
 
+  // Main navigation items (excluding Services and Contact which will be in hamburger menu)
   const navItems = [
     { id: "dashboard", label: t("dashboard"), path: "/dashboard" },
     { id: "loans", label: t("loans"), path: "/loans" },
@@ -72,6 +75,11 @@ export function Navbar() {
     { id: "machinery", label: t("machinery"), path: "/machinery" },
     { id: "export", label: t("export"), path: "/export" },
     { id: "monitoring", label: t("monitoring"), path: "/monitoring" },
+    { id: "lease", label: t("lease"), path: "/lease" },
+  ];
+
+  // Hamburger menu items (Services and Contact moved here)
+  const hamburgerNavItems = [
     { id: "services", label: t("services"), path: "/services" },
     { id: "contact", label: t("contact"), path: "/contact" },
   ];
@@ -111,6 +119,7 @@ export function Navbar() {
       <div className="relative professional-container">
         <div className="professional-nav-container">
           <div className="professional-nav-left">
+            {/* Hamburger menu - now always visible */}
             {isMobile ? (
               <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
                 <DrawerTrigger asChild>
@@ -123,6 +132,7 @@ export function Navbar() {
                       variant="ghost"
                       size="icon"
                       className="farmer-portal-button professional-shimmer"
+                      aria-label="Open navigation menu"
                     >
                       <Menu size={22} />
                     </Button>
@@ -190,6 +200,28 @@ export function Navbar() {
                             }
                           }}
                         >
+                          {/* Services and Contact items in hamburger menu */}
+                          {hamburgerNavItems.map((item, index) => (
+                            <AnimatedMenuItem
+                              key={item.id}
+                              onClick={() => {
+                                setActiveItem(item.id);
+                                setIsDrawerOpen(false);
+                              }}
+                            >
+                              <div className={`flex items-center px-4 py-3 rounded-xl mb-2 transition-all duration-300 ${
+                                activeItem === item.id
+                                  ? "bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-lg"
+                                  : "hover:bg-green-50 text-gray-700 hover:text-green-700"
+                              }`}>
+                                <Link to={item.path} className="w-full">
+                                  <span className="font-medium text-sm break-words">{item.label}</span>
+                                </Link>
+                              </div>
+                            </AnimatedMenuItem>
+                          ))}
+
+                          {/* Other navigation items */}
                           {navItems.map((item, index) => (
                             <AnimatedMenuItem
                               key={item.id}
@@ -226,6 +258,7 @@ export function Navbar() {
                       variant="ghost"
                       size="icon"
                       className="farmer-portal-button mr-2 transition-all duration-300 rounded-xl backdrop-blur-sm"
+                      aria-label="Open navigation menu"
                     >
                       <Menu size={22} />
                     </Button>
@@ -240,12 +273,44 @@ export function Navbar() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.2 }}
                   >
-                    {menuItems.map((item, index) => (
+                    {/* Services and Contact items first */}
+                    {hamburgerNavItems.map((item, index) => (
                       <motion.div
                         key={item.id}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.05 }}
+                      >
+                        <DropdownMenuItem asChild className="rounded-lg mb-1">
+                          <Link
+                            to={item.path}
+                            className="professional-nav-item-farmer flex items-center gap-3 cursor-pointer transition-all duration-300 group"
+                            onClick={() => setActiveItem(item.id)}
+                          >
+                            <motion.div
+                              className="text-green-600 group-hover:text-green-700"
+                              whileHover={{ rotate: 5, scale: 1.1 }}
+                            >
+                              {item.id === 'services' ? <Settings size={18} /> : <Phone size={18} />}
+                            </motion.div>
+                            <span className="font-medium text-gray-700 group-hover:text-green-700">
+                              {item.label}
+                            </span>
+                          </Link>
+                        </DropdownMenuItem>
+                      </motion.div>
+                    ))}
+
+                    {/* Separator */}
+                    <div className="border-t border-gray-200/50 my-2" />
+
+                    {/* Other menu items */}
+                    {menuItems.map((item, index) => (
+                      <motion.div
+                        key={item.id}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: (hamburgerNavItems.length + index) * 0.05 }}
                       >
                         {item.action ? (
                           <DropdownMenuItem className="rounded-lg mb-1">

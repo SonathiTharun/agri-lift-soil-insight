@@ -16,6 +16,7 @@ const Labour = React.lazy(() => import("./pages/Labour"));
 const Machinery = React.lazy(() => import("./pages/Machinery"));
 const Export = React.lazy(() => import("./pages/Export"));
 const Monitoring = React.lazy(() => import("./pages/Monitoring"));
+const Lease = React.lazy(() => import("./pages/Lease"));
 const Services = React.lazy(() => import("./pages/Services"));
 const Contact = React.lazy(() => import("./pages/Contact"));
 const FarmingType = React.lazy(() => import("./pages/FarmingType"));
@@ -71,6 +72,7 @@ const App = () => (
         <Route path="/machinery" element={<Machinery />} />
         <Route path="/export" element={<Export />} />
         <Route path="/monitoring" element={<Monitoring />} />
+        <Route path="/lease" element={<Lease />} />
         <Route path="/services" element={<Services />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/orders" element={<Orders />} />
