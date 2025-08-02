@@ -350,7 +350,7 @@ const Lease: React.FC = () => {
       rating: 4.8,
       reviews: 24,
       features: ["Irrigation", "Road Access", "Electricity", "Storage"],
-      image: "/api/placeholder/400/250",
+      image: "https://static.gujaratsamachar.com/content_image/content_image_fad12aaf-2344-4769-a0d5-34c02264a171.jpeg",
       available: true,
       description: "Premium agricultural land with excellent soil quality and modern irrigation facilities. Perfect for crop cultivation with guaranteed water supply.",
       ownerContact: {
@@ -377,7 +377,7 @@ const Lease: React.FC = () => {
       rating: 4.9,
       reviews: 18,
       features: ["Milking Parlor", "Feed Storage", "Veterinary Room", "Cold Storage"],
-      image: "/api/placeholder/400/250",
+      image: "https://elements-resized.envatousercontent.com/elements-video-cover-images/434e0318-1c1c-4c83-af9a-d2ea51b5a816/video_preview/video_preview_0000.jpg?w=500&cf_fit=cover&q=85&format=auto&s=38a45f3141d5b8328f300560df076201ee28b5f8e3496ea58dfda06d5f8f171a",
       available: true,
       description: "State-of-the-art dairy farm facility with modern milking equipment and proper storage facilities. Ideal for commercial dairy operations.",
       ownerContact: {
@@ -404,7 +404,7 @@ const Lease: React.FC = () => {
       rating: 4.6,
       reviews: 31,
       features: ["Greenhouse", "Organic Certified", "Processing Unit", "Market Access"],
-      image: "/api/placeholder/400/250",
+      image: "https://www.agrifarming.in/wp-content/uploads/2020/03/Comp2-1.jpg",
       available: true,
       description: "Certified organic vegetable farm with greenhouse facilities and direct market access. Perfect for sustainable farming practices.",
       ownerContact: {
