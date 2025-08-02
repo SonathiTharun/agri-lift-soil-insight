@@ -431,7 +431,7 @@ const Lease: React.FC = () => {
       rating: 4.7,
       reviews: 22,
       features: ["Mature Trees", "Processing Unit", "Cold Storage", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://media.istockphoto.com/id/601122142/photo/crop-of-sun-kissed-mango-fruit-ripening-on-tree.jpg?s=612x612&w=0&k=20&c=LWqDqwt6SV5ye5WQs8M3xUmqiQNgLxu41HWxj4LvEEs=",
       available: true,
       description: "Established mango orchard with mature trees and processing facilities. Ready for commercial production with export capabilities.",
       ownerContact: {
@@ -458,7 +458,7 @@ const Lease: React.FC = () => {
       rating: 4.5,
       reviews: 19,
       features: ["Hatchery", "Feed Mill", "Processing Unit", "Cold Chain"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://elements-resized.envatousercontent.com/elements-video-cover-images/files/f07e519b-87d6-4212-bb05-e9a40ad21e62/inline_image_preview.jpg?w=500&cf_fit=cover&q=85&format=auto&s=5376c20daaa2549a2c7cfb763b23a618dd6af2084ad3b38488a2b64c82807de3",
       available: true,
       description: "Modern poultry farm with complete infrastructure including hatchery and processing facilities. Ideal for commercial poultry operations.",
       ownerContact: {
@@ -485,7 +485,7 @@ const Lease: React.FC = () => {
       rating: 4.4,
       reviews: 16,
       features: ["Fish Ponds", "Hatchery", "Processing Unit", "Export Facility"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa81oLRMZ0T8hnozXnt-Os6dFEmuiY0LOHtQ&s",
       available: true,
       description: "Well-established aquaculture farm with multiple fish ponds and processing facilities. Perfect for commercial fish farming.",
       ownerContact: {
@@ -512,7 +512,7 @@ const Lease: React.FC = () => {
       rating: 4.8,
       reviews: 28,
       features: ["Organic Certified", "Processing Unit", "Storage Facility", "Direct Export"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3XI5ZSFUd68iWI8rt5rz1Ch5tyTEw80bjgA&s",
       available: true,
       description: "Premium spice plantation with organic certification and processing facilities. Specializes in cardamom, pepper, and vanilla.",
       ownerContact: {
@@ -539,7 +539,7 @@ const Lease: React.FC = () => {
       rating: 4.9,
       reviews: 35,
       features: ["Tea Factory", "Workers Quarters", "Processing Unit", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://traveleva.gumlet.io/activities/1202/1202_2021-06-07things10-45-49.jpg?w=1244&h=312",
       available: true,
       description: "Established tea estate with factory and processing facilities. Produces premium quality tea for domestic and export markets.",
       ownerContact: {
@@ -566,7 +566,7 @@ const Lease: React.FC = () => {
       rating: 4.6,
       reviews: 25,
       features: ["Coffee Factory", "Processing Unit", "Storage Facility", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://img-cdn.publive.online/fit-in/640x430/filters:format(webp)/local-samosal/media/media_files/2025/04/16/chikhaldara-4-148836.png",
       available: true,
       description: "Premium coffee plantation with processing facilities and storage. Produces high-quality Arabica and Robusta coffee beans.",
       ownerContact: {
@@ -593,7 +593,7 @@ const Lease: React.FC = () => {
       rating: 4.3,
       reviews: 14,
       features: ["Breeding Unit", "Milk Processing", "Feed Storage", "Veterinary Care"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://i.ytimg.com/vi/NkyCf59FKo8/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLCMnJSWcQ9LnGbsGwCm8uq3gsTmlg",
       available: true,
       description: "Integrated goat farm with dairy processing facilities. Specializes in goat milk products and breeding programs.",
       ownerContact: {
@@ -620,7 +620,7 @@ const Lease: React.FC = () => {
       rating: 4.2,
       reviews: 12,
       features: ["Climate Control", "Processing Unit", "Cold Storage", "Organic Certified"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://mushroology.com/wp-content/uploads/2024/05/mushroom-farm-equipment.webp",
       available: true,
       description: "Modern mushroom farm with climate-controlled facilities and organic certification. Produces various mushroom varieties.",
       ownerContact: {
@@ -647,7 +647,7 @@ const Lease: React.FC = () => {
       rating: 4.7,
       reviews: 20,
       features: ["Greenhouse Complex", "Processing Unit", "Cold Chain", "Export Facility"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjPaX0h5HvaKNf-Kh93o2My3nAYHP7kyKN1Q&s",
       available: true,
       description: "Premium floriculture farm with modern greenhouse facilities. Specializes in roses, carnations, and exotic flowers.",
       ownerContact: {
@@ -674,7 +674,7 @@ const Lease: React.FC = () => {
       rating: 4.8,
       reviews: 18,
       features: ["Organic Certified", "Processing Unit", "Storage Facility", "Direct Export"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRp86YOxpB9KYHAVZFlvG7RkOucQqC1Ar24UQ&s",
       available: true,
       description: "Certified organic medicinal herb farm in the Himalayas. Grows rare herbs like Ashwagandha, Tulsi, and Brahmi.",
       ownerContact: {
@@ -701,7 +701,7 @@ const Lease: React.FC = () => {
       rating: 4.4,
       reviews: 16,
       features: ["Processing Unit", "Storage Facility", "Transport Access", "Sugar Mill Access"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://static.wixstatic.com/media/a3a7f9_2fbcacab100c4e2e98d5d2b2260d90e9~mv2.jpg/v1/fill/w_980,h_653,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/a3a7f9_2fbcacab100c4e2e98d5d2b2260d90e9~mv2.jpg",
       available: true,
       description: "Large-scale sugarcane farm with processing facilities and direct access to sugar mills. Ideal for commercial production.",
       ownerContact: {
@@ -890,7 +890,7 @@ const Lease: React.FC = () => {
       rating: 4.0,
       reviews: 9,
       features: ["Breeding Unit", "Processing Unit", "Feed Storage", "Cold Storage"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://i.ytimg.com/vi/WZBfpqxnkB8/hqdefault.jpg",
       available: true,
       description: "Specialized quail farm with breeding and processing facilities. Produces quail meat and eggs for niche markets.",
       ownerContact: {
@@ -917,7 +917,7 @@ const Lease: React.FC = () => {
       rating: 4.2,
       reviews: 13,
       features: ["Processing Unit", "Storage Facility", "Organic Certified", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIRe5i_se-2H8oDBMOBB_fasFTKZ4DzAxBYg&s",
       available: true,
       description: "Commercial aloe vera farm with processing facilities. Produces aloe gel and other medicinal products.",
       ownerContact: {
@@ -944,7 +944,7 @@ const Lease: React.FC = () => {
       rating: 4.6,
       reviews: 21,
       features: ["Climate Control", "Processing Unit", "Cold Storage", "Organic Certified"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGjwafzGkFuWUBWgflr8ZGGqQK2-mpw2E2lg&s",
       available: true,
       description: "Premium strawberry farm with climate-controlled facilities. Produces high-quality strawberries for premium markets.",
       ownerContact: {
@@ -971,7 +971,7 @@ const Lease: React.FC = () => {
       rating: 4.3,
       reviews: 16,
       features: ["Processing Unit", "Cold Storage", "Transport Access", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://cdn.numerical.co.in/uploads/file-1630464368825.jpeg",
       available: true,
       description: "Commercial papaya farm with processing and storage facilities. Produces papaya for domestic and export markets.",
       ownerContact: {
@@ -998,7 +998,7 @@ const Lease: React.FC = () => {
       rating: 4.1,
       reviews: 12,
       features: ["Breeding Unit", "Processing Unit", "Feed Storage", "Cold Storage"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_FbDrDK0bZ5XqlHfHRQGR2-_gGaLK-sj8FA&s",
       available: true,
       description: "Specialized emu farm with breeding and processing facilities. Produces emu meat and oil for niche markets.",
       ownerContact: {
@@ -1025,7 +1025,7 @@ const Lease: React.FC = () => {
       rating: 4.2,
       reviews: 14,
       features: ["Mature Trees", "Processing Unit", "Cold Storage", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSvAepg9R3LKUy6haEzrhnoAzifhTrOLEN4Ew&s",
       available: true,
       description: "Established guava orchard with processing facilities. Produces high-quality guava for domestic and export markets.",
       ownerContact: {
@@ -1052,7 +1052,7 @@ const Lease: React.FC = () => {
       rating: 4.3,
       reviews: 15,
       features: ["Breeding Unit", "Processing Unit", "Feed Storage", "Cold Storage"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_Q_pChjreWkawjeheOGn_0sPDXsJ7ZY_aoA&s",
       available: true,
       description: "Specialized ostrich farm with breeding and processing facilities. Produces ostrich meat and leather for premium markets.",
       ownerContact: {
@@ -1376,7 +1376,7 @@ const Lease: React.FC = () => {
       rating: 4.5,
       reviews: 19,
       features: ["Processing Unit", "Cold Storage", "Export Ready", "Organic Certified"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://dragonfruit.net.vn/wp-content/uploads/2021/11/song-nam-dragon-fruit-farm-50.jpg",
       available: true,
       description: "Commercial dragon fruit farm with processing and storage facilities. Produces dragon fruit for domestic and export markets.",
       ownerContact: {
@@ -1430,7 +1430,7 @@ const Lease: React.FC = () => {
       rating: 4.7,
       reviews: 23,
       features: ["Mature Trees", "Processing Unit", "Cold Storage", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://eos.com/wp-content/uploads/2023/07/avocado-farming.jpg",
       available: true,
       description: "Premium avocado farm with processing facilities. Produces high-quality avocados for domestic and export markets.",
       ownerContact: {
@@ -1457,7 +1457,7 @@ const Lease: React.FC = () => {
       rating: 4.4,
       reviews: 17,
       features: ["Processing Unit", "Storage Facility", "Organic Certified", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZVoPGe7kbxqS52K4jsLhP04UOvPMSEnbTrQ&s",
       available: true,
       description: "Organic quinoa farm with processing facilities. Produces high-quality quinoa for domestic and export markets.",
       ownerContact: {
@@ -1484,7 +1484,7 @@ const Lease: React.FC = () => {
       rating: 4.3,
       reviews: 15,
       features: ["Processing Unit", "Storage Facility", "Organic Certified", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvJZa8xYbx8BNVypDfk4o_Wv0fLrm19Gc_Hg&s",
       available: true,
       description: "Organic chia seeds farm with processing facilities. Produces high-quality chia seeds for domestic and export markets.",
       ownerContact: {
@@ -1511,7 +1511,7 @@ const Lease: React.FC = () => {
       rating: 4.2,
       reviews: 14,
       features: ["Processing Unit", "Storage Facility", "Organic Certified", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPyARdZKXeoDRYZ2-V70q_JTcIzow1isXWbQ&s",
       available: true,
       description: "Organic moringa farm with processing facilities. Produces moringa leaves and powder for domestic and export markets.",
       ownerContact: {
@@ -1538,7 +1538,7 @@ const Lease: React.FC = () => {
       rating: 4.5,
       reviews: 18,
       features: ["Processing Unit", "Storage Facility", "Organic Certified", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://www.splenda.com/wp-content/uploads/2024/03/splenda-stevia-farms-video-poster.jpg",
       available: true,
       description: "Organic stevia farm with processing facilities. Produces stevia leaves and extract for domestic and export markets.",
       ownerContact: {
@@ -1565,7 +1565,7 @@ const Lease: React.FC = () => {
       rating: 4.6,
       reviews: 21,
       features: ["Processing Unit", "Storage Facility", "Organic Certified", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQazDCn2JmtXgjC31l7pwllPqxM9i_YXxQ__A&s",
       available: true,
       description: "Organic jojoba farm with processing facilities. Produces jojoba oil and wax for cosmetic and industrial markets.",
       ownerContact: {
@@ -1592,7 +1592,7 @@ const Lease: React.FC = () => {
       rating: 4.1,
       reviews: 12,
       features: ["Processing Unit", "Storage Facility", "Organic Certified", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://www.researchgate.net/publication/328676881/figure/fig4/AS:688287656181760@1541111973956/Neem-tree-plantation-Azadirachta-Indica-Source-Adapted-from-Naibbi-et-al-2014.jpg",
       available: true,
       description: "Organic neem farm with processing facilities. Produces neem oil and products for agricultural and medicinal use.",
       ownerContact: {
@@ -1619,7 +1619,7 @@ const Lease: React.FC = () => {
       rating: 4.3,
       reviews: 16,
       features: ["Processing Unit", "Storage Facility", "Export Ready", "Value Addition"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTSQiccYCJtyRNA5ROrIkDUBkE7OBu9Cz_rSg&s",
       available: true,
       description: "Commercial bamboo farm with processing facilities. Produces bamboo for construction, furniture, and handicraft industries.",
       ownerContact: {
@@ -1646,7 +1646,7 @@ const Lease: React.FC = () => {
       rating: 4.2,
       reviews: 15,
       features: ["Processing Unit", "Storage Facility", "Export Ready", "Value Addition"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR_uGihRKLrLDXopBRGnGSVtqXD3qsYgEqAHg&s",
       available: true,
       description: "Commercial eucalyptus farm with processing facilities. Produces eucalyptus oil and wood for industrial applications.",
       ownerContact: {
@@ -1673,7 +1673,7 @@ const Lease: React.FC = () => {
       rating: 4.9,
       reviews: 35,
       features: ["Processing Unit", "Storage Facility", "Organic Certified", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://5.imimg.com/data5/SELLER/Default/2021/5/CH/JK/ZZ/128327375/red-sandalwood-farmlands-for-sale-at-andhra-pradesh.jpg",
       available: true,
       description: "Premium sandalwood farm with organic certification and processing facilities. Produces sandalwood oil and products for luxury markets.",
       ownerContact: {
