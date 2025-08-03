@@ -5,7 +5,7 @@ import LineChartRevenue from "../charts/LineChartRevenue";
 interface LandDetails {
   location: string;
   pincode: string;
-  plotNumber: string;
+  SurveyNumber: string;
   totalArea: number;
   soilType: string;
   climateType: string;

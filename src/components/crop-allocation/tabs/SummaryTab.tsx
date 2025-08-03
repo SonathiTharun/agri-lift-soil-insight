@@ -6,7 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 interface LandDetails {
   location: string;
   pincode: string;
-  plotNumber: string;
+  surveyNumber: string;
   totalArea: number;
   soilType: string;
   climateType: string;
@@ -95,8 +95,8 @@ const SummaryTab = ({
             <span>{landDetails.location}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-gray-600">Plot Number:</span>
-            <span>{landDetails.plotNumber}</span>
+            <span className="text-gray-600">survey Number:</span>
+            <span>{landDetails.surveyNumber}</span>
           </div>
           <div className="flex justify-between">
             <span className="text-gray-600">Total Area:</span>

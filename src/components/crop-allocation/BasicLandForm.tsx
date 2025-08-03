@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 interface LandDetails {
   location: string;
   pincode: string;
-  plotNumber: string;
+  surveyNumber: string;
   totalArea: number;
   soilType: string;
   climateType: string;
@@ -87,16 +87,16 @@ const BasicLandForm = ({
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="plotNumber">Plot Number <span className="text-red-500">*</span></Label>
+          <Label htmlFor="surveyNumber">Survey Number <span className="text-red-500">*</span></Label>
           <Input
-            id="plotNumber"
-            name="plotNumber"
-            placeholder="Enter plot number"
-            value={formData.plotNumber}
+            id="surveyNumber"
+            name="surveyNumber"
+            placeholder="Enter survey number"
+            value={formData.surveyNumber}
             onChange={onChange}
-            className={errors.plotNumber ? "border-red-500" : ""}
+            className={errors.soilTypeNumber ? "border-red-500" : ""}
           />
-          {errors.plotNumber && <p className="text-red-500 text-sm">{errors.plotNumber}</p>}
+          {errors.surveyNumber && <p className="text-red-500 text-sm">{errors.surveyNumber}</p>}
         </div>
 
         <div className="space-y-2">
