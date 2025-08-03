@@ -99,23 +99,27 @@ class ErrorBoundary extends React.Component<
 }
 
 // Default Error Fallback Component
-const DefaultErrorFallback: React.FC<{ error?: Error; retry?: () => void }> = ({ error, retry }) => (
-  <div className="min-h-screen flex items-center justify-center bg-gray-50">
-    <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-6 text-center">
-      <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
-        <AlertCircle className="h-8 w-8 text-red-600" />
+const DefaultErrorFallback: React.FC<{ error?: Error; retry?: () => void }> = ({ error, retry }) => {
+  const { t } = useLanguage();
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-6 text-center">
+        <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+          <AlertCircle className="h-8 w-8 text-red-600" />
+        </div>
+        <h2 className="text-xl font-semibold text-gray-900 mb-2">{t('something-went-wrong')}</h2>
+        <p className="text-gray-600 mb-4">
+          {error?.message || t('unexpected-error')}
+        </p>
+        <Button onClick={retry} className="bg-emerald-600 hover:bg-emerald-700">
+          <RefreshCw className="h-4 w-4 mr-2" />
+          {t('try-again')}
+        </Button>
       </div>
-      <h2 className="text-xl font-semibold text-gray-900 mb-2">Something went wrong</h2>
-      <p className="text-gray-600 mb-4">
-        {error?.message || "An unexpected error occurred. Please try again."}
-      </p>
-      <Button onClick={retry} className="bg-emerald-600 hover:bg-emerald-700">
-        <RefreshCw className="h-4 w-4 mr-2" />
-        Try Again
-      </Button>
     </div>
-  </div>
-);
+  );
+};
 
 const Lease: React.FC = () => {
   const { t } = useLanguage();
@@ -123,7 +127,7 @@ const Lease: React.FC = () => {
   // State management with proper TypeScript types
   const [activeTab, setActiveTab] = useState<TabType>("available");
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [selectedCategory, setSelectedCategory] = useState<string>(t('all'));
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [selectedProperty, setSelectedProperty] = useState<LeaseProperty | null>(null);
   const [showPropertyModal, setShowPropertyModal] = useState<boolean>(false);
@@ -171,8 +175,8 @@ const Lease: React.FC = () => {
 
   const handleBrowseProperties = useCallback((): void => {
     setActiveTab("available");
-    toast.success("Switched to Available Properties", {
-      description: "Browse through our available lease properties"
+    toast.success(t('available-properties'), {
+      description: t('lease-description')
     });
   }, []);
 
@@ -188,21 +192,21 @@ const Lease: React.FC = () => {
     try {
       // Simulate API call with validation
       if (!contactForm.name || !contactForm.email || !contactForm.message) {
-        throw new Error("Please fill in all required fields");
+        throw new Error(t('fill-required-fields'));
       }
 
       await new Promise(resolve => setTimeout(resolve, 1500));
 
-      toast.success("Message Sent Successfully!", {
-        description: "Our support team will contact you within 24 hours"
+      toast.success(t('message-sent-successfully'), {
+        description: t('support-contact-24h')
       });
 
       setContactForm({ name: "", email: "", phone: "", message: "" });
       setShowContactModal(false);
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Failed to send message";
+      const errorMessage = error instanceof Error ? error.message : t('failed-send-message');
       setError(errorMessage);
-      toast.error("Failed to send message", {
+      toast.error(t('failed-send-message'), {
         description: errorMessage
       });
     } finally {
@@ -212,15 +216,15 @@ const Lease: React.FC = () => {
 
   const handleCallSupport = useCallback((): void => {
     window.open("tel:+911800123456");
-    toast.info("Calling Support", {
-      description: "Connecting you to our lease support team"
+    toast.info(t('calling-support'), {
+      description: t('connecting-lease-support')
     });
   }, []);
 
   const handleEmailSupport = useCallback((): void => {
     window.open("mailto:lease-support@agrilift.com?subject=Property Listing Inquiry");
-    toast.info("Opening Email", {
-      description: "Compose your inquiry to our lease team"
+    toast.info(t('opening-email'), {
+      description: t('compose-inquiry')
     });
   }, []);
 
@@ -231,8 +235,8 @@ const Lease: React.FC = () => {
         ? prev.filter(id => id !== propertyId)
         : [...prev, propertyId];
 
-      toast.success(isFavorite ? "Removed from favorites" : "Added to favorites", {
-        description: isFavorite ? "Property removed from your favorites" : "Property saved to your favorites"
+      toast.success(isFavorite ? t('removed-from-favorites') : t('added-to-favorites'), {
+        description: isFavorite ? t('property-removed-favorites') : t('property-saved-favorites')
       });
 
       return newFavorites;
@@ -262,11 +266,11 @@ const Lease: React.FC = () => {
     if (navigator.share) {
       navigator.share(shareData).catch(() => {
         navigator.clipboard.writeText(shareData.url);
-        toast.success("Link copied to clipboard!");
+        toast.success(t('link-copied-clipboard'));
       });
     } else {
       navigator.clipboard.writeText(shareData.url);
-      toast.success("Link copied to clipboard!");
+      toast.success(t('link-copied-clipboard'));
     }
   }, []);
 
@@ -274,23 +278,23 @@ const Lease: React.FC = () => {
   const handleAddToCompare = useCallback((propertyId: number): void => {
     if (compareList.includes(propertyId)) {
       setCompareList(prev => prev.filter(id => id !== propertyId));
-      toast.success("Property removed from comparison");
+      toast.success(t('property-removed-comparison'));
     } else if (compareList.length >= 3) {
-      toast.error("You can compare up to 3 properties at once");
+      toast.error(t('compare-up-to-3'));
     } else {
       setCompareList(prev => [...prev, propertyId]);
-      toast.success("Property added to comparison");
+      toast.success(t('property-added-comparison'));
     }
   }, [compareList]);
 
   const handleClearCompare = useCallback((): void => {
     setCompareList([]);
-    toast.success("Comparison list cleared");
+    toast.success(t('comparison-list-cleared'));
   }, []);
 
   const handleShowCompare = useCallback((): void => {
     if (compareList.length < 2) {
-      toast.error("Please select at least 2 properties to compare");
+      toast.error(t('select-2-properties'));
       return;
     }
     setShowCompareModal(true);
@@ -305,10 +309,10 @@ const Lease: React.FC = () => {
       // Simulate API retry logic
       await new Promise(resolve => setTimeout(resolve, 1000));
       setRetryCount(prev => prev + 1);
-      toast.success("Data refreshed successfully!");
+      toast.success(t('data-refreshed'));
     } catch (err) {
-      setError("Failed to refresh data. Please try again.");
-      toast.error("Failed to refresh data");
+      setError(t('failed-refresh-data'));
+      toast.error(t('failed-refresh-data'));
     } finally {
       setIsRetrying(false);
     }
@@ -320,7 +324,7 @@ const Lease: React.FC = () => {
       // Simulate initial load error occasionally
       const shouldError = Math.random() < 0.1; // 10% chance of error
       if (shouldError) {
-        setError("Failed to load properties. Please check your connection.");
+        setError(t('failed-load-properties'));
       }
     }
   }, [retryCount]);
@@ -1688,8 +1692,8 @@ const Lease: React.FC = () => {
   ], []);
 
   const categories: string[] = useMemo(() =>
-    ["All", "Agricultural Land", "Farmhouse", "Greenhouse", "Orchard", "Livestock Farm", "Aquaculture"],
-    []
+    [t('all'), "Agricultural Land", "Farmhouse", "Greenhouse", "Orchard", "Livestock Farm", "Aquaculture"],
+    [t]
   );
 
   // Memoized filtering and sorting logic
@@ -1702,7 +1706,7 @@ const Lease: React.FC = () => {
         property.features.some(feature => feature.toLowerCase().includes(searchTerm.toLowerCase()));
 
       // Category filter
-      const matchesCategory = selectedCategory === "All" || property.type === selectedCategory;
+      const matchesCategory = selectedCategory === t('all') || property.type === selectedCategory;
 
       // Price range filter
       const matchesPrice = property.priceNumeric >= filters.priceRange[0] &&
@@ -1909,20 +1913,20 @@ const Lease: React.FC = () => {
               <TabsTrigger
                 value="available"
                 className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm"
-                aria-label="Available properties"
+                aria-label={t('available-properties')}
               >
                 <Home className="h-4 w-4" aria-hidden="true" />
-                <span className="hidden sm:inline">Available</span>
-                <span className="sm:hidden">Available</span>
+                <span className="hidden sm:inline">{t('available-properties')}</span>
+                <span className="sm:hidden">{t('available-properties')}</span>
               </TabsTrigger>
               <TabsTrigger
                 value="favorites"
                 className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm"
-                aria-label={`Favorite properties (${favorites.length} saved)`}
+                aria-label={`${t('favorite-properties')} (${favorites.length} saved)`}
               >
                 <Heart className="h-4 w-4" aria-hidden="true" />
-                <span className="hidden sm:inline">Favorites</span>
-                <span className="sm:hidden">Favorites</span>
+                <span className="hidden sm:inline">{t('favorite-properties')}</span>
+                <span className="sm:hidden">{t('favorite-properties')}</span>
                 {favorites.length > 0 && (
                   <Badge variant="secondary" className="h-5 w-5 p-0 text-xs" aria-label={`${favorites.length} favorites`}>
                     {favorites.length}
@@ -1932,20 +1936,20 @@ const Lease: React.FC = () => {
               <TabsTrigger
                 value="my-leases"
                 className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm"
-                aria-label="My lease agreements"
+                aria-label={t('my-leases')}
               >
                 <Users className="h-4 w-4" aria-hidden="true" />
-                <span className="hidden sm:inline">My Leases</span>
-                <span className="sm:hidden">Leases</span>
+                <span className="hidden sm:inline">{t('my-leases')}</span>
+                <span className="sm:hidden">{t('my-leases')}</span>
               </TabsTrigger>
               <TabsTrigger
                 value="list-property"
                 className="flex items-center gap-2 data-[state=active]:bg-white data-[state=active]:shadow-sm"
-                aria-label="List your property for lease"
+                aria-label={t('list-property')}
               >
                 <Sprout className="h-4 w-4" aria-hidden="true" />
-                <span className="hidden sm:inline">List Property</span>
-                <span className="sm:hidden">List</span>
+                <span className="hidden sm:inline">{t('list-property')}</span>
+                <span className="sm:hidden">{t('list-property')}</span>
               </TabsTrigger>
             </TabsList>
 
@@ -1958,15 +1962,15 @@ const Lease: React.FC = () => {
                   className="text-center py-16"
                 >
                   <Search className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-                  <h3 className="text-xl font-semibold text-gray-600 mb-2">No Properties Found</h3>
+                  <h3 className="text-xl font-semibold text-gray-600 mb-2">{t('no-properties-found')}</h3>
                   <p className="text-gray-500 mb-6">
-                    Try adjusting your search criteria or filters to find more properties.
+                    {t('try-different-filters')}
                   </p>
                   <Button
                     variant="outline"
                     onClick={() => {
                       setSearchTerm("");
-                      setSelectedCategory("All");
+                      setSelectedCategory(t('all'));
                       setFilters({
                         priceRange: [0, 100000],
                         areaRange: [0, 100],
@@ -1979,7 +1983,7 @@ const Lease: React.FC = () => {
                       });
                     }}
                   >
-                    Clear All Filters
+                    {t('clear-all-filters')}
                   </Button>
                 </motion.div>
               ) : (
@@ -2064,9 +2068,9 @@ const Lease: React.FC = () => {
                 <div className="bg-emerald-50 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6">
                   <Tractor className="h-12 w-12 text-emerald-600" />
                 </div>
-                <h3 className="text-2xl font-semibold text-gray-800 mb-3">No Active Leases</h3>
+                <h3 className="text-2xl font-semibold text-gray-800 mb-3">{t('no-active-leases')}</h3>
                 <p className="text-gray-600 mb-8 max-w-md mx-auto">
-                  You don't have any active lease agreements yet. Start exploring our available properties to find the perfect match for your farming needs.
+                  {t('no-active-leases-description')}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Button
@@ -2074,7 +2078,7 @@ const Lease: React.FC = () => {
                     onClick={handleBrowseProperties}
                   >
                     <Search className="h-4 w-4 mr-2" />
-                    Browse Available Properties
+                    {t('explore-properties')}
                   </Button>
                   <Button
                     variant="outline"
@@ -2091,23 +2095,22 @@ const Lease: React.FC = () => {
             <TabsContent value="list-property" className="mt-8">
               <Card className="max-w-2xl mx-auto">
                 <CardHeader>
-                  <CardTitle>List Your Property for Lease</CardTitle>
-                  <p className="text-gray-600">Share your agricultural land with fellow farmers</p>
+                  <CardTitle>{t('list-your-property-lease')}</CardTitle>
+                  <p className="text-gray-600">{t('share-agricultural-land')}</p>
                 </CardHeader>
                 <CardContent>
                   <div className="text-center py-8">
                     <Sprout className="h-16 w-16 text-emerald-600 mx-auto mb-4" />
-                    <h3 className="text-xl font-semibold text-gray-800 mb-2">Coming Soon</h3>
+                    <h3 className="text-xl font-semibold text-gray-800 mb-2">{t('coming-soon')}</h3>
                     <p className="text-gray-600 mb-6">
-                      Property listing feature is under development. 
-                      Contact our support team to list your property.
+                      {t('property-listing-development')}
                     </p>
                     <Button
                       variant="outline"
                       className="border-emerald-600 text-emerald-600 hover:bg-emerald-50"
                       onClick={handleContactSupport}
                     >
-                      Contact Support
+                      {t('get-support')}
                     </Button>
                   </div>
                 </CardContent>
@@ -2232,13 +2235,13 @@ const Lease: React.FC = () => {
                 <Button
                   className="flex-1 bg-emerald-600 hover:bg-emerald-700"
                   onClick={() => {
-                    toast.success("Interest Registered!", {
-                      description: "Property owner will be notified of your interest"
+                    toast.success(t('interest-registered'), {
+                      description: t('owner-notified')
                     });
                   }}
                 >
                   <Heart className="h-4 w-4 mr-2" />
-                  Express Interest
+                  {t('express-interest')}
                 </Button>
 
                 <Button
@@ -2317,7 +2320,7 @@ const Lease: React.FC = () => {
             {/* Contact Form */}
             <form onSubmit={handleContactSubmit} className="space-y-4">
               <Input
-                placeholder="Your Name"
+                placeholder={t('your-name')}
                 value={contactForm.name}
                 onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
                 required
@@ -2325,7 +2328,7 @@ const Lease: React.FC = () => {
 
               <Input
                 type="email"
-                placeholder="Your Email"
+                placeholder={t('your-email')}
                 value={contactForm.email}
                 onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
                 required
@@ -2333,13 +2336,13 @@ const Lease: React.FC = () => {
 
               <Input
                 type="tel"
-                placeholder="Your Phone Number"
+                placeholder={t('your-phone')}
                 value={contactForm.phone}
                 onChange={(e) => setContactForm({...contactForm, phone: e.target.value})}
               />
 
               <Textarea
-                placeholder="Your message or inquiry..."
+                placeholder={t('your-message')}
                 value={contactForm.message}
                 onChange={(e) => setContactForm({...contactForm, message: e.target.value})}
                 rows={3}
@@ -2422,7 +2425,7 @@ const Lease: React.FC = () => {
 
             {/* Property Types */}
             <div className="space-y-3">
-              <label className="text-sm font-medium">Property Types</label>
+              <label className="text-sm font-medium">{t('property-types')}</label>
               <div className="grid grid-cols-2 gap-2">
                 {(["Agricultural Land", "Dairy Farm", "Vegetable Farm", "Poultry Farm", "Orchard"] as PropertyType[]).map((type) => (
                   <label key={type} className="flex items-center space-x-2 cursor-pointer">
@@ -2446,7 +2449,7 @@ const Lease: React.FC = () => {
 
             {/* Features */}
             <div className="space-y-3">
-              <label className="text-sm font-medium">Required Features</label>
+              <label className="text-sm font-medium">{t('required-features')}</label>
               <div className="grid grid-cols-2 gap-2">
                 {["Irrigation", "Road Access", "Electricity", "Storage", "Greenhouse", "Organic Certified", "Processing Unit", "Market Access", "Milking Parlor", "Feed Storage", "Veterinary Room", "Cold Storage"].map((feature) => (
                   <label key={feature} className="flex items-center space-x-2 cursor-pointer">
@@ -2476,10 +2479,10 @@ const Lease: React.FC = () => {
                 onValueChange={(value) => setFilters({...filters, minRating: parseFloat(value)})}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Any rating" />
+                  <SelectValue placeholder={t('any-rating')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="0">Any rating</SelectItem>
+                  <SelectItem value="0">{t('any-rating')}</SelectItem>
                   <SelectItem value="3">3+ stars</SelectItem>
                   <SelectItem value="4">4+ stars</SelectItem>
                   <SelectItem value="4.5">4.5+ stars</SelectItem>
@@ -2491,7 +2494,7 @@ const Lease: React.FC = () => {
             <div className="space-y-3">
               <label className="text-sm font-medium">Location</label>
               <Input
-                placeholder="Enter city or state..."
+                placeholder={t('enter-city-state')}
                 value={filters.location}
                 onChange={(e) => setFilters({...filters, location: e.target.value})}
               />
@@ -2522,10 +2525,10 @@ const Lease: React.FC = () => {
               className="flex-1 bg-emerald-600 hover:bg-emerald-700"
               onClick={() => {
                 setShowFiltersModal(false);
-                toast.success("Filters applied successfully!");
+                toast.success(t('filters-applied'));
               }}
             >
-              Apply Filters
+              {t('apply-filters')}
             </Button>
           </div>
         </DialogContent>

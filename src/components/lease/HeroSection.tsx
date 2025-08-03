@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search, Tractor, Sprout, MapPin, Phone, Mail } from "lucide-react";
+import { useLanguage } from "@/components/LanguageContext";
 import { HeroSectionProps } from "./types";
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
@@ -15,6 +16,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   onCategoryChange,
   categories
 }) => {
+  const { t } = useLanguage();
   return (
     <div className="relative overflow-hidden bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50">
       {/* Background Pattern */}
@@ -67,9 +69,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             transition={{ delay: 0.3, duration: 0.8 }}
             className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-emerald-700 via-green-600 to-teal-600 bg-clip-text text-transparent mb-6"
           >
-            Agricultural
-            <br />
-            <span className="text-4xl md:text-6xl">Lease Marketplace</span>
+            {t('lease-title')}
           </motion.h1>
 
           {/* Subtitle */}
@@ -79,8 +79,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             transition={{ delay: 0.5, duration: 0.8 }}
             className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed"
           >
-            Connect with landowners and farmers to find the perfect agricultural property for lease. 
-            <span className="text-emerald-600 font-semibold"> Grow your dreams on fertile ground.</span>
+            {t('lease-description')}
           </motion.p>
 
           {/* Search Bar */}
@@ -95,7 +94,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <div className="w-full md:w-64">
                 <Select value={selectedCategory} onValueChange={onCategoryChange}>
                   <SelectTrigger className="h-14 text-lg border-2 border-emerald-200 focus:border-emerald-400 rounded-2xl shadow-lg bg-white/80 backdrop-blur-sm">
-                    <SelectValue placeholder="Select Category" />
+                    <SelectValue placeholder={t('select-category')} />
                   </SelectTrigger>
                   <SelectContent>
                     {categories.map((category) => (
@@ -114,7 +113,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 </div>
                 <Input
                   type="text"
-                  placeholder="Search by location, property type, or features..."
+                  placeholder={t('search-location-property-features')}
                   value={searchTerm}
                   onChange={(e) => onSearchChange(e.target.value)}
                   className="pl-12 pr-32 py-4 text-lg border-2 border-emerald-200 focus:border-emerald-400 rounded-2xl shadow-lg bg-white/80 backdrop-blur-sm h-14"
@@ -124,7 +123,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                     size="lg"
                     className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-2 rounded-xl shadow-md"
                   >
-                    Search
+                    {t('search')}
                   </Button>
                 </div>
               </div>
@@ -138,7 +137,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-xl shadow-md"
               >
                 <Tractor className="h-5 w-5 mr-2" />
-                Browse Properties
+                {t('explore-properties')}
               </Button>
               <Button
                 onClick={onContactSupport}
@@ -147,7 +146,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 className="border-2 border-emerald-600 text-emerald-600 hover:bg-emerald-50 px-8 py-3 rounded-xl shadow-md"
               >
                 <Phone className="h-5 w-5 mr-2" />
-                Contact Support
+                {t('get-support')}
               </Button>
             </div>
           </motion.div>
@@ -161,15 +160,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           >
             <div className="text-center">
               <div className="text-3xl md:text-4xl font-bold text-emerald-600 mb-2">500+</div>
-              <div className="text-gray-600 font-medium">Properties Available</div>
+              <div className="text-gray-600 font-medium">{t('properties-available')}</div>
             </div>
             <div className="text-center">
               <div className="text-3xl md:text-4xl font-bold text-green-600 mb-2">1000+</div>
-              <div className="text-gray-600 font-medium">Happy Farmers</div>
+              <div className="text-gray-600 font-medium">{t('happy-farmers')}</div>
             </div>
             <div className="text-center">
               <div className="text-3xl md:text-4xl font-bold text-teal-600 mb-2">50K+</div>
-              <div className="text-gray-600 font-medium">Acres Leased</div>
+              <div className="text-gray-600 font-medium">{t('acres-leased')}</div>
             </div>
           </motion.div>
         </motion.div>

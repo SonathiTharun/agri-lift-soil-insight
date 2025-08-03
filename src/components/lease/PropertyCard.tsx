@@ -15,6 +15,7 @@ import {
   Droplets,
   Zap
 } from "lucide-react";
+import { useLanguage } from "@/components/LanguageContext";
 import { PropertyCardProps } from "./types";
 
 export const PropertyCard: React.FC<PropertyCardProps> = ({
@@ -28,6 +29,7 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
   onShare,
   onAddToCompare
 }) => {
+  const { t } = useLanguage();
   const handleViewDetails = useCallback(() => {
     onViewDetails(property);
   }, [onViewDetails, property]);
@@ -209,11 +211,11 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
                   </Badge>
                 ))}
                 {property.features.length > 3 && (
-                  <Badge 
-                    variant="outline" 
+                  <Badge
+                    variant="outline"
                     className="text-xs text-gray-500 border-gray-300"
                   >
-                    +{property.features.length - 3} more
+                    +{property.features.length - 3} {t('more')}
                   </Badge>
                 )}
               </div>
@@ -224,10 +226,10 @@ export const PropertyCard: React.FC<PropertyCardProps> = ({
               <Button
                 className="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white shadow-md hover:shadow-lg transition-all duration-300"
                 onClick={handleViewDetails}
-                aria-label={`View details for ${property.title}`}
+                aria-label={`${t('view-details')} ${property.title}`}
               >
                 <Eye className="h-4 w-4 mr-2" />
-                View Details
+                {t('view-details')}
               </Button>
             </div>
           </CardContent>

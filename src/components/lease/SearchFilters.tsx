@@ -4,14 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Search, 
-  SlidersHorizontal, 
-  ArrowUpDown, 
-  Grid3X3, 
+import {
+  Search,
+  SlidersHorizontal,
+  ArrowUpDown,
+  Grid3X3,
   List,
   Filter
 } from "lucide-react";
+import { useLanguage } from "@/components/LanguageContext";
 import { SearchFiltersProps, SortOption } from "./types";
 
 export const SearchFilters: React.FC<SearchFiltersProps> = ({
@@ -26,15 +27,16 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
   onShowFilters,
   activeFiltersCount
 }) => {
+  const { t } = useLanguage();
   const categories = ["All", "Agricultural Land", "Farmhouse", "Greenhouse", "Orchard", "Livestock Farm"];
-  
+
   const sortOptions: { value: SortOption; label: string }[] = [
-    { value: "newest", label: "Newest First" },
-    { value: "price-low", label: "Price: Low to High" },
-    { value: "price-high", label: "Price: High to Low" },
-    { value: "area-low", label: "Area: Small to Large" },
-    { value: "area-high", label: "Area: Large to Small" },
-    { value: "rating", label: "Highest Rated" }
+    { value: "newest", label: t('newest-first') },
+    { value: "price-low", label: t('price-low-high') },
+    { value: "price-high", label: t('price-high-low') },
+    { value: "area-low", label: t('area-small-large') },
+    { value: "area-high", label: t('area-large-small') },
+    { value: "rating", label: t('highest-rated') }
   ];
 
   return (
@@ -51,7 +53,7 @@ export const SearchFilters: React.FC<SearchFiltersProps> = ({
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
           <Input
             type="text"
-            placeholder="Search properties, locations, or features..."
+            placeholder={t('search-location-property-features')}
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}
             className="pl-10 pr-4 py-3 border-gray-200 focus:border-emerald-400 rounded-xl"
