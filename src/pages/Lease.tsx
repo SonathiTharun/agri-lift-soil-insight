@@ -732,7 +732,7 @@ const Lease: React.FC = () => {
       rating: 4.9,
       reviews: 32,
       features: ["Wine Production", "Processing Unit", "Cold Storage", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://assets.simpleviewinc.com/simpleview/image/upload/c_limit,h_1200,q_75,w_1200/v1/clients/napavalley/The_life_cycle_of_a_grape_Napa_Valley_e1472577542597_38e6e5ce-1c10-4a8e-9892-8bad3ee0a01e.jpg",
       available: true,
       description: "Premium grape vineyard with wine production facilities. Produces high-quality grapes for table and wine production.",
       ownerContact: {
@@ -759,7 +759,7 @@ const Lease: React.FC = () => {
       rating: 4.3,
       reviews: 15,
       features: ["Processing Unit", "Cold Storage", "Transport Access", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7OumWKEGfwjlOaa_ZEv1hvvaOOZi1GFj6WA&s",
       available: true,
       description: "Commercial banana plantation with processing and storage facilities. Ideal for export-oriented production.",
       ownerContact: {
@@ -786,7 +786,7 @@ const Lease: React.FC = () => {
       rating: 4.5,
       reviews: 18,
       features: ["Mature Trees", "Processing Unit", "Cold Storage", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://media.istockphoto.com/id/1050650472/photo/ripe-pomegranate-fruits-on-the-branches-of-trees-in-the-garden-rows-of-pomegranate-trees-with.jpg?s=612x612&w=0&k=20&c=C_GX-u9pCaznrSdl2SGVAtVul8N5kFglGKyRy12ThbM=",
       available: true,
       description: "Established pomegranate orchard with processing facilities. Produces high-quality fruits for domestic and export markets.",
       ownerContact: {
@@ -813,7 +813,7 @@ const Lease: React.FC = () => {
       rating: 4.1,
       reviews: 11,
       features: ["Breeding Unit", "Processing Unit", "Feed Storage", "Cold Storage"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPxgHH04kiSaprou_ZCt3p2RTjQToTyguS4w&s",
       available: true,
       description: "Specialized duck farm with breeding and processing facilities. Produces duck meat and eggs for commercial markets.",
       ownerContact: {
@@ -840,7 +840,7 @@ const Lease: React.FC = () => {
       rating: 4.7,
       reviews: 24,
       features: ["Climate Control", "LED Lighting", "Processing Unit", "Organic Certified"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://images.squarespace-cdn.com/content/v1/63064607eb816a4d50027fd1/1688398925707-J1DZKYEDFAAPESGIT1KD/eden-green-vertical-produce.jpg",
       available: true,
       description: "Modern hydroponic farm with climate-controlled facilities. Produces high-quality vegetables year-round.",
       ownerContact: {
@@ -867,7 +867,7 @@ const Lease: React.FC = () => {
       rating: 4.4,
       reviews: 19,
       features: ["Processing Unit", "Storage Facility", "Export Ready", "Value Addition"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://thumbs.dreamstime.com/b/coconut-plantation-21901848.jpg",
       available: true,
       description: "Established coconut farm with processing facilities. Produces coconut oil, copra, and other value-added products.",
       ownerContact: {
@@ -1083,7 +1083,7 @@ const Lease: React.FC = () => {
       rating: 4.8,
       reviews: 26,
       features: ["Climate Control", "LED Lighting", "Processing Unit", "Organic Certified"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGmB6E4IY_upOX3zAuaUCov_Twa6pe4likww&s",
       available: true,
       description: "Advanced aeroponic farm with climate-controlled facilities. Produces high-quality vegetables using mist-based growing system.",
       ownerContact: {
@@ -1110,7 +1110,7 @@ const Lease: React.FC = () => {
       rating: 4.5,
       reviews: 20,
       features: ["Processing Unit", "Storage Facility", "Export Ready", "Value Addition"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://i.ytimg.com/vi/iFwu2cfsnmc/maxresdefault.jpg",
       available: true,
       description: "Established cashew plantation with processing facilities. Produces cashew nuts and value-added products for export.",
       ownerContact: {
@@ -1137,7 +1137,7 @@ const Lease: React.FC = () => {
       rating: 4.1,
       reviews: 13,
       features: ["Breeding Unit", "Processing Unit", "Feed Storage", "Cold Storage"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJ_W_qpk3_53jAobqwKQ1wXp0fA26-tF4HjA&s",
       available: true,
       description: "Specialized turkey farm with breeding and processing facilities. Produces turkey meat for domestic and export markets.",
       ownerContact: {
@@ -1164,7 +1164,7 @@ const Lease: React.FC = () => {
       rating: 4.4,
       reviews: 18,
       features: ["Mature Trees", "Processing Unit", "Cold Storage", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://www.shutterstock.com/image-photo/orange-lemon-trees-misty-spanish-260nw-1614974410.jpg",
       available: true,
       description: "Established lemon orchard with processing facilities. Produces high-quality lemons for domestic and export markets.",
       ownerContact: {
@@ -1191,7 +1191,7 @@ const Lease: React.FC = () => {
       rating: 4.6,
       reviews: 22,
       features: ["Processing Unit", "Storage Facility", "Organic Certified", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd8QX4F8ghDe79P0osdGSOHdflzeg_twgFTA&s",
       available: true,
       description: "Premium pepper farm with organic certification and processing facilities. Produces high-quality black pepper for export.",
       ownerContact: {
@@ -1218,7 +1218,7 @@ const Lease: React.FC = () => {
       rating: 4.9,
       reviews: 28,
       features: ["Climate Control", "Processing Unit", "Cold Storage", "Organic Certified"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://lirp.cdn-website.com/23a3110d/dms3rep/multi/opt/IMG_2687-a9accef7-1920w.jpg",
       available: true,
       description: "Premium blueberry farm with climate-controlled facilities. Produces high-quality blueberries for premium markets.",
       ownerContact: {
@@ -1245,7 +1245,7 @@ const Lease: React.FC = () => {
       rating: 4.7,
       reviews: 24,
       features: ["Processing Unit", "Storage Facility", "Organic Certified", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://spiceswala.com/wp-content/uploads/2021/09/spiceswala-kerala-spices-online.jpg",
       available: true,
       description: "Premium cardamom farm with organic certification and processing facilities. Produces high-quality cardamom for export.",
       ownerContact: {
@@ -1272,7 +1272,7 @@ const Lease: React.FC = () => {
       rating: 4.0,
       reviews: 10,
       features: ["Breeding Unit", "Processing Unit", "Feed Storage", "Cold Storage"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://i.ytimg.com/vi/WXyCGgsA3WU/maxresdefault.jpg",
       available: true,
       description: "Specialized rabbit farm with breeding and processing facilities. Produces rabbit meat and fur for niche markets.",
       ownerContact: {
@@ -1299,7 +1299,7 @@ const Lease: React.FC = () => {
       rating: 4.8,
       reviews: 25,
       features: ["Processing Unit", "Storage Facility", "Organic Certified", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://www.agrifarming.in/wp-content/uploads/2016/03/Vanilla-Seedlings.jpg",
       available: true,
       description: "Premium vanilla farm with organic certification and processing facilities. Produces high-quality vanilla for export.",
       ownerContact: {
@@ -1326,7 +1326,7 @@ const Lease: React.FC = () => {
       rating: 4.6,
       reviews: 20,
       features: ["Mature Trees", "Processing Unit", "Cold Storage", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://media.gettyimages.com/id/456094137/photo/kiwi-forest.jpg?s=612x612&w=gi&k=20&c=RZP8Jbd1RQ0C8fAHLLYUb8go_Q96rPOVAPeF4AvTQ6E=",
       available: true,
       description: "Premium kiwi farm with processing facilities. Produces high-quality kiwi fruits for domestic and export markets.",
       ownerContact: {
@@ -1353,7 +1353,7 @@ const Lease: React.FC = () => {
       rating: 4.9,
       reviews: 30,
       features: ["Processing Unit", "Storage Facility", "Organic Certified", "Export Ready"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://i.ytimg.com/vi/5xkgg2Ga1rs/maxresdefault.jpg",
       available: true,
       description: "Premium saffron farm with organic certification and processing facilities. Produces high-quality saffron for export.",
       ownerContact: {
@@ -1407,7 +1407,7 @@ const Lease: React.FC = () => {
       rating: 4.2,
       reviews: 16,
       features: ["Breeding Unit", "Processing Unit", "Feed Storage", "Cold Storage"],
-      image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&h=300&fit=crop",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaJXMLY8RxPca6MQQVbyrXH1OHUiSoF6rzzA&s",
       available: true,
       description: "Specialized ostrich farm with breeding and processing facilities. Produces ostrich meat and leather for premium markets.",
       ownerContact: {
