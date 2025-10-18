@@ -34,7 +34,7 @@ import { SmartRecommendations } from "@/components/market/SmartRecommendations";
 import { BulkOrderingSystem } from "@/components/market/BulkOrderingSystem";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { SplitSquareVertical, Moon, Sun, Grid, List, Zap, TrendingUp, BarChart3, Users, Gavel, MessageSquare, ShoppingCart, Star } from "lucide-react";
+import { SplitSquareVertical, Moon, Sun, Grid, List, Zap, TrendingUp, BarChart3, Users, Gavel, MessageSquare, ShoppingCart, Star, Brain, Sparkles, Leaf, Sprout, ArrowRight } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
 import { useWishlist } from "@/contexts/WishlistContext";
 import { useRealTimeData } from "@/hooks/useRealTimeData";
@@ -342,6 +342,238 @@ export default function Market() {
           transition={{ duration: 0.5, delay: 0.2 }}
         >
           <RealTimePriceTicker />
+        </motion.div>
+
+        {/* AI SMART RECOMMENDATIONS SECTION - NEW */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.25 }}
+          className="mb-12"
+        >
+          <div className="text-center mb-8">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="p-3 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl">
+                <Brain className="w-8 h-8 text-white" />
+              </div>
+              <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400">
+                AI Smart Recommendations
+              </h2>
+              <Badge className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-3 py-1">
+                <Sparkles className="w-4 h-4 mr-1" />
+                Powered by AI
+              </Badge>
+            </div>
+            <p className="text-gray-300 text-lg max-w-2xl mx-auto">
+              Personalized product suggestions based on your farming profile, soil analysis, and market trends
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* AI Product 1 - Fertilizer */}
+            <GlassCard className="group hover:scale-105 transition-all duration-300">
+              <div className="relative overflow-hidden">
+                <div className="w-full h-56 bg-gradient-to-br from-green-500 via-emerald-600 to-green-700 flex items-center justify-center relative">
+                  <div className="absolute inset-0 bg-black/20"></div>
+                  <div className="relative z-10 text-center">
+                    <div className="w-20 h-20 mx-auto mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                      <Leaf className="w-12 h-12 text-white" />
+                    </div>
+                    <div className="text-white font-semibold">Organic Fertilizer</div>
+                  </div>
+                </div>
+                <div className="absolute top-4 right-4 z-20">
+                  <Badge className="bg-purple-600 text-white font-bold">
+                    95% AI Match
+                  </Badge>
+                </div>
+                <div className="absolute top-4 left-4 z-20">
+                  <Badge className="bg-green-600 text-white">
+                    <TrendingUp className="w-3 h-3 mr-1" />
+                    Trending
+                  </Badge>
+                </div>
+              </div>
+              
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-white mb-3">Organic NPK Fertilizer Premium</h3>
+                
+                <div className="bg-gradient-to-r from-purple-500/20 to-blue-500/20 border border-purple-500/30 rounded-lg p-4 mb-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Brain className="w-5 h-5 text-purple-300" />
+                    <span className="text-sm font-semibold text-purple-300">AI Insight</span>
+                  </div>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    Perfect match for your soil's nitrogen deficiency. Based on your recent soil analysis and crop selection.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="flex items-center">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+                    ))}
+                  </div>
+                  <span className="text-white text-sm">4.8 (156 reviews)</span>
+                </div>
+
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl font-bold text-green-400">₹1,299</span>
+                    <span className="text-gray-400 line-through text-lg">₹1,599</span>
+                    <Badge className="bg-red-600 text-white text-xs">19% OFF</Badge>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <Button className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold py-3">
+                    <ShoppingCart className="w-5 h-5 mr-2" />
+                    Add to Cart
+                  </Button>
+                  <Button variant="outline" className="w-full border-white/30 text-white hover:bg-white/10">
+                    View Details
+                  </Button>
+                </div>
+              </div>
+            </GlassCard>
+
+            {/* AI Product 2 - Smart Monitor */}
+            <GlassCard className="group hover:scale-105 transition-all duration-300">
+              <div className="relative overflow-hidden">
+                <div className="w-full h-56 bg-gradient-to-br from-blue-500 via-cyan-600 to-blue-700 flex items-center justify-center relative">
+                  <div className="absolute inset-0 bg-black/20"></div>
+                  <div className="relative z-10 text-center">
+                    <div className="w-20 h-20 mx-auto mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                      <BarChart3 className="w-12 h-12 text-white" />
+                    </div>
+                    <div className="text-white font-semibold">Smart Monitor</div>
+                  </div>
+                </div>
+                <div className="absolute top-4 right-4 z-20">
+                  <Badge className="bg-blue-600 text-white font-bold">
+                    88% AI Match
+                  </Badge>
+                </div>
+              </div>
+              
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-white mb-3">Smart Soil pH Monitor Kit</h3>
+                
+                <div className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 border border-blue-500/30 rounded-lg p-4 mb-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Brain className="w-5 h-5 text-blue-300" />
+                    <span className="text-sm font-semibold text-blue-300">AI Insight</span>
+                  </div>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    Recommended for continuous soil monitoring based on your crop selection and farming goals.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="flex items-center">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className={`w-4 h-4 ${i < 4 ? 'text-yellow-400 fill-current' : 'text-gray-400'}`} />
+                    ))}
+                  </div>
+                  <span className="text-white text-sm">4.6 (89 reviews)</span>
+                </div>
+
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl font-bold text-green-400">₹2,499</span>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <Button className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold py-3">
+                    <ShoppingCart className="w-5 h-5 mr-2" />
+                    Add to Cart
+                  </Button>
+                  <Button variant="outline" className="w-full border-white/30 text-white hover:bg-white/10">
+                    View Details
+                  </Button>
+                </div>
+              </div>
+            </GlassCard>
+
+            {/* AI Product 3 - Seeds */}
+            <GlassCard className="group hover:scale-105 transition-all duration-300">
+              <div className="relative overflow-hidden">
+                <div className="w-full h-56 bg-gradient-to-br from-orange-500 via-red-600 to-pink-700 flex items-center justify-center relative">
+                  <div className="absolute inset-0 bg-black/20"></div>
+                  <div className="relative z-10 text-center">
+                    <div className="w-20 h-20 mx-auto mb-3 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm">
+                      <Sprout className="w-12 h-12 text-white" />
+                    </div>
+                    <div className="text-white font-semibold">Premium Seeds</div>
+                  </div>
+                </div>
+                <div className="absolute top-4 right-4 z-20">
+                  <Badge className="bg-orange-600 text-white font-bold">
+                    92% AI Match
+                  </Badge>
+                </div>
+                <div className="absolute top-4 left-4 z-20">
+                  <Badge className="bg-red-600 text-white">
+                    <Zap className="w-3 h-3 mr-1" />
+                    Best Seller
+                  </Badge>
+                </div>
+              </div>
+              
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-white mb-3">Hybrid Tomato Seeds - Disease Resistant</h3>
+                
+                <div className="bg-gradient-to-r from-orange-500/20 to-red-500/20 border border-orange-500/30 rounded-lg p-4 mb-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <Brain className="w-5 h-5 text-orange-300" />
+                    <span className="text-sm font-semibold text-orange-300">AI Insight</span>
+                  </div>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    High demand in your region. Perfect for current season planting with excellent yield potential.
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="flex items-center">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 text-yellow-400 fill-current" />
+                    ))}
+                  </div>
+                  <span className="text-white text-sm">4.9 (234 reviews)</span>
+                </div>
+
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <span className="text-3xl font-bold text-green-400">₹899</span>
+                    <span className="text-gray-400 line-through text-lg">₹1,199</span>
+                    <Badge className="bg-red-600 text-white text-xs">25% OFF</Badge>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <Button className="w-full bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white font-semibold py-3">
+                    <ShoppingCart className="w-5 h-5 mr-2" />
+                    Add to Cart
+                  </Button>
+                  <Button variant="outline" className="w-full border-white/30 text-white hover:bg-white/10">
+                    View Details
+                  </Button>
+                </div>
+              </div>
+            </GlassCard>
+          </div>
+
+          <div className="text-center mt-8">
+            <Button 
+              size="lg" 
+              variant="outline"
+              className="backdrop-blur-md bg-white/10 border-white/30 hover:bg-white/20 text-white px-8 py-3"
+            >
+              View All AI Recommendations
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Button>
+          </div>
         </motion.div>
 
         {/* Featured Products Carousel */}
