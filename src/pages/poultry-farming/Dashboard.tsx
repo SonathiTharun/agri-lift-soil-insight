@@ -19,9 +19,9 @@ const Dashboard: React.FC = () => {
   const [selectedFeature, setSelectedFeature] = useState<string | null>(null);
 
   const colors = {
-    primary: "#A4C8F0",
-    primaryDark: "#0D3B66",
-    secondary: "#E8F4FD",
+    primary: "#E76F51",
+    primaryDark: "#D45A3A",
+    secondary: "#FFF3E6",
     success: "#4CAF50",
     text: "#1A1A1A",
     textLight: "#505050",
@@ -30,89 +30,89 @@ const Dashboard: React.FC = () => {
 
   const metrics = [
     {
-      id: "active_cattle",
-      title: "Active Cattle",
-      value: "245",
-      unit: "heads",
+      id: "active_flocks",
+      title: "Active Flocks",
+      value: "8",
+      unit: "flocks",
+      trend: "up",
+      change: "+5%",
+      icon: Bird,
+      bgColor: "#FFF3E6",
+    },
+    {
+      id: "egg_yield",
+      title: "Egg Yield",
+      value: "4,500",
+      unit: "eggs/day",
       trend: "up",
       change: "+12%",
-      icon: Milk,
-      bgColor: "#E8F4FD",
-    },
-    {
-      id: "milk_yield",
-      title: "Milk Yield",
-      value: "1,850",
-      unit: "L/day",
-      trend: "up",
-      change: "+8%",
       icon: TrendingUp,
-      bgColor: "#E8F4FD",
+      bgColor: "#FFF3E6",
     },
     {
-      id: "quality_grade",
-      title: "Quality Grade",
-      value: "A+",
+      id: "flock_health",
+      title: "Flock Health",
+      value: "Healthy",
       unit: "",
       trend: "neutral",
       change: "Excellent",
-      icon: Award,
-      bgColor: "#E8F4FD",
+      icon: Heart,
+      bgColor: "#FFF3E6",
     },
     {
       id: "revenue",
       title: "Revenue",
-      value: "₹2.4L",
+      value: "₹2.8L",
       unit: "",
       trend: "up",
-      change: "+15%",
+      change: "+16%",
       icon: BarChart3,
-      bgColor: "#E8F4FD",
+      bgColor: "#FFF3E6",
     }
   ];
 
   const features = [
     {
-      id: "livestock_market",
-      title: "Livestock Market",
-      description: "Find and sell quality cattle with verified buyers",
-      icon: "🐄",
-      action: () => alert("Opening Livestock Market..."),
+      id: "flock_management",
+      title: "Flock Management",
+      description: "Manage your poultry flocks",
+      icon: "🐔",
+      action: () => alert("Opening Flock Management..."),
     },
     {
-      id: "milk_production",
-      title: "Milk Production",
-      description: "Track yield, quality metrics, and production trends",
-      icon: "🥛",
-      action: () => alert("Opening Milk Production Tracker..."),
+      id: "egg_market",
+      title: "Egg Market",
+      description: "Sell eggs to verified buyers",
+      icon: "🥚",
+      action: () => alert("Opening Egg Market..."),
     },
     {
-      id: "equipment_mart",
-      title: "Equipment Mart",
-      description: "Browse and purchase farming machinery",
-      icon: "🔧",
-      action: () => alert("Opening Equipment Mart..."),
+      id: "feed_supply",
+      title: "Feed Supply",
+      description: "Purchase quality poultry feed",
+      icon: "🌾",
+      action: () => alert("Opening Feed Supply..."),
     },
     {
-      id: "cattle_management",
-      title: "Cattle Management",
-      description: "Health records, vaccination schedules, breeding info",
+      id: "health_monitoring",
+      title: "Health Monitoring",
+      description: "Track flock health and diseases",
       icon: "📋",
-      action: () => alert("Opening Cattle Management..."),
+      action: () => alert("Opening Health Monitoring..."),
     },
     {
       id: "market_trends",
       title: "Market Trends",
-      description: "Real-time price updates and market analysis",
+      description: "Real-time egg prices",
       icon: "📊",
       action: () => alert("Opening Market Trends..."),
     },
     {
-      id: "expert_consultation",
-      title: "Expert Consultation",
-      description: "Connect with veterinarians and dairy experts",
+      id: "veterinary_support",
+      title: "Veterinary Support",
+      description: "Connect with poultry vets",
       icon: "👨‍⚕️",
-      action: () => alert("Opening Expert Consultation..."),
+      action: () => alert("Opening Veterinary Support..."),
     }
   ];
 
@@ -125,10 +125,10 @@ const Dashboard: React.FC = () => {
       >
         <div className="max-w-6xl mx-auto">
           <h1 className="text-4xl font-bold text-white mb-2">
-            Maximize Your Dairy Profits
+            Boost Your Poultry Production
           </h1>
           <p className="text-white text-opacity-90 text-lg">
-            Everything you need to manage, buy, and sell dairy products.
+            Complete poultry farming platform. Manage flocks, track egg production, and connect with buyers.
           </p>
           <div
             className="mt-4 h-1 w-24 rounded-full"

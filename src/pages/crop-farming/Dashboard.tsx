@@ -19,9 +19,9 @@ const Dashboard: React.FC = () => {
   const [selectedFeature, setSelectedFeature] = useState<string | null>(null);
 
   const colors = {
-    primary: "#A4C8F0",
-    primaryDark: "#0D3B66",
-    secondary: "#E8F4FD",
+    primary: "#E8C547",
+    primaryDark: "#D4A830",
+    secondary: "#FFFEF0",
     success: "#4CAF50",
     text: "#1A1A1A",
     textLight: "#505050",
@@ -30,89 +30,89 @@ const Dashboard: React.FC = () => {
 
   const metrics = [
     {
-      id: "active_cattle",
-      title: "Active Cattle",
-      value: "245",
-      unit: "heads",
+      id: "active_fields",
+      title: "Active Fields",
+      value: "42",
+      unit: "fields",
       trend: "up",
-      change: "+12%",
-      icon: Milk,
-      bgColor: "#E8F4FD",
+      change: "+7%",
+      icon: Leaf,
+      bgColor: "#FFFEF0",
     },
     {
-      id: "milk_yield",
-      title: "Milk Yield",
-      value: "1,850",
-      unit: "L/day",
+      id: "crop_yield",
+      title: "Crop Yield",
+      value: "3,800",
+      unit: "kg/season",
       trend: "up",
-      change: "+8%",
+      change: "+13%",
       icon: TrendingUp,
-      bgColor: "#E8F4FD",
+      bgColor: "#FFFEF0",
     },
     {
-      id: "quality_grade",
-      title: "Quality Grade",
-      value: "A+",
+      id: "soil_health",
+      title: "Soil Health",
+      value: "Good",
       unit: "",
       trend: "neutral",
-      change: "Excellent",
-      icon: Award,
-      bgColor: "#E8F4FD",
+      change: "Optimal",
+      icon: Droplet,
+      bgColor: "#FFFEF0",
     },
     {
       id: "revenue",
       title: "Revenue",
-      value: "₹2.4L",
+      value: "₹3.5L",
       unit: "",
       trend: "up",
-      change: "+15%",
+      change: "+19%",
       icon: BarChart3,
-      bgColor: "#E8F4FD",
+      bgColor: "#FFFEF0",
     }
   ];
 
   const features = [
     {
-      id: "livestock_market",
-      title: "Livestock Market",
-      description: "Find and sell quality cattle with verified buyers",
-      icon: "🐄",
-      action: () => alert("Opening Livestock Market..."),
+      id: "field_management",
+      title: "Field Management",
+      description: "Manage your crop fields",
+      icon: "🌾",
+      action: () => alert("Opening Field Management..."),
     },
     {
-      id: "milk_production",
-      title: "Milk Production",
-      description: "Track yield, quality metrics, and production trends",
-      icon: "🥛",
-      action: () => alert("Opening Milk Production Tracker..."),
+      id: "crop_market",
+      title: "Crop Market",
+      description: "Sell crops to buyers",
+      icon: "🌽",
+      action: () => alert("Opening Crop Market..."),
     },
     {
-      id: "equipment_mart",
-      title: "Equipment Mart",
-      description: "Browse and purchase farming machinery",
-      icon: "🔧",
-      action: () => alert("Opening Equipment Mart..."),
+      id: "equipment",
+      title: "Equipment",
+      description: "Purchase farming equipment",
+      icon: "🚜",
+      action: () => alert("Opening Equipment..."),
     },
     {
-      id: "cattle_management",
-      title: "Cattle Management",
-      description: "Health records, vaccination schedules, breeding info",
-      icon: "📋",
-      action: () => alert("Opening Cattle Management..."),
+      id: "weather_tracking",
+      title: "Weather Tracking",
+      description: "Monitor weather patterns",
+      icon: "⛅",
+      action: () => alert("Opening Weather Tracking..."),
     },
     {
       id: "market_trends",
       title: "Market Trends",
-      description: "Real-time price updates and market analysis",
+      description: "Real-time crop prices",
       icon: "📊",
       action: () => alert("Opening Market Trends..."),
     },
     {
-      id: "expert_consultation",
-      title: "Expert Consultation",
-      description: "Connect with veterinarians and dairy experts",
+      id: "agricultural_support",
+      title: "Agricultural Support",
+      description: "Connect with experts",
       icon: "👨‍⚕️",
-      action: () => alert("Opening Expert Consultation..."),
+      action: () => alert("Opening Agricultural Support..."),
     }
   ];
 
@@ -125,10 +125,10 @@ const Dashboard: React.FC = () => {
       >
         <div className="max-w-6xl mx-auto">
           <h1 className="text-4xl font-bold text-white mb-2">
-            Maximize Your Dairy Profits
+            Maximize Your Crop Yield
           </h1>
           <p className="text-white text-opacity-90 text-lg">
-            Everything you need to manage, buy, and sell dairy products.
+            Complete crop farming platform. Manage fields, track weather, and optimize harvests.
           </p>
           <div
             className="mt-4 h-1 w-24 rounded-full"

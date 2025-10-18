@@ -12,10 +12,10 @@ const HubHome: React.FC = () => {
   const [languageDropdown, setLanguageDropdown] = useState(false);
 
   const colors = {
-    primary: "#A4C8F0",
-    primaryDark: "#0D3B66",
-    secondary: "#E8F4FD",
-    accent: "#A4C8F0",
+    primary: "#3E8914",
+    primaryDark: "#2D6A0F",
+    secondary: "#F0F8E8",
+    accent: "#3E8914",
     text: "#1A1A1A",
     textLight: "#505050",
     white: "#FFFFFF",
@@ -23,11 +23,11 @@ const HubHome: React.FC = () => {
   };
 
   const navLinks = [
-    { label: "Home", path: "/dairy-lift" },
-    { label: "Dashboard", path: "/dairy-lift/dashboard" },
-    { label: "Marketplace", path: "/dairy-lift/marketplace" },
-    { label: "Management", path: "/dairy-lift/management" },
-    { label: "Equipment", path: "/dairy-lift/equipment" },
+    { label: "Home", path: "/organic-farming" },
+    { label: "Dashboard", path: "/organic-farming/dashboard" },
+    { label: "Marketplace", path: "/organic-farming/marketplace" },
+    { label: "Management", path: "/organic-farming/management" },
+    { label: "Equipment", path: "/organic-farming/equipment" },
   ];
 
   const languages = [
@@ -74,11 +74,11 @@ const HubHome: React.FC = () => {
                 className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-lg"
                 style={{ backgroundColor: colors.primary }}
               >
-                🥛
+                🌱
               </div>
               <div>
-                <h1 className="text-xl font-bold text-white">Dairy Lift</h1>
-                <p className="text-xs text-white text-opacity-80">Maximize Your Dairy Profits</p>
+                <h1 className="text-xl font-bold text-white">Organic Hub</h1>
+                <p className="text-xs text-white text-opacity-80">Grow Certified Organic</p>
               </div>
             </div>
           </div>

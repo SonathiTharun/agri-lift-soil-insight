@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Dashboard from "./Dashboard";
-import { ShoppingCart, TrendingUp, Star, MapPin, Phone, Mail, Package, Truck, DollarSign, Filter } from "lucide-react";
+import { ShoppingCart, Star, Package } from "lucide-react";
 
 const colors = {
-  primary: "#A4C8F0",
-  primaryDark: "#0D3B66",
-  secondary: "#E8F4FD",
+  primary: "#E76F51",
+  primaryDark: "#D45A3A",
+  secondary: "#FFF3E6",
   success: "#4CAF50",
   text: "#1A1A1A",
   textLight: "#505050",
@@ -18,37 +18,34 @@ const Marketplace = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
 
   const products = [
-    { id: 1, name: "Fresh Milk (1L)", price: "₹45", seller: "Farm Fresh Dairy", rating: 4.8, category: "milk" },
-    { id: 2, name: "Ghee (500g)", price: "₹350", seller: "Pure Dairy Co", rating: 4.9, category: "ghee" },
-    { id: 3, name: "Yogurt (500g)", price: "₹60", seller: "Dairy Delight", rating: 4.7, category: "yogurt" },
-    { id: 4, name: "Paneer (500g)", price: "₹180", seller: "Quality Dairy", rating: 4.8, category: "paneer" },
-    { id: 5, name: "Butter (200g)", price: "₹120", seller: "Farm Fresh Dairy", rating: 4.6, category: "butter" },
-    { id: 6, name: "Cheese (250g)", price: "₹280", seller: "Premium Dairy", rating: 4.9, category: "cheese" },
+    { id: 1, name: "Fresh Eggs (30 pcs)", price: "₹180", seller: "Farm Fresh Eggs", rating: 4.9, category: "eggs" },
+    { id: 2, name: "Chicken (1kg)", price: "₹280", seller: "Quality Poultry", rating: 4.8, category: "meat" },
+    { id: 3, name: "Duck Eggs (12 pcs)", price: "₹150", seller: "Duck Farm", rating: 4.7, category: "eggs" },
+    { id: 4, name: "Broiler Chicks", price: "₹25/pc", seller: "Hatchery Pro", rating: 4.8, category: "chicks" },
+    { id: 5, name: "Layer Feed (25kg)", price: "₹850", seller: "Feed Co", rating: 4.6, category: "feed" },
+    { id: 6, name: "Poultry Supplements", price: "₹450", seller: "Health Plus", rating: 4.9, category: "supplements" },
   ];
 
   const categories = [
     { id: "all", label: "All Products" },
-    { id: "milk", label: "Milk" },
-    { id: "ghee", label: "Ghee" },
-    { id: "yogurt", label: "Yogurt" },
-    { id: "paneer", label: "Paneer" },
+    { id: "eggs", label: "Eggs" },
+    { id: "meat", label: "Meat" },
+    { id: "chicks", label: "Chicks" },
+    { id: "feed", label: "Feed" },
   ];
 
   const filteredProducts = selectedCategory === "all" ? products : products.filter(p => p.category === selectedCategory);
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: colors.secondary }}>
-      {/* Hero Section */}
       <div className="py-12 px-4" style={{ backgroundColor: colors.primaryDark }}>
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl font-bold text-white mb-2">Dairy Marketplace</h1>
-          <p className="text-blue-100 text-lg">Buy and sell premium dairy products with verified sellers</p>
+          <h1 className="text-4xl font-bold text-white mb-2">🐔 Poultry Marketplace</h1>
+          <p className="text-orange-100 text-lg">Buy and sell premium poultry and eggs</p>
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 py-12">
-        {/* Filters */}
         <div className="mb-10 flex gap-3 flex-wrap">
           {categories.map((cat) => (
             <button
@@ -57,7 +54,7 @@ const Marketplace = () => {
               className="px-5 py-2.5 rounded-lg font-semibold transition duration-200 hover:scale-105 active:scale-95"
               style={{
                 backgroundColor: selectedCategory === cat.id ? colors.primary : colors.white,
-                color: selectedCategory === cat.id ? colors.primaryDark : colors.text,
+                color: selectedCategory === cat.id ? colors.white : colors.text,
                 border: `2px solid ${colors.primary}`,
                 boxShadow: selectedCategory === cat.id ? `0 4px 12px ${colors.primary}40` : "0 2px 4px rgba(0,0,0,0.1)",
               }}
@@ -67,7 +64,6 @@ const Marketplace = () => {
           ))}
         </div>
 
-        {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProducts.map((product) => (
             <div
@@ -118,34 +114,31 @@ const Marketplace = () => {
 
 // Management Page
 const Management = () => {
-  const [activeTab, setActiveTab] = useState("cattle");
+  const [activeTab, setActiveTab] = useState("flocks");
 
   const tabs = [
-    { id: "cattle", label: "Cattle Management", icon: "🐄" },
+    { id: "flocks", label: "Flock Management", icon: "🐔" },
     { id: "health", label: "Health Records", icon: "🏥" },
     { id: "production", label: "Production Tracking", icon: "📊" },
     { id: "schedule", label: "Maintenance Schedule", icon: "📅" },
   ];
 
-  const cattleData = [
-    { id: 1, name: "Bessie", breed: "Holstein", age: "5 years", status: "Healthy", lastCheckup: "2025-10-15" },
-    { id: 2, name: "Daisy", breed: "Jersey", age: "3 years", status: "Healthy", lastCheckup: "2025-10-14" },
-    { id: 3, name: "Molly", breed: "Guernsey", age: "4 years", status: "Healthy", lastCheckup: "2025-10-13" },
+  const flockData = [
+    { id: 1, name: "Flock A", birds: "500", breed: "Leghorn", status: "Healthy", lastCheckup: "2025-10-15" },
+    { id: 2, name: "Flock B", birds: "450", breed: "Rhode Island", status: "Healthy", lastCheckup: "2025-10-14" },
+    { id: 3, name: "Flock C", birds: "480", breed: "Wyandotte", status: "Healthy", lastCheckup: "2025-10-13" },
   ];
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: colors.secondary }}>
-      {/* Hero Section */}
       <div className="py-12 px-4" style={{ backgroundColor: colors.primaryDark }}>
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl font-bold text-white mb-2">Farm Management</h1>
-          <p className="text-blue-100 text-lg">Manage your cattle, health records, and farm operations</p>
+          <h1 className="text-4xl font-bold text-white mb-2">Flock Management</h1>
+          <p className="text-orange-100 text-lg">Manage your flocks and poultry operations</p>
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 py-12">
-        {/* Tabs */}
         <div className="flex gap-3 mb-10 flex-wrap">
           {tabs.map((tab) => (
             <button
@@ -154,7 +147,7 @@ const Management = () => {
               className="px-5 py-2.5 rounded-lg font-semibold transition duration-200 hover:scale-105 active:scale-95 flex items-center gap-2"
               style={{
                 backgroundColor: activeTab === tab.id ? colors.primary : colors.white,
-                color: activeTab === tab.id ? colors.primaryDark : colors.text,
+                color: activeTab === tab.id ? colors.white : colors.text,
                 border: `2px solid ${colors.primary}`,
                 boxShadow: activeTab === tab.id ? `0 4px 12px ${colors.primary}40` : "0 2px 4px rgba(0,0,0,0.1)",
               }}
@@ -165,27 +158,26 @@ const Management = () => {
           ))}
         </div>
 
-        {/* Content */}
-        {activeTab === "cattle" && (
+        {activeTab === "flocks" && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {cattleData.map((cattle) => (
+            {flockData.map((flock) => (
               <div
-                key={cattle.id}
+                key={flock.id}
                 className="rounded-xl p-6 transition duration-300 hover:shadow-xl hover:-translate-y-1 border border-gray-100"
                 style={{
                   backgroundColor: colors.white,
                   boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
                 }}
               >
-                <div className="text-4xl mb-4 p-2 w-fit rounded-lg" style={{ backgroundColor: colors.secondary }}>🐄</div>
+                <div className="text-4xl mb-4 p-2 w-fit rounded-lg" style={{ backgroundColor: colors.secondary }}>🐔</div>
                 <h3 className="text-base font-bold mb-1.5" style={{ color: colors.text }}>
-                  {cattle.name}
+                  {flock.name}
                 </h3>
                 <div className="space-y-2 text-xs mb-4" style={{ color: colors.textLight }}>
-                  <p><strong>Breed:</strong> {cattle.breed}</p>
-                  <p><strong>Age:</strong> {cattle.age}</p>
-                  <p><strong>Status:</strong> <span style={{ color: colors.success, fontWeight: "bold" }}>{cattle.status}</span></p>
-                  <p><strong>Last Checkup:</strong> {cattle.lastCheckup}</p>
+                  <p><strong>Birds:</strong> {flock.birds}</p>
+                  <p><strong>Breed:</strong> {flock.breed}</p>
+                  <p><strong>Status:</strong> <span style={{ color: colors.success, fontWeight: "bold" }}>{flock.status}</span></p>
+                  <p><strong>Last Checkup:</strong> {flock.lastCheckup}</p>
                 </div>
                 <button
                   className="w-full mt-4 px-4 py-2.5 rounded-lg font-semibold transition duration-200 hover:scale-105 active:scale-95 text-white"
@@ -193,7 +185,7 @@ const Management = () => {
                     backgroundColor: colors.primary,
                     boxShadow: `0 4px 12px ${colors.primary}40`,
                   }}
-                  onClick={() => alert(`Viewing details for ${cattle.name}`)}
+                  onClick={() => alert(`Viewing details for ${flock.name}`)}
                 >
                   View Details
                 </button>
@@ -206,17 +198,17 @@ const Management = () => {
           <div className="rounded-lg p-8 shadow-md" style={{ backgroundColor: colors.white }}>
             <h2 className="text-2xl font-bold mb-6" style={{ color: colors.text }}>Health Records</h2>
             <div className="space-y-4">
-              {cattleData.map((cattle) => (
-                <div key={cattle.id} className="p-4 rounded-lg" style={{ backgroundColor: colors.secondary }}>
+              {flockData.map((flock) => (
+                <div key={flock.id} className="p-4 rounded-lg" style={{ backgroundColor: colors.secondary }}>
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="font-bold" style={{ color: colors.text }}>{cattle.name}</h3>
-                      <p style={{ color: colors.textLight }}>Last Checkup: {cattle.lastCheckup}</p>
+                      <h3 className="font-bold" style={{ color: colors.text }}>{flock.name}</h3>
+                      <p style={{ color: colors.textLight }}>Last Checkup: {flock.lastCheckup}</p>
                     </div>
                     <button
                       className="px-4 py-2 rounded-lg font-medium text-white"
                       style={{ backgroundColor: colors.primary }}
-                      onClick={() => alert(`Viewing health records for ${cattle.name}`)}
+                      onClick={() => alert(`Viewing health records for ${flock.name}`)}
                     >
                       View Records
                     </button>
@@ -232,16 +224,16 @@ const Management = () => {
             <h2 className="text-2xl font-bold mb-6" style={{ color: colors.text }}>Production Tracking</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="p-6 rounded-lg" style={{ backgroundColor: colors.secondary }}>
-                <div className="text-3xl font-bold mb-2" style={{ color: colors.primary }}>1,850 L</div>
-                <p style={{ color: colors.textLight }}>Daily Milk Yield</p>
+                <div className="text-3xl font-bold mb-2" style={{ color: colors.primary }}>4,200</div>
+                <p style={{ color: colors.textLight }}>Daily Egg Production</p>
               </div>
               <div className="p-6 rounded-lg" style={{ backgroundColor: colors.secondary }}>
-                <div className="text-3xl font-bold mb-2" style={{ color: colors.primary }}>98%</div>
-                <p style={{ color: colors.textLight }}>Quality Grade</p>
+                <div className="text-3xl font-bold mb-2" style={{ color: colors.primary }}>1,430</div>
+                <p style={{ color: colors.textLight }}>Total Birds</p>
               </div>
               <div className="p-6 rounded-lg" style={{ backgroundColor: colors.secondary }}>
-                <div className="text-3xl font-bold mb-2" style={{ color: colors.primary }}>245</div>
-                <p style={{ color: colors.textLight }}>Active Cattle</p>
+                <div className="text-3xl font-bold mb-2" style={{ color: colors.primary }}>3</div>
+                <p style={{ color: colors.textLight }}>Active Flocks</p>
               </div>
             </div>
           </div>
@@ -253,7 +245,7 @@ const Management = () => {
             <div className="space-y-4">
               {[
                 { task: "Veterinary Checkup", date: "2025-10-20", status: "Scheduled" },
-                { task: "Equipment Maintenance", date: "2025-10-22", status: "Pending" },
+                { task: "Coop Cleaning", date: "2025-10-22", status: "Pending" },
                 { task: "Feed Inventory Check", date: "2025-10-18", status: "Completed" },
               ].map((item, idx) => (
                 <div key={idx} className="p-4 rounded-lg flex items-center justify-between" style={{ backgroundColor: colors.secondary }}>
@@ -285,37 +277,34 @@ const Equipment = () => {
   const [selectedType, setSelectedType] = useState("all");
 
   const equipment = [
-    { id: 1, name: "Milking Machine", price: "₹45,000", type: "milking", image: "🤖" },
-    { id: 2, name: "Cooling Tank", price: "₹1,20,000", type: "cooling", image: "❄️" },
-    { id: 3, name: "Feed Mixer", price: "₹35,000", type: "feeding", image: "🔄" },
-    { id: 4, name: "Water Pump", price: "₹15,000", type: "water", image: "💧" },
-    { id: 5, name: "Hay Baler", price: "₹2,50,000", type: "hay", image: "📦" },
-    { id: 6, name: "Manure Spreader", price: "₹80,000", type: "manure", image: "🚜" },
+    { id: 1, name: "Chicken Coop", price: "₹8,500", type: "housing", image: "🏠" },
+    { id: 2, name: "Feeder", price: "₹1,200", type: "feeding", image: "🍽️" },
+    { id: 3, name: "Waterer", price: "₹800", type: "feeding", image: "💧" },
+    { id: 4, name: "Egg Incubator", price: "₹12,000", type: "breeding", image: "🥚" },
+    { id: 5, name: "Nesting Box", price: "₹2,500", type: "housing", image: "📦" },
+    { id: 6, name: "Poultry Net", price: "₹3,500", type: "protection", image: "🥅" },
   ];
 
   const types = [
     { id: "all", label: "All Equipment" },
-    { id: "milking", label: "Milking" },
-    { id: "cooling", label: "Cooling" },
+    { id: "housing", label: "Housing" },
     { id: "feeding", label: "Feeding" },
-    { id: "water", label: "Water" },
+    { id: "breeding", label: "Breeding" },
+    { id: "protection", label: "Protection" },
   ];
 
   const filtered = selectedType === "all" ? equipment : equipment.filter(e => e.type === selectedType);
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: colors.secondary }}>
-      {/* Hero Section */}
       <div className="py-12 px-4" style={{ backgroundColor: colors.primaryDark }}>
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl font-bold text-white mb-2">Equipment Store</h1>
-          <p className="text-blue-100 text-lg">Browse and purchase farming equipment and machinery</p>
+          <h1 className="text-4xl font-bold text-white mb-2">Poultry Equipment</h1>
+          <p className="text-orange-100 text-lg">Browse and purchase poultry equipment and supplies</p>
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 py-12">
-        {/* Filters */}
         <div className="mb-10 flex gap-3 flex-wrap">
           {types.map((type) => (
             <button
@@ -324,7 +313,7 @@ const Equipment = () => {
               className="px-5 py-2.5 rounded-lg font-semibold transition duration-200 hover:scale-105 active:scale-95"
               style={{
                 backgroundColor: selectedType === type.id ? colors.primary : colors.white,
-                color: selectedType === type.id ? colors.primaryDark : colors.text,
+                color: selectedType === type.id ? colors.white : colors.text,
                 border: `2px solid ${colors.primary}`,
                 boxShadow: selectedType === type.id ? `0 4px 12px ${colors.primary}40` : "0 2px 4px rgba(0,0,0,0.1)",
               }}
@@ -334,7 +323,6 @@ const Equipment = () => {
           ))}
         </div>
 
-        {/* Equipment Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map((item) => (
             <div

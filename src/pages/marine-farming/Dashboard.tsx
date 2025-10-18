@@ -19,9 +19,9 @@ const Dashboard: React.FC = () => {
   const [selectedFeature, setSelectedFeature] = useState<string | null>(null);
 
   const colors = {
-    primary: "#A4C8F0",
-    primaryDark: "#0D3B66",
-    secondary: "#E8F4FD",
+    primary: "#0077B6",
+    primaryDark: "#005A8D",
+    secondary: "#E0F7FF",
     success: "#4CAF50",
     text: "#1A1A1A",
     textLight: "#505050",
@@ -30,89 +30,89 @@ const Dashboard: React.FC = () => {
 
   const metrics = [
     {
-      id: "active_cattle",
-      title: "Active Cattle",
-      value: "245",
-      unit: "heads",
+      id: "active_ponds",
+      title: "Active Ponds",
+      value: "12",
+      unit: "ponds",
       trend: "up",
-      change: "+12%",
-      icon: Milk,
-      bgColor: "#E8F4FD",
+      change: "+3%",
+      icon: Waves,
+      bgColor: "#E0F7FF",
     },
     {
-      id: "milk_yield",
-      title: "Milk Yield",
-      value: "1,850",
-      unit: "L/day",
+      id: "fish_yield",
+      title: "Fish Yield",
+      value: "3,200",
+      unit: "kg/month",
       trend: "up",
-      change: "+8%",
+      change: "+18%",
       icon: TrendingUp,
-      bgColor: "#E8F4FD",
+      bgColor: "#E0F7FF",
     },
     {
-      id: "quality_grade",
-      title: "Quality Grade",
-      value: "A+",
+      id: "water_quality",
+      title: "Water Quality",
+      value: "Optimal",
       unit: "",
       trend: "neutral",
-      change: "Excellent",
-      icon: Award,
-      bgColor: "#E8F4FD",
+      change: "Perfect",
+      icon: Droplet,
+      bgColor: "#E0F7FF",
     },
     {
       id: "revenue",
       title: "Revenue",
-      value: "₹2.4L",
+      value: "₹3.2L",
       unit: "",
       trend: "up",
-      change: "+15%",
+      change: "+22%",
       icon: BarChart3,
-      bgColor: "#E8F4FD",
+      bgColor: "#E0F7FF",
     }
   ];
 
   const features = [
     {
-      id: "livestock_market",
-      title: "Livestock Market",
-      description: "Find and sell quality cattle with verified buyers",
-      icon: "🐄",
-      action: () => alert("Opening Livestock Market..."),
+      id: "pond_management",
+      title: "Pond Management",
+      description: "Monitor and manage your fish ponds",
+      icon: "🌊",
+      action: () => alert("Opening Pond Management..."),
     },
     {
-      id: "milk_production",
-      title: "Milk Production",
-      description: "Track yield, quality metrics, and production trends",
-      icon: "🥛",
-      action: () => alert("Opening Milk Production Tracker..."),
+      id: "seafood_market",
+      title: "Seafood Market",
+      description: "Sell fresh seafood to buyers",
+      icon: "🐟",
+      action: () => alert("Opening Seafood Market..."),
     },
     {
-      id: "equipment_mart",
-      title: "Equipment Mart",
-      description: "Browse and purchase farming machinery",
-      icon: "🔧",
-      action: () => alert("Opening Equipment Mart..."),
+      id: "water_quality",
+      title: "Water Quality",
+      description: "Track pH, oxygen, and temperature",
+      icon: "💧",
+      action: () => alert("Opening Water Quality..."),
     },
     {
-      id: "cattle_management",
-      title: "Cattle Management",
-      description: "Health records, vaccination schedules, breeding info",
-      icon: "📋",
-      action: () => alert("Opening Cattle Management..."),
+      id: "feed_management",
+      title: "Feed Management",
+      description: "Optimize fish feed and nutrition",
+      icon: "🥗",
+      action: () => alert("Opening Feed Management..."),
     },
     {
       id: "market_trends",
       title: "Market Trends",
-      description: "Real-time price updates and market analysis",
+      description: "Real-time seafood prices",
       icon: "📊",
       action: () => alert("Opening Market Trends..."),
     },
     {
-      id: "expert_consultation",
-      title: "Expert Consultation",
-      description: "Connect with veterinarians and dairy experts",
+      id: "expert_support",
+      title: "Expert Support",
+      description: "Connect with aquaculture experts",
       icon: "👨‍⚕️",
-      action: () => alert("Opening Expert Consultation..."),
+      action: () => alert("Opening Expert Support..."),
     }
   ];
 
@@ -125,10 +125,10 @@ const Dashboard: React.FC = () => {
       >
         <div className="max-w-6xl mx-auto">
           <h1 className="text-4xl font-bold text-white mb-2">
-            Maximize Your Dairy Profits
+            Optimize Your Aquaculture
           </h1>
           <p className="text-white text-opacity-90 text-lg">
-            Everything you need to manage, buy, and sell dairy products.
+            Complete marine farming platform. Manage ponds, track water quality, and sell seafood.
           </p>
           <div
             className="mt-4 h-1 w-24 rounded-full"

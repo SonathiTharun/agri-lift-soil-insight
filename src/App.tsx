@@ -35,6 +35,10 @@ const ExecutiveCommunications = React.lazy(() => import("./pages/ExecutiveCommun
 const ExecutivePortalTest = React.lazy(() => import("./components/executive/ExecutivePortalTest").then(module => ({ default: module.ExecutivePortalTest })));
 const DairyLiftHome = React.lazy(() => import("./pages/dairy-lift/DairyLiftHome"));
 const BeeFarmingHome = React.lazy(() => import("./pages/bee-farming/BeeFarmingHome"));
+const MarineFarmingHome = React.lazy(() => import("./pages/marine-farming/MarineFarmingHome"));
+const PoultryFarmingHome = React.lazy(() => import("./pages/poultry-farming/PoultryFarmingHome"));
+const OrganicFarmingHome = React.lazy(() => import("./pages/organic-farming/OrganicFarmingHome"));
+const CropFarmingHome = React.lazy(() => import("./pages/crop-farming/CropFarmingHome"));
 
 // Loading component
 const LoadingSpinner = () => (
@@ -80,6 +84,10 @@ const App = () => (
         <Route path="/settings" element={<Settings />} />
         <Route path="/dairy-lift/*" element={<DairyLiftHome />} />
         <Route path="/bee-farming/*" element={<BeeFarmingHome />} />
+        <Route path="/marine-farming/*" element={<MarineFarmingHome />} />
+        <Route path="/poultry-farming/*" element={<PoultryFarmingHome />} />
+        <Route path="/organic-farming/*" element={<OrganicFarmingHome />} />
+        <Route path="/crop-farming/*" element={<CropFarmingHome />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

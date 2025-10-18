@@ -97,6 +97,14 @@ const FarmingType = () => {
       navigate("/dairy-lift");
     } else if (farmingType === "bee") {
       navigate("/bee-farming");
+    } else if (farmingType === "marine") {
+      navigate("/marine-farming");
+    } else if (farmingType === "poultry") {
+      navigate("/poultry-farming");
+    } else if (farmingType === "organic") {
+      navigate("/organic-farming");
+    } else if (farmingType === "crop") {
+      navigate("/crop-farming");
     } else {
       navigate(`/dashboard?type=${farmingType}`);
     }

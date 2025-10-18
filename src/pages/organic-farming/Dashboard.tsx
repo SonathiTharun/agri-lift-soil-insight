@@ -19,9 +19,9 @@ const Dashboard: React.FC = () => {
   const [selectedFeature, setSelectedFeature] = useState<string | null>(null);
 
   const colors = {
-    primary: "#A4C8F0",
-    primaryDark: "#0D3B66",
-    secondary: "#E8F4FD",
+    primary: "#3E8914",
+    primaryDark: "#2D6A0F",
+    secondary: "#F0F8E8",
     success: "#4CAF50",
     text: "#1A1A1A",
     textLight: "#505050",
@@ -30,89 +30,89 @@ const Dashboard: React.FC = () => {
 
   const metrics = [
     {
-      id: "active_cattle",
-      title: "Active Cattle",
-      value: "245",
-      unit: "heads",
+      id: "certified_acres",
+      title: "Certified Acres",
+      value: "85",
+      unit: "acres",
       trend: "up",
-      change: "+12%",
-      icon: Milk,
-      bgColor: "#E8F4FD",
+      change: "+9%",
+      icon: Leaf,
+      bgColor: "#F0F8E8",
     },
     {
-      id: "milk_yield",
-      title: "Milk Yield",
-      value: "1,850",
-      unit: "L/day",
+      id: "organic_yield",
+      title: "Organic Yield",
+      value: "1,650",
+      unit: "kg/month",
       trend: "up",
-      change: "+8%",
+      change: "+11%",
       icon: TrendingUp,
-      bgColor: "#E8F4FD",
+      bgColor: "#F0F8E8",
     },
     {
-      id: "quality_grade",
-      title: "Quality Grade",
-      value: "A+",
+      id: "certification",
+      title: "Certification",
+      value: "Active",
       unit: "",
       trend: "neutral",
-      change: "Excellent",
-      icon: Award,
-      bgColor: "#E8F4FD",
+      change: "Valid",
+      icon: CheckCircle,
+      bgColor: "#F0F8E8",
     },
     {
       id: "revenue",
       title: "Revenue",
-      value: "₹2.4L",
+      value: "₹2.1L",
       unit: "",
       trend: "up",
-      change: "+15%",
+      change: "+18%",
       icon: BarChart3,
-      bgColor: "#E8F4FD",
+      bgColor: "#F0F8E8",
     }
   ];
 
   const features = [
     {
-      id: "livestock_market",
-      title: "Livestock Market",
-      description: "Find and sell quality cattle with verified buyers",
-      icon: "🐄",
-      action: () => alert("Opening Livestock Market..."),
+      id: "crop_management",
+      title: "Crop Management",
+      description: "Manage organic crops",
+      icon: "🌱",
+      action: () => alert("Opening Crop Management..."),
     },
     {
-      id: "milk_production",
-      title: "Milk Production",
-      description: "Track yield, quality metrics, and production trends",
-      icon: "🥛",
-      action: () => alert("Opening Milk Production Tracker..."),
+      id: "organic_market",
+      title: "Organic Market",
+      description: "Sell certified organic produce",
+      icon: "🥬",
+      action: () => alert("Opening Organic Market..."),
     },
     {
-      id: "equipment_mart",
-      title: "Equipment Mart",
-      description: "Browse and purchase farming machinery",
-      icon: "🔧",
-      action: () => alert("Opening Equipment Mart..."),
+      id: "certification",
+      title: "Certification",
+      description: "Maintain organic certification",
+      icon: "✅",
+      action: () => alert("Opening Certification..."),
     },
     {
-      id: "cattle_management",
-      title: "Cattle Management",
-      description: "Health records, vaccination schedules, breeding info",
-      icon: "📋",
-      action: () => alert("Opening Cattle Management..."),
+      id: "soil_health",
+      title: "Soil Health",
+      description: "Monitor soil quality",
+      icon: "🌍",
+      action: () => alert("Opening Soil Health..."),
     },
     {
       id: "market_trends",
       title: "Market Trends",
-      description: "Real-time price updates and market analysis",
+      description: "Organic produce prices",
       icon: "📊",
       action: () => alert("Opening Market Trends..."),
     },
     {
-      id: "expert_consultation",
-      title: "Expert Consultation",
-      description: "Connect with veterinarians and dairy experts",
+      id: "expert_guidance",
+      title: "Expert Guidance",
+      description: "Connect with organic experts",
       icon: "👨‍⚕️",
-      action: () => alert("Opening Expert Consultation..."),
+      action: () => alert("Opening Expert Guidance..."),
     }
   ];
 
@@ -125,10 +125,10 @@ const Dashboard: React.FC = () => {
       >
         <div className="max-w-6xl mx-auto">
           <h1 className="text-4xl font-bold text-white mb-2">
-            Maximize Your Dairy Profits
+            Grow Certified Organic
           </h1>
           <p className="text-white text-opacity-90 text-lg">
-            Everything you need to manage, buy, and sell dairy products.
+            Complete organic farming platform. Manage certified crops, connect with buyers, and maintain standards.
           </p>
           <div
             className="mt-4 h-1 w-24 rounded-full"
