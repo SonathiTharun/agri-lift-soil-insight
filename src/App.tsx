@@ -34,6 +34,7 @@ const ExecutiveOperations = React.lazy(() => import("./pages/ExecutiveOperations
 const ExecutiveCommunications = React.lazy(() => import("./pages/ExecutiveCommunications"));
 const ExecutivePortalTest = React.lazy(() => import("./components/executive/ExecutivePortalTest").then(module => ({ default: module.ExecutivePortalTest })));
 const DairyLiftHome = React.lazy(() => import("./pages/dairy-lift/DairyLiftHome"));
+const BeeFarmingHome = React.lazy(() => import("./pages/bee-farming/BeeFarmingHome"));
 
 // Loading component
 const LoadingSpinner = () => (
@@ -78,6 +79,7 @@ const App = () => (
         <Route path="/orders" element={<Orders />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/dairy-lift/*" element={<DairyLiftHome />} />
+        <Route path="/bee-farming/*" element={<BeeFarmingHome />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

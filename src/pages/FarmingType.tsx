@@ -95,6 +95,8 @@ const FarmingType = () => {
   const handleGetStarted = (farmingType: string) => {
     if (farmingType === "dairy") {
       navigate("/dairy-lift");
+    } else if (farmingType === "bee") {
+      navigate("/bee-farming");
     } else {
       navigate(`/dashboard?type=${farmingType}`);
     }
