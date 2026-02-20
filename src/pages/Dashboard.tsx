@@ -3,9 +3,9 @@ import { WeatherWidget } from "@/components/WeatherWidget";
 import { SoilAnalysis } from "@/components/SoilAnalysis";
 import { useState, useEffect } from "react";
 import { Layout } from "@/components/Layout";
-import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, TrendingUp, ShoppingCart, Package } from "lucide-react";
+import { Link } from "react-router-dom";
+import { TrendingUp, ShoppingCart, Package } from "lucide-react";
 import { withAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/components/LanguageContext";
 import { useRealTimeData } from "@/hooks/useRealTimeData";
@@ -60,7 +60,7 @@ const Dashboard = () => {
         </div>
         
         {/* Dashboard Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 animate-fade-in delay-200">
           {/* Cart Summary */}
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md dark:shadow-gray-900/20">
             <div className="flex items-center justify-between mb-4">
@@ -126,26 +126,14 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Crop Allocation Card */}
-        <div className="mb-6 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md dark:shadow-gray-900/20 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-          <h2 className="text-2xl font-semibold text-foliage-dark dark:text-green-400 mb-4">{t('crop-allocation-title')}</h2>
-          <p className="text-gray-600 dark:text-gray-300 mb-6">
-            {t('crop-allocation-description')}
-          </p>
-          <Link to="/crop-allocation" className="inline-flex items-center">
-            <Button className="bg-foliage hover:bg-foliage-dark">
-              {t('plan-crops')} <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
-        </div>
-        
+
         {/* Main Content Container */}
-        <div className="animate-fade-in" style={{ animationDelay: '0.4s' }}>
+        <div className="animate-fade-in delay-500">
           <SoilAnalysis />
         </div>
         
         {/* Footer Information */}
-        <div className="mt-16 text-center text-gray-500 text-sm animate-fade-in" style={{ animationDelay: '0.4s' }}>
+        <div className="mt-16 text-center text-gray-500 text-sm animate-fade-in delay-500">
           <p>{t('footer-text')}</p>
         </div>
       </main>

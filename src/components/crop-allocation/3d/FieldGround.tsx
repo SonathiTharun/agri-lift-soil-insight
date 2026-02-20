@@ -1,50 +1,53 @@
 
-import React, { useRef } from 'react';
-import { useFrame } from '@react-three/fiber';
-import * as THREE from 'three';
+import React from 'react';
 
 const FieldGround: React.FC = () => {
-  const meshRef = useRef<THREE.Mesh>(null);
-  
-  useFrame((state) => {
-    if (meshRef.current) {
-      // Subtle wind effect
-      meshRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.5) * 0.002;
-    }
-  });
-  
   return (
-    <>
-      {/* Main field ground with realistic soil texture */}
-      <mesh ref={meshRef} receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.05, 0]}>
-        <planeGeometry args={[12, 9, 32, 32]} />
+    <group position={[0, -0.05, 0]}>
+      {/* 1. Infinite Grass Base */}
+      <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.1, 0]}>
+        <planeGeometry args={[100, 100]} />
         <meshStandardMaterial 
-          color="#8B4513" 
+          color="#4ade80" 
+          roughness={1}
+          metalness={0}
+        />
+      </mesh>
+
+      {/* 2. Central Dirt Path Area (Cross Shape) */}
+      <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.05, 0]}>
+        <planeGeometry args={[12, 12]} />
+        <meshStandardMaterial 
+          color="#d6d3d1" // Light dirt/stone path
           roughness={0.9}
-          metalness={0.1}
         />
+      </mesh>
+
+      {/* 3. Four Soil Beds (Tilled Earth) */}
+      {/* Top Left */}
+      <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[-2.5, 0, -2.5]}>
+        <boxGeometry args={[4, 4, 0.2]} />
+        <meshStandardMaterial color="#3f2e26" roughness={1} />
       </mesh>
       
-      {/* Fertile soil layer */}
-      <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]}>
-        <planeGeometry args={[11, 8, 24, 24]} />
-        <meshStandardMaterial 
-          color="#654321" 
-          roughness={0.8}
-          metalness={0.05}
-        />
+      {/* Top Right */}
+      <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[2.5, 0, -2.5]}>
+        <boxGeometry args={[4, 4, 0.2]} />
+        <meshStandardMaterial color="#3f2e26" roughness={1} />
       </mesh>
-      
-      {/* Top soil layer */}
-      <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 0]}>
-        <planeGeometry args={[10, 7, 20, 20]} />
-        <meshStandardMaterial 
-          color="#7D5A3D" 
-          roughness={0.7}
-          metalness={0.02}
-        />
+
+      {/* Bottom Left */}
+      <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[-2.5, 0, 2.5]}>
+        <boxGeometry args={[4, 4, 0.2]} />
+        <meshStandardMaterial color="#3f2e26" roughness={1} />
       </mesh>
-    </>
+
+      {/* Bottom Right */}
+      <mesh receiveShadow rotation={[-Math.PI / 2, 0, 0]} position={[2.5, 0, 2.5]}>
+        <boxGeometry args={[4, 4, 0.2]} />
+        <meshStandardMaterial color="#3f2e26" roughness={1} />
+      </mesh>
+    </group>
   );
 };
 

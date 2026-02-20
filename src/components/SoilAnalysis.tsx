@@ -5,8 +5,14 @@ import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/components/ui/use-toast";
 import { SoilCharts } from "@/components/SoilCharts";
-import { apiService, SoilParameter, CropRecommendation } from "@/services/apiService";
+import { SoilParameter as ApiSoilParameter, CropRecommendation } from "@/services/apiService";
 import { useLanguage } from "@/components/LanguageContext";
+import { analyzeSoilWithAI, extractSoilDataFromImage } from "@/services/aiService";
+import { SmartCropPlanner } from "@/components/SmartCropPlanner";
+import { Sparkles, Loader2, MapPin, User, FileImage, AlertTriangle } from "lucide-react";
+
+// Re-export type alias
+type SoilParameter = ApiSoilParameter;
 
 // Types for soil data (using types from apiService)
 type SoilReport = {
@@ -27,27 +33,39 @@ export function SoilAnalysis() {
   const [inputMode, setInputMode] = useState<'upload' | 'manual' | null>(null);
   const [manualData, setManualData] = useState<SoilParameter[]>([]);
   const [showVisualization, setShowVisualization] = useState(false);
+  const [aiInsights, setAiInsights] = useState<string | null>(null);
+  const [isLoadingAI, setIsLoadingAI] = useState(false);
+  const [insightLang, setInsightLang] = useState<'hi' | 'en'>('hi');
+  const [aiExtractionStatus, setAiExtractionStatus] = useState<string>('');
+  const [cardMeta, setCardMeta] = useState<{
+    farmerName: string | null;
+    village: string | null;
+    district: string | null;
+    state: string | null;
+    surveyNumber: string | null;
+    sampleDate: string | null;
+  } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
-  // Function to handle file upload using backend API
+  // Function to handle file upload using GPT-4o Vision via Puter.js
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Check file type
-    const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'application/pdf'];
+    // Check file type — images and PDF supported
+    const validTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp', 'application/pdf'];
     if (!validTypes.includes(file.type)) {
       toast({
         title: t("invalid-file-type"),
-        description: t("please-upload-pdf-jpg-png"),
+        description: "Please upload a JPG, PNG, or WEBP image of your Soil Health Card.",
         variant: "destructive",
       });
       return;
     }
 
     // Check file size (10MB limit)
-    const maxSize = 10 * 1024 * 1024; // 10MB
+    const maxSize = 10 * 1024 * 1024;
     if (file.size > maxSize) {
       toast({
         title: t("file-too-large"),
@@ -58,79 +76,73 @@ export function SoilAnalysis() {
     }
 
     setIsUploading(true);
-    setUploadProgress(0);
+    setUploadProgress(10);
     setAnalyzing(true);
+    setAiExtractionStatus('📤 Uploading image...');
+    setCardMeta(null);
 
     try {
-      // Simulate upload progress
-      const progressInterval = setInterval(() => {
-        setUploadProgress(prev => {
-          if (prev >= 90) {
-            clearInterval(progressInterval);
-            return 90;
-          }
-          return prev + 10;
-        });
-      }, 200);
+      // Animate progress while AI works
+      setUploadProgress(25);
+      setAiExtractionStatus('🤖 GPT-4o is reading your Soil Health Card...');
 
-      // Upload file to backend
-      const response = await apiService.uploadSoilHealthCard(file);
-      
-      clearInterval(progressInterval);
+      const progressTimer = setInterval(() => {
+        setUploadProgress(prev => (prev < 85 ? prev + 5 : prev));
+      }, 800);
+
+      // 🔥 AI Vision extraction — no backend needed
+      const result = await extractSoilDataFromImage(file);
+
+      clearInterval(progressTimer);
       setUploadProgress(100);
-      setIsUploading(false);
+      setAiExtractionStatus(`✅ Extracted ${result.extractedCount} soil parameters!`);
 
-      // Store report ID for future use
-      setCurrentReportId(response.reportId);
+      // Save card metadata (farmer name, village, etc.)
+      if (result.meta.farmerName || result.meta.district || result.meta.village) {
+        setCardMeta(result.meta);
+      }
 
-      // Create soil report from API response
-      const soilReport: SoilReport = {
-        id: response.reportId,
-        parameters: response.soilData.parameters,
+      // Build SoilReport from AI-extracted parameters
+      const reportId = `ai-${Date.now()}`;
+      const aiSoilReport: SoilReport = {
+        id: reportId,
+        parameters: result.parameters.map(p => ({
+          name: p.name,
+          value: p.value,
+          unit: p.unit,
+          status: p.status,
+          optimal: p.optimal,
+        })),
         timestamp: new Date().toISOString(),
       };
 
-      setSoilReport(soilReport);
+      setSoilReport(aiSoilReport);
+      setIsUploading(false);
       setAnalyzing(false);
       setInputMode('upload');
       setShowVisualization(true);
 
-      // Generate crop recommendations
-      await generateCropRecommendations(response.reportId, selectedSeason);
+      // Generate crop recommendations from extracted data
+      generateManualCropRecommendations(aiSoilReport.parameters, selectedSeason);
 
       toast({
-        title: t("analysis-complete"),
-        description: response.message,
+        title: '🌾 AI Analysis Complete!',
+        description: `GPT-4o extracted ${result.extractedCount} parameters from your Soil Health Card. Click "Get AI Insights" for personalized crop advice.`,
       });
 
     } catch (error) {
-      console.error(t("error-during-file-upload"), error);
+      console.error('AI extraction error:', error);
       setIsUploading(false);
       setAnalyzing(false);
+      setAiExtractionStatus('');
 
       toast({
         title: t("analysis-failed"),
-        description: error instanceof Error ? error.message : t("error-analyzing-soil-card"),
+        description: error instanceof Error
+          ? error.message
+          : 'AI could not read the card. Please ensure the image is clear and well-lit.',
         variant: "destructive",
       });
-    }
-  };
-
-  // Function to generate crop recommendations using backend API
-  const generateCropRecommendations = async (reportId: string, season: string) => {
-    try {
-      const response = await apiService.generateCropRecommendations(reportId, season);
-      setCropRecommendations(response.recommendations);
-    } catch (error) {
-      console.error(t("error-generating-recommendations"), error);
-      toast({
-        title: t("recommendation-failed"),
-        description: t("could-not-generate-recommendations"),
-        variant: "destructive",
-      });
-
-      // Fallback to empty recommendations
-      setCropRecommendations([]);
     }
   };
 
@@ -478,19 +490,101 @@ export function SoilAnalysis() {
   // Effect to update crop recommendations when season changes
   useEffect(() => {
     if (soilReport) {
-      if (currentReportId) {
-        // For uploaded data, use backend API
-        generateCropRecommendations(currentReportId, selectedSeason);
-      } else {
-        // For manual data, use client-side recommendations
-        generateManualCropRecommendations(soilReport.parameters, selectedSeason);
-      }
+      generateManualCropRecommendations(soilReport.parameters, selectedSeason);
     }
-  }, [selectedSeason, currentReportId, soilReport]);
+  }, [selectedSeason, soilReport]);
 
   // Function to trigger file input click
   const triggerFileUpload = () => {
     fileInputRef.current?.click();
+  };
+
+  // Function to get AI-powered soil insights
+  const handleGetAIInsights = async (lang?: 'hi' | 'en') => {
+    if (!soilReport) return;
+    const targetLang = lang ?? insightLang;
+    setIsLoadingAI(true);
+    setAiInsights(null);
+    try {
+      const insights = await analyzeSoilWithAI(soilReport.parameters, targetLang);
+      setAiInsights(insights);
+    } catch (error) {
+      setAiInsights(
+        '⚠️ Could not connect to AI service. Please check your internet connection and try again.'
+      );
+    } finally {
+      setIsLoadingAI(false);
+    }
+  };
+
+  // Beautiful section-based markdown renderer
+  const renderAIInsights = (text: string) => {
+    const lines = text.split('\n');
+    const elements: JSX.Element[] = [];
+    let bulletBuffer: string[] = [];
+    let key = 0;
+
+    const flushBullets = () => {
+      if (bulletBuffer.length > 0) {
+        elements.push(
+          <ul key={key++} className="space-y-1.5 mb-3 ml-1">
+            {bulletBuffer.map((b, i) => (
+              <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                <span className="mt-1 w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0"></span>
+                <span dangerouslySetInnerHTML={{ __html: b.replace(/\*\*(.*?)\*\*/g, '<strong class="text-gray-900">$1</strong>') }} />
+              </li>
+            ))}
+          </ul>
+        );
+        bulletBuffer = [];
+      }
+    };
+
+    for (const raw of lines) {
+      const line = raw.trim();
+      if (!line) { flushBullets(); continue; }
+
+      // H2 headings (## 🌱 Section Title)
+      if (line.startsWith('## ')) {
+        flushBullets();
+        const title = line.replace(/^## /, '');
+        elements.push(
+          <div key={key++} className="flex items-center gap-2 mt-5 mb-2 pb-1 border-b border-green-200">
+            <span className="text-base">{title.match(/^(\p{Emoji}+)/u)?.[1] ?? '🌿'}</span>
+            <h3 className="font-bold text-green-900 text-sm tracking-wide uppercase">
+              {title.replace(/^(\p{Emoji}+\s*)/u, '')}
+            </h3>
+          </div>
+        );
+        continue;
+      }
+
+      // H3 subheadings (### Khaad aur Amendments)
+      if (line.startsWith('### ')) {
+        flushBullets();
+        const title = line.replace(/^### /, '');
+        elements.push(
+          <p key={key++} className="font-semibold text-green-800 text-sm mt-3 mb-1">{title}</p>
+        );
+        continue;
+      }
+
+      // Bullet lines starting with - or *
+      if (line.startsWith('- ') || line.startsWith('* ')) {
+        bulletBuffer.push(line.replace(/^[-*] /, ''));
+        continue;
+      }
+
+      // Regular text
+      flushBullets();
+      elements.push(
+        <p key={key++} className="text-sm text-gray-700 mb-2 leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: line.replace(/\*\*(.*?)\*\*/g, '<strong class="text-gray-900">$1</strong>') }}
+        />
+      );
+    }
+    flushBullets();
+    return elements;
   };
 
   // Function to determine status color
@@ -598,10 +692,26 @@ export function SoilAnalysis() {
               >
                 {t("back-to-selection")}
               </Button>
-              <h3 className="text-lg font-medium mb-6">{t("upload-your-card")}</h3>
-              <p className="text-sm text-gray-600 mb-4">{t("upload-card-description")}</p>
+
+              {/* AI Powered badge */}
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-green-100 to-emerald-100 border border-green-300 text-green-800 text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
+                <Sparkles size={12} />
+                Powered by GPT-4o Vision — Real AI Extraction
+              </div>
+
+              <h3 className="text-lg font-medium mb-2">{t("upload-your-card")}</h3>
+              <p className="text-sm text-gray-600 mb-6">GPT-4o will visually read your Mitti Swasthya Patra and extract all soil parameters automatically.</p>
+
+              {/* PDF Info Box */}
+              <div className="max-w-sm mx-auto mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg flex items-start gap-2 text-left">
+                <FileImage size={14} className="text-blue-600 mt-0.5 flex-shrink-0" />
+                <p className="text-xs text-blue-800">
+                  <strong>📄 PDF supported:</strong> Upload your Soil Health Card as JPG, PNG, or PDF. For PDFs, GPT-4o will read the first page automatically.
+                </p>
+              </div>
+
               <div
-                className="max-w-sm mx-auto border-2 border-dashed border-gray-300 rounded-md p-6 cursor-pointer hover:border-soil hover:bg-soil-light/10 transition-colors"
+                className="max-w-sm mx-auto border-2 border-dashed border-green-300 rounded-xl p-8 cursor-pointer hover:border-green-500 hover:bg-green-50/50 transition-all"
                 onClick={triggerFileUpload}
               >
                 <input
@@ -609,25 +719,25 @@ export function SoilAnalysis() {
                   ref={fileInputRef}
                   onChange={handleFileUpload}
                   className="hidden"
-                  accept=".pdf,.jpg,.jpeg,.png"
+                  accept=".jpg,.jpeg,.png,.webp,.pdf"
+                  aria-label={t("upload-soil-card-label")}
                 />
                 <div className="text-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="mx-auto h-12 w-12 text-soil" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
-                  </svg>
-                  <p className="mt-2 text-sm text-gray-600">{t("click-to-upload")}</p>
-                  <p className="mt-1 text-xs text-gray-500">{t("pdf-jpg-jpeg-png")}</p>
-                  <p className="mt-3 text-xs text-soil-dark font-medium">{t("extract-soil-parameters")}</p>
+                  <FileImage className="mx-auto h-14 w-14 text-green-500 mb-3" />
+                  <p className="text-sm font-medium text-gray-700">Click to upload your Soil Health Card</p>
+                  <p className="mt-1 text-xs text-gray-500">JPG, PNG, WEBP, PDF • Max 10MB</p>
+                  <p className="mt-3 text-xs text-green-700 font-semibold">🤖 AI will read & extract all soil parameters</p>
                 </div>
               </div>
 
-              <div className="mt-8 p-4 bg-blue-50 rounded-lg">
-                <h4 className="text-sm font-medium text-blue-900 mb-2">{t("tips-better-results")}</h4>
-                <ul className="text-xs text-blue-800 space-y-1">
-                  <li>{t("ensure-good-lighting")}</li>
-                  <li>{t("keep-document-flat")}</li>
-                  <li>{t("capture-all-text")}</li>
-                  <li>{t("high-resolution")}</li>
+              <div className="mt-6 p-4 bg-blue-50 rounded-lg max-w-sm mx-auto">
+                <h4 className="text-sm font-medium text-blue-900 mb-2">📷 Tips for Best Results</h4>
+                <ul className="text-xs text-blue-800 space-y-1 text-left">
+                  <li>✓ {t("ensure-good-lighting")}</li>
+                  <li>✓ {t("keep-document-flat")}</li>
+                  <li>✓ {t("capture-all-text")}</li>
+                  <li>✓ Make sure all numbers (pH, N, P, K) are clearly visible</li>
+                  <li>✓ Works with Govt of India Soil Health Cards (Mitti Swasthya Patra)</li>
                 </ul>
               </div>
             </div>
@@ -635,10 +745,17 @@ export function SoilAnalysis() {
 
           {isUploading && (
             <div className="text-center py-8">
-              <h3 className="text-lg font-medium mb-4">{t("uploading-file")}</h3>
               <div className="max-w-sm mx-auto">
-                <Progress value={uploadProgress} className="h-2 mb-2" />
-                <p className="text-sm text-gray-600">{uploadProgress}%</p>
+                <div className="w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center mx-auto mb-4 animate-pulse">
+                  <Sparkles size={28} className="text-white" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2 text-green-800">AI Reading Your Card...</h3>
+                <p className="text-sm text-gray-600 mb-4">{aiExtractionStatus}</p>
+                <Progress value={uploadProgress} className="h-3 mb-2" />
+                <p className="text-xs text-gray-500">{uploadProgress}% complete • This may take 10–20 seconds</p>
+                <div className="mt-4 p-3 bg-green-50 rounded-lg">
+                  <p className="text-xs text-green-700">🔍 GPT-4o is scanning pH, N, P, K, Organic Carbon, Zinc and more...</p>
+                </div>
               </div>
             </div>
           )}
@@ -753,6 +870,21 @@ export function SoilAnalysis() {
           {soilReport && showVisualization && (
             <div className="py-4">
               <div className="mb-6">
+                {/* Farmer Card Metadata Banner (shown only for AI-extracted uploads) */}
+                {cardMeta && inputMode === 'upload' && (
+                  <div className="mb-4 p-4 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-xl">
+                    <p className="text-xs font-semibold text-green-700 mb-2 flex items-center gap-1"><User size={12}/> Farmer Details (from card)</p>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2 text-xs text-gray-700">
+                      {cardMeta.farmerName && <span>👤 <strong>Name:</strong> {cardMeta.farmerName}</span>}
+                      {cardMeta.village && <span className="flex items-center gap-1"><MapPin size={10}/> <strong>Village:</strong> {cardMeta.village}</span>}
+                      {cardMeta.district && <span>🏢 <strong>District:</strong> {cardMeta.district}</span>}
+                      {cardMeta.state && <span>🗺️ <strong>State:</strong> {cardMeta.state}</span>}
+                      {cardMeta.surveyNumber && <span>📋 <strong>Survey No:</strong> {cardMeta.surveyNumber}</span>}
+                      {cardMeta.sampleDate && <span>📅 <strong>Date:</strong> {cardMeta.sampleDate}</span>}
+                    </div>
+                  </div>
+                )}
+
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center space-x-4">
                     {inputMode === 'manual' && (
@@ -829,17 +961,12 @@ export function SoilAnalysis() {
                                       }
 
                                       // Update crop recommendations
-                                      if (currentReportId) {
-                                        // For uploaded data, use backend API
-                                        generateCropRecommendations(currentReportId, selectedSeason);
-                                      } else {
-                                        // For manual data, use client-side recommendations
-                                        generateManualCropRecommendations(updatedReport.parameters, selectedSeason);
-                                      }
+                                      generateManualCropRecommendations(updatedReport.parameters, selectedSeason);
                                     }
                                   }
                                 }}
                                 className="text-2xl font-bold w-24 border-b border-gray-300 focus:border-soil focus:outline-none"
+                                aria-label={`${param.name} value`}
                               />
                               <span className="text-sm font-normal text-gray-500 ml-1">{param.unit}</span>
                             </div>
@@ -867,52 +994,104 @@ export function SoilAnalysis() {
                 
                 {/* Soil Data Visualizations */}
                 <SoilCharts parameters={soilReport.parameters} />
+
+                {/* AI Insights Panel */}
+                <div className="mt-6 rounded-2xl border border-green-200 overflow-hidden shadow-sm">
+                  {/* Header */}
+                  <div className="bg-gradient-to-r from-green-600 to-emerald-500 px-5 py-3 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center">
+                        <Sparkles size={14} className="text-white" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold text-white text-sm">AI Soil Insights</h4>
+                        <p className="text-green-100 text-xs">GPT-4o via Puter.js</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      {/* Language Toggle */}
+                      <div className="flex items-center bg-white/20 rounded-lg p-0.5">
+                        <button
+                          onClick={() => {
+                            setInsightLang('hi');
+                            if (aiInsights) handleGetAIInsights('hi');
+                          }}
+                          className={`text-xs px-3 py-1 rounded-md font-semibold transition-all ${
+                            insightLang === 'hi' ? 'bg-white text-green-700' : 'text-white hover:bg-white/20'
+                          }`}
+                        >हिंदी</button>
+                        <button
+                          onClick={() => {
+                            setInsightLang('en');
+                            if (aiInsights) handleGetAIInsights('en');
+                          }}
+                          className={`text-xs px-3 py-1 rounded-md font-semibold transition-all ${
+                            insightLang === 'en' ? 'bg-white text-green-700' : 'text-white hover:bg-white/20'
+                          }`}
+                        >English</button>
+                      </div>
+                      <Button
+                        onClick={() => handleGetAIInsights()}
+                        disabled={isLoadingAI}
+                        size="sm"
+                        className="bg-white text-green-700 hover:bg-green-50 font-semibold rounded-xl disabled:opacity-50 flex items-center gap-1.5 text-xs h-8"
+                      >
+                        {isLoadingAI ? (
+                          <><Loader2 size={13} className="animate-spin" /> {insightLang === 'hi' ? 'विश्लेषण...' : 'Analyzing...'}</>
+                        ) : (
+                          <><Sparkles size={13} /> {insightLang === 'hi' ? 'AI विश्लेषण' : 'Get AI Insights'}</>
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Body */}
+                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 px-5 py-4">
+                    {!aiInsights && !isLoadingAI && (
+                      <div className="text-center py-6">
+                        <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                          <Sparkles size={22} className="text-green-600" />
+                        </div>
+                        <p className="text-sm font-medium text-green-800 mb-1">
+                          {insightLang === 'hi' ? 'GPT-4o से AI विश्लेषण पाएं' : 'Get AI-powered soil analysis'}
+                        </p>
+                        <p className="text-xs text-green-600">
+                          {insightLang === 'hi'
+                            ? 'आपकी मिट्टी के लिए व्यक्तिगत सलाह, फसल सुझाव और सरकारी योजनाएं'
+                            : 'Personalized recommendations, crop suggestions & government schemes'}
+                        </p>
+                      </div>
+                    )}
+                    {isLoadingAI && (
+                      <div className="flex flex-col items-center gap-3 py-8">
+                        <div className="relative">
+                          <div className="w-12 h-12 rounded-full bg-green-200 animate-ping absolute inset-0"></div>
+                          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center relative">
+                            <Sparkles size={20} className="text-white" />
+                          </div>
+                        </div>
+                        <p className="text-sm font-semibold text-green-800">
+                          {insightLang === 'hi' ? 'GPT-4o आपकी मिट्टी का विश्लेषण कर रहा है...' : 'GPT-4o is analyzing your soil...'}
+                        </p>
+                        <p className="text-xs text-green-600">{insightLang === 'hi' ? '15-20 सेकंड लग सकते हैं' : 'This may take 15–20 seconds'}</p>
+                      </div>
+                    )}
+                    {aiInsights && (
+                      <div className="bg-white rounded-xl border border-green-100 p-4 shadow-sm">
+                        {renderAIInsights(aiInsights)}
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
 
-              <div className="mt-8 border-t pt-6">
-                <h3 className="text-lg font-medium mb-4">{t("crop-recommendations")}</h3>
-                <Tabs defaultValue="kharif" value={selectedSeason} onValueChange={setSelectedSeason}>
-                  <TabsList className="grid grid-cols-3 mb-4">
-                    <TabsTrigger value="kharif">{t("kharif-season")}</TabsTrigger>
-                    <TabsTrigger value="rabi">{t("rabi-season")}</TabsTrigger>
-                    <TabsTrigger value="zaid">{t("zaid-season")}</TabsTrigger>
-                  </TabsList>
-                  
-                  <TabsContent value={selectedSeason} className="mt-0">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {cropRecommendations.map((crop, index) => (
-                        <Card key={index} className="hover:shadow-md transition-shadow">
-                          <CardContent className="p-4">
-                            <div className="flex justify-between items-start mb-2">
-                              <h4 className="font-medium text-lg">{crop.name}</h4>
-                              <span className={`text-xs py-0.5 px-2 rounded-full ${getSuitabilityColor(crop.suitability)}`}>
-                                {getSuitabilityEmoji(crop.suitability)} {crop.suitability}
-                              </span>
-                            </div>
-                            <p className="text-sm text-gray-600 mb-3">{crop.description}</p>
-                            <div className="flex flex-wrap gap-2 text-xs">
-                              <span className="bg-gray-100 text-gray-800 py-0.5 px-2 rounded-full">
-                                🕒 {crop.growingPeriod}
-                              </span>
-                              <span className="bg-sky-100 text-sky-800 py-0.5 px-2 rounded-full">
-                                💧 {crop.waterNeed} {t("water-need")}
-                              </span>
-                              <span className="bg-foliage-light/30 text-foliage-dark py-0.5 px-2 rounded-full">
-                                🎯 {crop.score}% {t("match")}
-                              </span>
-                            </div>
-                            <div className="mt-3">
-                              <Button variant="outline" className="text-xs h-7 border-soil text-soil hover:bg-soil-light/20">
-                                {t("buy-seeds")}
-                              </Button>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-                  </TabsContent>
-                </Tabs>
-              </div>
+              {/* Smart Crop Planner — AI + GPS + Weather */}
+              <SmartCropPlanner
+                soilParams={soilReport.parameters}
+                lang={insightLang}
+              />
+
+
 
               <div className="mt-6 flex justify-center space-x-4">
                 {inputMode === 'manual' && (

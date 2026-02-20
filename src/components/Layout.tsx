@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Navbar } from './Navbar';
+import { AIAssistant } from './AIAssistant';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -13,6 +14,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       <div className="pt-20 lg:pt-24 animate-fade-in"> {/* Updated for new navigation height */}
         {children}
       </div>
+      <AIAssistant />
     </div>
   );
 };

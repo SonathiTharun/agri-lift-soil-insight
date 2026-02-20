@@ -12,6 +12,7 @@ import { toast } from "@/components/ui/use-toast";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ChevronDown, ChevronUp, RefreshCw, MapPin, Maximize2, Minimize2, Bell, Tractor, Minus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { reverseGeocode } from "@/services/weatherService";
 
 type WeatherDay = {
   date: string;
@@ -307,45 +308,8 @@ export function WeatherWidget() {
           setUserCoords({ lat: latitude, lon: longitude });
 
           try {
-            // Use multiple location APIs for better accuracy
-            const [reverseGeoResponse, nominatimResponse] = await Promise.allSettled([
-              fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=${API_KEY}`),
-              fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10&addressdetails=1`)
-            ]);
-
-            let locationName = "Unknown Location";
-
-            // Try OpenWeatherMap first
-            if (reverseGeoResponse.status === 'fulfilled') {
-              const owmData = await reverseGeoResponse.value.json();
-              if (owmData && owmData.length > 0) {
-                const place = owmData[0];
-                locationName = place.state ?
-                  `${place.name}, ${place.state}, ${place.country}` :
-                  `${place.name}, ${place.country}`;
-              }
-            }
-
-            // Fallback to Nominatim for more detailed location
-            if (locationName === "Unknown Location" && nominatimResponse.status === 'fulfilled') {
-              const nominatimData = await nominatimResponse.value.json();
-              if (nominatimData && nominatimData.address) {
-                const addr = nominatimData.address;
-                const city = addr.city || addr.town || addr.village || addr.hamlet;
-                const state = addr.state || addr.region;
-                const country = addr.country;
-
-                if (city && state && country) {
-                  locationName = `${city}, ${state}, ${country}`;
-                } else if (city && country) {
-                  locationName = `${city}, ${country}`;
-                } else if (country) {
-                  locationName = country;
-                }
-              }
-            }
-
-            setLocation(locationName);
+            const loc = await reverseGeocode(latitude, longitude);
+            setLocation(loc.displayName);
           } catch (error) {
             console.error("Location fetch error:", error);
             setLocation(t("location-unavailable"));

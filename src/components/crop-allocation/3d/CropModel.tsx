@@ -15,129 +15,129 @@ const CropModel: React.FC<CropModelProps> = ({ pos, color, scale, cropType }) =>
   
   useFrame((state) => {
     if (groupRef.current) {
-      // Gentle swaying motion
+      // Very subtle wind Sway
       groupRef.current.rotation.z = Math.sin(state.clock.elapsedTime + pos[0] + pos[2]) * 0.02;
     }
   });
 
   const renderCrop = () => {
-    switch (cropType) {
+    switch (cropType.toLowerCase()) {
       case "wheat":
+      case "paddy":
+      case "rice":
         return (
           <>
-            {/* Wheat stalks */}
-            {[...Array(5)].map((_, i) => (
+            {/* Dense Wheat Cluster */}
+            {[...Array(8)].map((_, i) => (
               <mesh key={i} position={[
-                (Math.random() - 0.5) * 0.4,
-                0.3 + Math.random() * 0.2,
-                (Math.random() - 0.5) * 0.4
-              ]} castShadow>
-                <cylinderGeometry args={[0.02, 0.04, 0.6 * scale, 6]} />
-                <meshStandardMaterial color="#DAA520" />
+                (Math.random() - 0.5) * 0.3,
+                0.25 * scale,
+                (Math.random() - 0.5) * 0.3
+              ]} rotation={[0.1, Math.random() * Math.PI, 0]} castShadow>
+                <cylinderGeometry args={[0.015, 0.02, 0.5 * scale, 4]} />
+                <meshStandardMaterial color="#eab308" roughness={0.8} />
               </mesh>
             ))}
-            {/* Wheat heads */}
-            {[...Array(3)].map((_, i) => (
+            {/* Heads */}
+            {[...Array(5)].map((_, i) => (
               <mesh key={`head-${i}`} position={[
-                (Math.random() - 0.5) * 0.3,
-                0.7 * scale,
-                (Math.random() - 0.5) * 0.3
+                (Math.random() - 0.5) * 0.2,
+                0.55 * scale,
+                (Math.random() - 0.5) * 0.2
               ]} castShadow>
-                <sphereGeometry args={[0.05 * scale, 8, 6]} />
-                <meshStandardMaterial color="#F4A460" />
+                <capsuleGeometry args={[0.025 * scale, 0.15 * scale, 4, 8]} />
+                <meshStandardMaterial color="#d97706" roughness={0.9} />
               </mesh>
             ))}
           </>
         );
       
       case "corn":
+      case "maize":
         return (
           <>
-            {/* Corn stalk */}
-            <mesh position={[0, 0.4, 0]} castShadow>
-              <cylinderGeometry args={[0.06 * scale, 0.08 * scale, 0.8 * scale, 8]} />
-              <meshStandardMaterial color="#228B22" />
+            {/* Stalk */}
+            <mesh position={[0, 0.4 * scale, 0]} castShadow>
+              <cylinderGeometry args={[0.03 * scale, 0.05 * scale, 0.8 * scale, 6]} />
+              <meshStandardMaterial color="#65a30d" roughness={0.7} />
             </mesh>
-            {/* Corn leaves */}
+            {/* Leaves */}
             {[...Array(4)].map((_, i) => (
               <mesh key={i} position={[
-                Math.sin(i * Math.PI/2) * 0.2,
-                0.3 + i * 0.1,
-                Math.cos(i * Math.PI/2) * 0.2
-              ]} rotation={[0, i * Math.PI/2, Math.PI/6]} castShadow>
-                <boxGeometry args={[0.02, 0.3 * scale, 0.01]} />
-                <meshStandardMaterial color="#32CD32" />
+                Math.sin(i * Math.PI/2) * 0.1,
+                0.3 * scale + i * 0.08,
+                Math.cos(i * Math.PI/2) * 0.1
+              ]} rotation={[0.5, i * Math.PI/2, 0.4]} castShadow>
+                <boxGeometry args={[0.02, 0.35 * scale, 0.05]} />
+                <meshStandardMaterial color="#4d7c0f" roughness={0.6} side={THREE.DoubleSide} />
               </mesh>
             ))}
-            {/* Corn cob */}
-            <mesh position={[0.1, 0.6 * scale, 0]} rotation={[0, 0, Math.PI/4]} castShadow>
-              <cylinderGeometry args={[0.04 * scale, 0.05 * scale, 0.15 * scale, 8]} />
-              <meshStandardMaterial color="#FFD700" />
-            </mesh>
+             {/* Cobs */}
+             <mesh position={[0.05, 0.5 * scale, 0]} rotation={[0, 0, 0.5]} castShadow>
+               <capsuleGeometry args={[0.04 * scale, 0.15 * scale, 4, 8]} />
+               <meshStandardMaterial color="#facc15" />
+             </mesh>
           </>
         );
       
       case "tomato":
         return (
           <>
-            {/* Tomato plant stem */}
-            <mesh position={[0, 0.15, 0]} castShadow>
-              <cylinderGeometry args={[0.02 * scale, 0.03 * scale, 0.3 * scale, 6]} />
-              <meshStandardMaterial color="#228B22" />
+            {/* Bushy Plant */}
+            <mesh position={[0, 0.2 * scale, 0]} castShadow>
+               <cylinderGeometry args={[0.02 * scale, 0.03 * scale, 0.4 * scale, 5]} />
+               <meshStandardMaterial color="#15803d" />
             </mesh>
-            {/* Tomato fruits */}
-            {[...Array(3)].map((_, i) => (
+            {/* Leaves Clump */}
+            <mesh position={[0, 0.25 * scale, 0]} castShadow>
+               <dodecahedronGeometry args={[0.2 * scale, 0]} />
+               <meshStandardMaterial color="#16a34a" roughness={0.8} />
+            </mesh>
+            {/* Fruits */}
+            {[...Array(4)].map((_, i) => (
               <mesh key={i} position={[
-                (Math.random() - 0.5) * 0.3,
-                0.2 + Math.random() * 0.2,
-                (Math.random() - 0.5) * 0.3
+                (Math.random() - 0.5) * 0.25,
+                0.15 * scale + Math.random() * 0.2,
+                (Math.random() - 0.5) * 0.25
               ]} castShadow>
-                <sphereGeometry args={[0.06 * scale, 12, 10]} />
-                <meshStandardMaterial color="#FF6347" />
-              </mesh>
-            ))}
-            {/* Leaves */}
-            {[...Array(6)].map((_, i) => (
-              <mesh key={`leaf-${i}`} position={[
-                Math.sin(i * Math.PI/3) * 0.15,
-                0.25,
-                Math.cos(i * Math.PI/3) * 0.15
-              ]} rotation={[Math.PI/6, i * Math.PI/3, 0]} castShadow>
-                <boxGeometry args={[0.08 * scale, 0.01, 0.12 * scale]} />
-                <meshStandardMaterial color="#32CD32" />
+                <sphereGeometry args={[0.05 * scale, 8, 8]} />
+                <meshStandardMaterial color="#dc2626" roughness={0.3} />
               </mesh>
             ))}
           </>
         );
       
       case "potato":
+      case "onion":
         return (
           <>
-            {/* Potato plant */}
-            <mesh position={[0, 0.1, 0]} castShadow>
-              <sphereGeometry args={[0.15 * scale, 8, 6]} />
-              <meshStandardMaterial color="#228B22" />
+            {/* Low Bush */}
+            <mesh position={[0, 0.1 * scale, 0]} castShadow>
+               <sphereGeometry args={[0.18 * scale, 7, 6]} />
+               <meshStandardMaterial color="#1e3a8a" />
             </mesh>
-            {/* Potato leaves */}
-            {[...Array(8)].map((_, i) => (
-              <mesh key={i} position={[
-                Math.sin(i * Math.PI/4) * 0.2,
-                0.15 + Math.random() * 0.1,
-                Math.cos(i * Math.PI/4) * 0.2
-              ]} rotation={[Math.random() * 0.3, i * Math.PI/4, 0]} castShadow>
-                <boxGeometry args={[0.06 * scale, 0.01, 0.1 * scale]} />
-                <meshStandardMaterial color="#228B22" />
+            {[...Array(6)].map((_, i) => (
+              <mesh key={i} position={[0, 0.05, 0]} rotation={[0, i * (Math.PI/3), 0.3]} castShadow>
+                 <planeGeometry args={[0.1, 0.3]} />
+                 <meshStandardMaterial color="#15803d" side={THREE.DoubleSide} />
               </mesh>
             ))}
           </>
         );
       
       default:
+        // Generic Green Plant
         return (
-          <mesh position={[0, 0.2, 0]} castShadow>
-            <cylinderGeometry args={[0.1 * scale, 0.15 * scale, 0.4 * scale, 8]} />
-            <meshStandardMaterial color={color} />
-          </mesh>
+          <group>
+             <mesh position={[0, 0.2 * scale, 0]} castShadow>
+               <cylinderGeometry args={[0.04 * scale, 0.06 * scale, 0.4 * scale, 5]} />
+               <meshStandardMaterial color="#4ade80" />
+             </mesh>
+             <mesh position={[0, 0.4 * scale, 0]} castShadow>
+               <sphereGeometry args={[0.15 * scale, 6, 5]} />
+               <meshStandardMaterial color="#22c55e" />
+             </mesh>
+          </group>
         );
     }
   };
